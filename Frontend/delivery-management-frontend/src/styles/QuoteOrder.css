@@ -1,0 +1,48 @@
+.quote-order-title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-top: 94px;
+    margin-bottom: 36px;
+}
+.quote-order-form input {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 4px;
+
+}
+.quote-order-form input:focus{
+    background-color: #f3f5f3;
+    outline: none;
+}
+.description {
+    box-sizing: border-box;
+    border: solid #4f4f4f 1px;
+    border-radius: 0%;
+    height: 38px;
+}
+.weight {
+    box-sizing: border-box;
+    border: solid #4f4f4f 1px;
+    border-radius: 0%;
+    height: 38px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button
+{
+    height: 2em;
+}
+
+.get-started-btn input{
+    height: 36px;
+    width: 120px;
+    background-color: #007844;
+    font-weight: 200;
+    color: white;
+    border: solid 1px #007844;
+    margin-top: 30px;
+    transition: all 0.3s;
+}
+
+.get-started-btn:hover{
+    filter: brightness(1.2);
+}
