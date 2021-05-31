@@ -1,0 +1,40 @@
+.App-header {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: white;
+    color: #f0f0f0;
+    height: 50px;
+}
+
+.App-logo {
+    pointer-events: none;
+    height: 50px;
+    width: 40px;
+    margin-left: 80px;
+    margin-top: auto;
+}
+
+.App-title {
+    flex: 1;
+    margin-left: 10px;
+    text-align: left;
+    color: #000000;
+    margin-top: 2px;
+
+    font-family: 'Dosis', sans-serif;
+    font-weight: normal;
+    font-size: 17px;
+    line-height: 18px;
+    letter-spacing: 0.01em;
+}
+
+.AccountName{
+    text-align: right;
+    margin-right: 40px;
+    font-size: 15px;
+    color: black;
+}
+.menu{
+    width: 100px;
+}
