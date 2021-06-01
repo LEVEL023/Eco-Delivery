@@ -32,7 +32,7 @@ class Recommendation extends React.Component {
                     <MethodCard type="drone" selected={this.state.method === 'drone'} details={this.props.drone} onSelect={this.handleSelect}/>
                 </div>
                 <div>
-                    <button className="recommendation-continue-btn" onClick={this.props.onContinue}>Continue</button>
+                    <button className="recommendation-continue-btn" onClick = {this.props.onContinue}>Continue</button>
                     <button className="recommendation-back-btn" onClick={this.handleBackClicked}>Back</button>
                 </div>
             </div>

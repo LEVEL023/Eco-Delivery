@@ -1,7 +1,7 @@
 import React from 'react';
 import QuoteOrder from './QuoteOrder';
 import Recommendation from './Recommendation';
-import AddressForm from './AddressForm';
+import FillAddress from './FillAddress';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
 
@@ -25,27 +25,13 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    // pageSwitch = (pagenumber) => {
-    //     switch (pagenumber) {
-    //         case 1:
-    //             return (
-    //                 <QuoteOrder onPlaceSelected={this.handlePlaceSelected} onSubmit={this.handleQuoteFormComplete} />
-    //             )
-    //         case 2:
-    //             return (
-    //                 <Recommendation
-    //                     robot={this.state.byRobotData}
-    //                     drone={this.state.byDroneData}
-    //                     onContinue={this.handleMethodSelectionComplete}
-    //                     onBack={this.handleRecommendationBack} />
-    //             )
-    //         case 3:
-    //             return (
-    //                 <AddressForm pickup={this.state.pickup} sendto={this.state.sendto} />
-    //             )
-    //     }
-    // }
-
+    handleRecommendationBack = () => {
+        this.setState({
+            recommendation: false,
+            nextPage: 'quoteOrder',
+            method: '',
+        })
+    }
 
     handlePlaceSelected = (name, query, latlng) => {
         this.setState({
@@ -65,7 +51,8 @@ class Nav extends React.Component {
 
     handleMethodSelectionComplete = (method) => {
         this.setState({
-            addressForm: true,
+            addressForm : true,
+            recommendation: false,
             lastPage: 'Recommendation',
             method: method,
         })
@@ -207,7 +194,7 @@ class Nav extends React.Component {
                     onEnter={this.transitionOnEnter}
                     onExited={this.transitionOnExited}
                     >
-                    <AddressForm pickup={this.state.pickup} sendto={this.state.sendto} />
+                    <FillAddress pickup={this.state.pickup} sendto={this.state.sendto} />
                 </CSSTransition>
             </div>
 
