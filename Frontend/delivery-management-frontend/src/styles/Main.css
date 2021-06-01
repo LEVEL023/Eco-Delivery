@@ -1,0 +1,30 @@
+.main {
+    display: grid;
+    height: 100vh;
+    grid-template-columns: auto 900px;
+    grid-template-rows: 56px auto;
+    grid-template-areas: 
+        "header header"
+        "map nav";
+}
+.header {
+    grid-area: header;
+    border-bottom: solid 1px #E5E5E5;
+    background-color: #fff;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+}
+.map {
+    grid-area: map;
+    background-color: rgb(204, 204, 204);
+    box-shadow: inset 0 20px 15px -15px rgba(0, 0, 0, 0.12);
+}
+.nav {
+    padding: 0px 45px 0px 45px;
+    grid-area: nav;
+    background-color: #fff;
+    border-left: solid 1px rgb(235, 235, 235);
+
+}

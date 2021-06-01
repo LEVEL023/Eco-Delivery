@@ -1,0 +1,96 @@
+.link-to-register {
+    text-decoration: underline;
+}
+
+.link-to-register:hover {
+    color:blue;
+    cursor: pointer;
+}
+
+#login-btn {
+    width: 70px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+}
+
+#login-btn:hover {
+    background-color: #F3F5F3;
+}
+
+.login-modal .ant-modal-content {
+    width: 328px;
+    height: 400px;
+    border-radius: 0;
+    padding-left: 44px;
+    padding-right: 44px;
+}
+
+.login-modal .ant-modal-header {
+    padding: 0;
+    height: 123px;
+    border: none;
+}
+
+.login-modal .ant-modal-body {
+    padding: 0;
+}
+
+.login-modal .ant-modal-title {
+    position: absolute;
+    margin-top: 68px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.login-form .ant-form p {
+    font-size: 12px;
+}
+.login-form .ant-input {
+    height: 38px;
+}
+
+.login-form #password.ant-input {
+    height: 28px;
+}
+
+.login-form .ant-input-password {
+    border: solid 1px #4f4f4f;
+    border-radius: 0;
+}
+
+
+.login-form  .ant-row.ant-form-item {
+    margin-bottom: 4px;
+}
+#login-password-title {
+    margin-top: 12px;
+}
+.login-form-input-title {
+    margin-bottom: 0;
+}
+
+.login-form-btn {
+    width: 100px;
+    height: 36px;
+    background-color: #007844;
+    font-weight: 200;
+    color: white;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    margin-top: 24px;
+}
+.login-form-btn:hover {
+    background-color: #007844;
+    filter: brightness(1.2);
+}
+.login-form .ant-form  {
+    font-size: 10px;
+}
+.login-form-item-btn {
+    margin-bottom: 0px;
+}
+#no-account-link {
+    font-size: 14px;
+}

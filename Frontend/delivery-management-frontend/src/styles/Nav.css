@@ -1,0 +1,88 @@
+.show-quote-order-enter {
+    opacity: 0;
+    transform: translateX(15%);
+}
+
+.show-quote-order-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 800ms ease-out;
+} 
+
+.show-quote-order-enter-done {
+    opacity: 1;
+    transform: translateX(0%);
+} 
+
+
+.show-quote-order-exit {
+    opacity: 0;
+    position: absolute;
+}
+
+.show-quote-order-exit-active {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-110%);
+    transition: all 300ms;
+}
+
+
+
+
+
+
+.show-recommendation-enter {
+    opacity: 0;
+    transform: translateX(15%);
+}
+
+.show-recommendation-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 800ms ease-out;
+} 
+
+.show-recommendation-enter-done {
+    opacity: 1;
+    transform: translateX(0%);
+} 
+
+.show-recommendation-exit {
+    opacity: 0;
+    position: absolute;
+}
+
+.show-recommendation-exit-active {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-110%);
+    transition: all 300ms;
+}
+.show-address-form-enter {
+    opacity: 0;
+    transform: translateX(15%);
+}
+
+.show-address-form-enter-active {
+    opacity: 1;
+    transform: translateX(0%);
+    transition: all 800ms ease-out;
+} 
+
+.show-address-form-enter-done {
+    opacity: 1;
+    transform: translateX(0%);
+} 
+
+.show-address-form-exit {
+    opacity: 0;
+    position: absolute;
+}
+
+.show-address-form-active {
+    opacity: 0;
+    position: absolute;
+    transform: translateX(-110%);
+    transition: all 300ms;
+}
