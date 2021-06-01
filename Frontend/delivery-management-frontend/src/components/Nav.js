@@ -25,33 +25,27 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    pageSwitch = (pagenumber) => {
-        switch (pagenumber) {
-            case 1:
-                return (
-                    <QuoteOrder onPlaceSelected={this.handlePlaceSelected} onSubmit={this.handleQuoteFormComplete} />
-                )
-            case 2:
-                return (
-                    <Recommendation
-                        robot={this.state.byRobotData}
-                        drone={this.state.byDroneData}
-                        onContinue={this.handleMethodSelectionComplete}
-                        onBack={this.handleRecommendationBack} />
-                )
-            case 3:
-                return (
-                    <AddressForm pickup={this.state.pickup} sendto={this.state.sendto} />
-                )
-        }
-    }
-    handleRecommendationBack = () => {
-        this.setState({
-            recommendation: false,
-            nextPage: 'quoteOrder',
-            method: '',
-        })
-    }
+    // pageSwitch = (pagenumber) => {
+    //     switch (pagenumber) {
+    //         case 1:
+    //             return (
+    //                 <QuoteOrder onPlaceSelected={this.handlePlaceSelected} onSubmit={this.handleQuoteFormComplete} />
+    //             )
+    //         case 2:
+    //             return (
+    //                 <Recommendation
+    //                     robot={this.state.byRobotData}
+    //                     drone={this.state.byDroneData}
+    //                     onContinue={this.handleMethodSelectionComplete}
+    //                     onBack={this.handleRecommendationBack} />
+    //             )
+    //         case 3:
+    //             return (
+    //                 <AddressForm pickup={this.state.pickup} sendto={this.state.sendto} />
+    //             )
+    //     }
+    // }
+
 
     handlePlaceSelected = (name, query, latlng) => {
         this.setState({
@@ -61,9 +55,18 @@ class Nav extends React.Component {
         this.props.onPlaceSelected(name, query, latlng)
     }
 
+    handleRecommendationBack = () => {
+        this.setState({
+            recommendation: false,
+            nextPage: 'quoteOrder',
+            method: '',
+        })
+    }
+
     handleMethodSelectionComplete = (method) => {
         this.setState({
-            pageDisplay: 3,
+            addressForm: true,
+            lastPage: 'Recommendation',
             method: method,
         })
     }
@@ -75,6 +78,7 @@ class Nav extends React.Component {
             this.props.alertLogin();
         } else {
             console.log('Nav: handleQuoteFormComplete: loggedin')
+            // passing rest of byRobotData and byDroneData down -> Recommendation 
             this.setState({
                 recommendation: true,
                 lastPage: 'quoteOrder',
@@ -93,6 +97,18 @@ class Nav extends React.Component {
                     pickupTime: "8:30 AM",
                 }
             })
+            //passing centerGeo up -> Main
+            const centerData = {
+                robotCenter: {
+                    lat: 37.77493,
+                    lng: -122.419415,
+                },
+                droneCenter: {
+                    lat: 37.77493,
+                    lng: -122.419415,
+                }
+            }
+
         // fetch recommendation data from backend
         // const { username, password } = formData;
         // const opt = {
@@ -110,11 +126,15 @@ class Nav extends React.Component {
         //     .then((res) => {
         //         if (res.status === 200) {
         //             const { responseData } = res;
-        //             // GET recommendation data and setState 
+        //             // passing centerGeo up -> Main
+        //             const droneCenterGeo = responseData['drone'].centerGeo;
+        //             const robotCenterGeo = responseData['robot'].centerGeo;
+        //             // GET recommendation data and setState -> Recommendation
         //             this.setState({
-        //                 pageDisplay: 2,
-        //                 byDroneData: responseData['Drone'],
-        //                 byRobotData: responseData['Robot']
+        //                 recommendation: true,
+        //                 lastPage: 'quoteOrder',
+        //                 byDroneData: responseData['drone'],
+        //                 byRobotData: responseData['robot']
         //             })
         //         }
         //     })
@@ -142,6 +162,7 @@ class Nav extends React.Component {
             })
         }
     }
+
     render = () => {
         return (
             <div>

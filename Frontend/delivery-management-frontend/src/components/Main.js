@@ -1,18 +1,20 @@
 import React from 'react';
 import GoogleMap from './GoogleMap';
+import MapContainer from './MapContainer';
 import Nav from './Nav';
-import {TOKEN_KEY} from '../constants';
 
 class Main extends React.Component {
-    
+
     // state stores location information
     // data exchange between between autocomplete and map
     state = {
-        isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
         pickup: '',
         sendto: '',
         pickuplatlng: undefined,
         sendtolatlng: undefined,
+        // showMarker: false,
+        // showLine: false,
+        // showRoute: false,
     }
 
     handlePlaceSelected = (name, query, latlng) => {
@@ -21,30 +23,34 @@ class Main extends React.Component {
             [name + 'latlng']: latlng,
         })
     }
-    
-    handleQuoteSubmit = (formData) => {
-        if (!this.state.isLoggedIn) {
-            // 
-        }
-    }
 
     handleAlertLogin = () => {
         console.log('Main: handlealertlogin')
         this.props.alertLogin();
     }
 
-    
+
+
+
 
     render = () => {
         return (
             <>
                 <section className="map" id="map">
-                    <GoogleMap/>
+                    {/* <MapContainer
+                        // showMarker={this.state.showMarker}
+                        // showLine={this.state.showLine}
+                        // showRoute={this.state.showRoute}
+                        pickupGeo={this.state.pickuplatlng}
+                        destinationGeo={this.state.destinationGeo}
+                        pickupAddress={this.state.pickup}
+                        destinationAddress={this.state.sendto} /> */}
+                    <GoogleMap />
                 </section>
                 <aside className="nav" id="nav">
-                    <Nav onPlaceSelected={this.handlePlaceSelected}
-                         onQuoteSumbit={this.handleQuoteSubmit}
-                         alertLogin={this.handleAlertLogin}/>
+                    <Nav
+                        onPlaceSelected={this.handlePlaceSelected}
+                        alertLogin={this.handleAlertLogin} />
                 </aside>
             </>
         );
