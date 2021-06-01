@@ -1,4 +1,4 @@
-# Delivery Management Web Application
+# Delivery Management Web Application (Spring Boot + React)
 
 ## Spring Settings
 
@@ -11,3 +11,11 @@
 - Spring Data JPA
 - Spring Web
 - PostgreSQL Driver
+
+
+
+### React
+ - Ant Design
+ - React Router
+ - React-google-maps-api
+ - Google Direction API

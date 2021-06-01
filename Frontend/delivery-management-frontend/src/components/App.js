@@ -1,13 +1,33 @@
-import logo from '../logo.svg';
-import FillAddress from './FillAddress.js';
+import React from 'react';
+import Header from './Header';
+import Main from './Main';
 
-function App() {
+class App extends React.Component {
+  state = {
+    showLoginModal: false,
+  }
 
-  return (
-    <div className="App">
-      <FillAddress />
-    </div>
-  );
+  handleAlertLogin = () => {
+    console.log('App: alertlogin, setState => showLoginModal: true')
+    this.setState({
+      showLoginModal: true,
+    })
+  }
+
+  closeAlert = () => {
+    this.setState({
+      showLoginModal: false,
+    })
+  }
+  render() {
+    return (
+      <div className="main">
+        <Header showLoginModal={this.state.showLoginModal} 
+                closeAlert={this.closeAlert} />
+        <Main alertLogin={this.handleAlertLogin} />
+      </div>
+    );
+  }
 }
 
 export default App;

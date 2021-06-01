@@ -1,0 +1,23 @@
+.method-card{
+    font-size: 12px;
+    font-weight: 400;
+    color: #4f4f4f;
+    border: solid 1px #4f4f4f;
+    height: 216px;
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: white;
+    pointer-events: all;
+    margin-bottom: 41px;
+    transition: all 0.3s;
+}
+
+.method-card:hover{
+    cursor: pointer;
+    background-color: #87c9ac;
+    /* color: white; */
+    border: solid 1px #87c9ac;
+}

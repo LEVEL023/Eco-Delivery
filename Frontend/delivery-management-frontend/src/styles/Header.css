@@ -1,0 +1,40 @@
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-left: 75px;
+}
+.logo-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.logo-img {
+    height: 26px;
+    width: 46px;
+    margin-right: 5px;
+}
+#name-bold {
+    color: #525252;
+    font-size: 16px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+}
+#name-medium {
+    color: #525252;
+    font-size: 16px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: lighter;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.login-register {
+    display: inline-block;
+    margin-right: 75px;
+}
