@@ -1,7 +1,7 @@
 .main {
     display: grid;
     height: 100vh;
-    grid-template-columns: auto 440px;
+    grid-template-columns: auto 900px;
     grid-template-rows: 56px auto;
     grid-template-areas: 
         "header header"
@@ -26,4 +26,5 @@
     grid-area: nav;
     background-color: #fff;
     border-left: solid 1px rgb(235, 235, 235);
+
 }
