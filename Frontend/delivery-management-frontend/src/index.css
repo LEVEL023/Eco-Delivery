@@ -20,8 +20,9 @@
 @import './styles/Form1.css';
 @import './styles/Form2.css';
 @import './styles/Form3.css';
-
-
+@import './styles/ThankYouPageMain.css';
+@import './styles/ThankYouPage.css';
+@import './styles/Footer.css';
 * {
     /* color: #525252; */
     margin:0;
