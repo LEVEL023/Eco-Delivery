@@ -1,3 +1,4 @@
+<<<<<<< Updated upstream
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -5,6 +6,53 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+=======
+@import '~antd/dist/antd.css';
+@import './styles/GoogleMap.css';
+@import './styles/App.css';
+@import './styles/Ship.css';
+@import './styles/Nav.css';
+@import './styles/Header.css';
+@import './styles/UserMenu.css';
+@import './styles/Register.css';
+@import './styles/Login.css';
+@import './styles/QuoteOrder.css';
+@import './styles/MethodCard.css';
+@import './styles/Recommend.css';
+@import './styles/Autocomplete.css';
+@import './styles/FillAddress.css';
+@import './styles/AccountAndOrder.css';
+@import './styles/AccountAndOrderTotalPage.css';
+@import './styles/AccountDetails.css';
+@import './styles/OrderDetails.css';
+@import './styles/OrderCard.css';
+@import './styles/Form1.css';
+@import './styles/Form2.css';
+@import './styles/Form3.css';
+@import './styles/ThankYouPage.css';
+@import './styles/ThankYouPageMain.css';
+@import './styles/Footer.css';
+
+
+* {
+    /* color: #525252; */
+    margin:0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0.05em;
+
+}
+
+.ant-button {
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    border-radius: 0;
+    background-color: #007844;
+    border: none;
+    box-shadow: none;
+    height: 36px;
+>>>>>>> Stashed changes
 }
 
 code {
