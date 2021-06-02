@@ -1,0 +1,92 @@
+.register-first-name {
+    width: 112px;
+    display: inline-block;
+}
+.register-last-name {
+    width: 112px;
+    float: right;
+}
+
+.link-to-login {
+    text-decoration: underline;
+}
+.link-to-login:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.register-form p {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+#register-btn {
+    width: 90px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+}
+
+#register-btn:hover{
+    background-color: #F3F5F3;
+}
+
+.register-modal .ant-modal-content {
+    width: 328px;
+    height: 508px;
+    border-radius: 0;
+    padding-left: 44px;
+    padding-right: 44px;
+}
+
+.register-modal .ant-modal-header {
+    padding: 0;
+    height: 123px;
+    border: none;
+}
+
+.register-modal .ant-modal-body {
+    padding: 0;
+}
+
+.register-modal .ant-modal-title {
+    position: absolute;
+    margin-top: 68px;
+    font-size: 22px;
+    font-weight: 400;
+}
+
+.register-form .ant-form p {
+    font-size: 12px;
+}
+.register-form .ant-input {
+    height: 38px;
+}
+
+.register-form #password.ant-input {
+    height: 28px;
+}
+
+.register-form .ant-input-password {
+    border: solid 1px #4f4f4f;
+    border-radius: 0;
+}
+.register-form  .ant-row.ant-form-item {
+    margin-bottom: 4px;
+}
+
+.register-form-btn {
+    width: 100px;
+    height: 36px;
+    background-color: #007844;
+    font-weight: 200;
+    color: white;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    margin-top: 24px;
+}
+.register-form-btn:hover {
+    background-color: #007844;
+    filter: brightness(1.2);
+}

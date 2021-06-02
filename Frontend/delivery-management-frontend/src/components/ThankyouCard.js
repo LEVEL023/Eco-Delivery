@@ -1,12 +1,11 @@
 import React from 'react';
-import {Layout} from 'antd';
+
 import "../styles/ThankYouPage.css";
 import ThankYouPageMain from "./ThankYouPageMain";
-import TopBar from "./Header";
 import Footer from "./Footer";
 
-const { Header} = Layout;
-function ThankyouCard(props) {
+
+function ThankYouPage(props) {
     return (
         <div className="backGround">
 
@@ -16,4 +15,4 @@ function ThankyouCard(props) {
     );
 }
 
-export default ThankyouCard;
+export default ThankYouPage;

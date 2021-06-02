@@ -1,7 +1,7 @@
 import React, { useState, useRef } from 'react';
 
 import { Steps, Button, message, Form, Input, Checkbox, Row, Col } from 'antd';
-import {Link, Redirect} from 'react-router-dom';
+
 const { Step } = Steps;
 
 const steps = [
@@ -227,7 +227,6 @@ const FillAddress = (props) => {
                     console.log(sender);
                     console.log(receipent);
                     message.success('Processing complete!')
-
                 }
             }>
             Submit

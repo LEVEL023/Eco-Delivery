@@ -1,0 +1,72 @@
+.logo-container {
+    display: flex;
+    align-items: center;
+    margin-left: 75px;
+}
+.logo-text {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.logo-img {
+    height: 26px;
+    width: 46px;
+    margin-right: 5px;
+}
+#name-bold {
+    color: #525252;
+    font-size: 16px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: bolder;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+}
+#name-medium {
+    color: #525252;
+    font-size: 16px;
+    font-family: 'Dosis', sans-serif;
+    font-weight: lighter;
+    letter-spacing: 0.1em;
+    display: inline-block;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+}
+.login-register {
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
+    margin-right: 75px;
+}
+
+#login-btn {
+    display: inline-block;
+    color: #4f4f4f;
+    width: 70px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+    text-align: center;
+    padding: 5px;
+}
+
+#login-btn:hover {
+    background-color: #F3F5F3;
+}
+
+#register-btn {
+    display: inline-block;
+    color: #4f4f4f;
+    width: 90px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+    text-align: center;
+    padding: 5px;
+}
+
+#register-btn:hover{
+    background-color: #F3F5F3;
+}

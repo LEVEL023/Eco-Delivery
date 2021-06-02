@@ -1,12 +1,3 @@
-<<<<<<< Updated upstream
-body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-=======
 @import '~antd/dist/antd.css';
 @import './styles/GoogleMap.css';
 @import './styles/App.css';
@@ -29,11 +20,9 @@ body {
 @import './styles/Form1.css';
 @import './styles/Form2.css';
 @import './styles/Form3.css';
-@import './styles/ThankYouPage.css';
 @import './styles/ThankYouPageMain.css';
+@import './styles/ThankYouPage.css';
 @import './styles/Footer.css';
-
-
 * {
     /* color: #525252; */
     margin:0;
@@ -45,17 +34,16 @@ body {
 
 .ant-button {
     color: #fff;
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Roboto' sans-serif;
     font-size: 14px;
     border-radius: 0;
     background-color: #007844;
     border: none;
     box-shadow: none;
     height: 36px;
->>>>>>> Stashed changes
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+.ant-input {
+    border: solid 1px #4f4f4f;
+    border-radius: 0;
 }

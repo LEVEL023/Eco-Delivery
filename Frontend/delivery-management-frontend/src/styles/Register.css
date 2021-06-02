@@ -1,0 +1,71 @@
+.register-container {
+    display: inline-block;
+    height: 420px;
+    width: 580px;
+    background-color: white;
+    padding: 0px 65px;
+    margin-top: 56px;
+}
+
+.register-title {
+    font-weight: 400;
+    font-size: 22px;
+    margin-top: 45px;
+}
+
+.register-first-name {
+    width: 112px;
+    display: inline-block;
+}
+.register-last-name {
+    width: 112px;
+    float: right;
+}
+
+.link-to-login {
+    text-decoration: underline;
+}
+.link-to-login:hover {
+    color: blue;
+    cursor: pointer;
+}
+
+.register-form p {
+    font-size: 12px;
+    margin-bottom: 0px;
+}
+
+.register-form .ant-form p {
+    font-size: 12px;
+}
+.register-form .ant-input {
+    height: 38px;
+}
+
+.register-form #password.ant-input {
+    height: 28px;
+}
+
+.register-form .ant-input-password {
+    border: solid 1px #4f4f4f;
+    border-radius: 0;
+}
+.register-form  .ant-row.ant-form-item {
+    margin-bottom: 4px;
+}
+
+.register-form-btn {
+    width: 100px;
+    height: 36px;
+    background-color: #007844;
+    font-weight: 200;
+    color: white;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    margin-top: 24px;
+}
+.register-form-btn:hover {
+    background-color: #007844;
+    filter: brightness(1.2);
+}

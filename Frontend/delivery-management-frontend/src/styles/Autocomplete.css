@@ -1,0 +1,10 @@
+.address-input {
+    border: none;
+}
+
+.pac-target-input {
+    box-sizing: border-box;
+    border-radius: 0;
+    height: 38px;
+    border: solid 1px #4f4f4f;
+}

@@ -1,0 +1,73 @@
+.main-background {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    background-color: #EAEBEA;
+}
+
+.login-container {
+    display: inline-block;
+    height: 392px;
+    width: 580px;
+    background-color: white;
+    padding: 0px 65px;
+    margin-top: 56px;
+}
+
+.login-title {
+    font-weight: 400;
+    font-size: 22px;
+    margin-top: 45px;
+}
+
+.login-form-input-title {
+    margin-bottom: 0;
+}
+#login-password-title {
+    margin-top: 12px;
+}
+
+.login-form-btn {
+    width: 100px;
+    height: 36px;
+    background-color: #007844;
+    font-weight: 200;
+    color: white;
+    box-sizing: border-box;
+    border: none;
+    border-radius: 0;
+    margin-top: 24px;
+}
+.login-form-btn:hover {
+    background-color: #007844;
+    filter: brightness(1.2);
+}
+
+.login-form .ant-form p {
+    font-size: 12px;
+}
+.login-form .ant-input {
+    height: 38px;
+}
+
+.login-form #password.ant-input {
+    height: 28px;
+}
+
+.login-form .ant-input-password {
+    border: solid 1px #4f4f4f;
+    border-radius: 0;
+}
+.login-form  .ant-row.ant-form-item {
+    margin-bottom: 4px;
+}
+.link-to-register {
+    text-decoration: underline;
+}
+
+.link-to-register:hover {
+    color:blue;
+    cursor: pointer;
+}

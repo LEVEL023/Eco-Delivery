@@ -1,13 +1,11 @@
 import React from 'react';
 import {Card, Button} from "antd";
-import {CheckCircleOutlined} from "@ant-design/icons";
 import checkmark from "../assets/CheckMark.svg";
 
 function ThankYouPageMain(props) {
     return (
         <div className="main">
             <Card className = "card">
-                {/*<CheckCircleOutlined className="logo" style={{ fontSize: '400%'}} ></CheckCircleOutlined>*/}
                 <img src={checkmark} className="checkmark" alt="logo" />
                 <text className="text">
                     Thank You !
