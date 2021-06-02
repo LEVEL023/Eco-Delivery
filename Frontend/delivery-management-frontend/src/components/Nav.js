@@ -5,6 +5,7 @@ import FillAddress from './FillAddress';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
 
+
 class Nav extends React.Component {
 
     // state stores all order information 
@@ -60,9 +61,10 @@ class Nav extends React.Component {
 
 
     handleQuoteFormComplete = (formData) => {
-        if (!this.state.isLoggedIn) {
+        if (!localStorage.getItem(TOKEN_KEY)) {
             console.log('Nav: not loggedin')
-            this.props.alertLogin();
+            //link -> Login
+
         } else {
             console.log('Nav: handleQuoteFormComplete: loggedin')
             // passing rest of byRobotData and byDroneData down -> Recommendation 

@@ -2,8 +2,6 @@ import React from 'react';
 
 class MethodCard extends React.Component {
 
-    
-
     iconSwitch = (type) => {
         switch (type) {
             case 'robot':

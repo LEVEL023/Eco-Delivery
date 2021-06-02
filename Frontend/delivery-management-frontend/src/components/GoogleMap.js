@@ -6,7 +6,7 @@ class GoogleMap extends React.Component {
 
   map;
   opt = {
-    zoom: 12,
+    zoom: 14,
       center: {
         lat: 37.77493,
         lng: -122.419415,
@@ -20,8 +20,14 @@ class GoogleMap extends React.Component {
   componentDidMount() {
     mapLoader().then(() => {
       this.map = this.createGoogleMap(this.googleMapRef.current, this.opt)
-      this.createMarker()
+      this.props.locations.forEach(this.createMarker)
+      this.createLine(this.props.locations)
     })
+  }
+
+  componentDidUpdate() {
+    this.props.locations.forEach(this.createMarker)
+    this.createLine(this.props.locations)
   }
 
   createGoogleMap = (ref, opt) => {
@@ -30,14 +36,35 @@ class GoogleMap extends React.Component {
     )
   }
 
-  createMarker = () =>
+  // latlng
+  // {
+  //   lat: ...,
+  //   lng: ...
+  // }
+  createMarker = (latlng) => {
+    console.log(latlng)
     new window.google.maps.Marker({
-      position: {
-        lat: 37.77493,
-        lng: -122.419415,
-      },
+      position: latlng,
       map: this.map,
     })
+  }
+
+  createLine = (locations) => {
+    console.log('create line')
+    new window.google.maps.Polyline({
+      map: this.map,
+      path: locations,
+      geodesic: true,
+      strokeColor: "#FF0000",
+      strokeOpacity: 0.8,
+      strokeWeight: 8,
+    })
+  }
+
+  createDirection = () => {
+
+  }
+
 
   render = () => {
     return (

@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { GoogleMap, LoadScript, Marker, Polyline, DirectionsService, DirectionsRenderer } from '@react-google-maps/api';
 import { GOOGLE_MAP_API_KEY } from '../constants';
+import {mapLoader} from '../utils';
 
 
 const MapContainer = (props) => {
@@ -40,10 +41,13 @@ const MapContainer = (props) => {
 
     const { showMarker, showLine, showRoute, pickupGeo, destinationGeo, pickupAddress, destinationAddress } = props;
 
+    
+    const {isLoaded} = mapLoader()
+
     return (
 
-        <LoadScript
-            googleMapsApiKey={GOOGLE_MAP_API_KEY}>
+        // <LoadScript
+        //     googleMapsApiKey={GOOGLE_MAP_API_KEY}>
             <GoogleMap
                 id="map"
                 mapContainerStyle={mapContainerStyle}
@@ -91,8 +95,8 @@ const MapContainer = (props) => {
 
 
             </GoogleMap>
-        </LoadScript>
-    )
+
+    ) 
 }
 
 export default MapContainer;

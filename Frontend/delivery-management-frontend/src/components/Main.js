@@ -1,59 +1,38 @@
 import React from 'react';
-import GoogleMap from './GoogleMap';
-import MapContainer from './MapContainer';
-import Nav from './Nav';
+import Ship from './Ship';
+import ThankyouCard from './ThankyouCard';
+import TrackOrder from './TrackOrder';
+import AccountPage from './AccountPage';
+import Login from './Login';
+import Register from './Register';
+
+import {
+    Route, Switch
+} from 'react-router';
+
+import { TOKEN_KEY } from '../constants';
 
 class Main extends React.Component {
-
-    // state stores location information
-    // data exchange between between autocomplete and map
     state = {
-        pickup: '',
-        sendto: '',
-        pickuplatlng: undefined,
-        sendtolatlng: undefined,
-        // showMarker: false,
-        // showLine: false,
-        // showRoute: false,
+        isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false
     }
 
-    handlePlaceSelected = (name, query, latlng) => {
-        this.setState({
-            [name]: query,
-            [name + 'latlng']: latlng,
-        })
+    login = () => {
+        return <Login onLoggedInSuccess={this.props.handleLoggedIn}/>
     }
-
-    handleAlertLogin = () => {
-        console.log('Main: handlealertlogin')
-        this.props.alertLogin();
-    }
-
-
-
-
-
     render = () => {
         return (
-            <>
-                <section className="map" id="map">
-                    {/* <MapContainer
-                        // showMarker={this.state.showMarker}
-                        // showLine={this.state.showLine}
-                        // showRoute={this.state.showRoute}
-                        pickupGeo={this.state.pickuplatlng}
-                        destinationGeo={this.state.destinationGeo}
-                        pickupAddress={this.state.pickup}
-                        destinationAddress={this.state.sendto} /> */}
-                    <GoogleMap />
-                </section>
-                <aside className="nav" id="nav">
-                    <Nav
-                        onPlaceSelected={this.handlePlaceSelected}
-                        alertLogin={this.handleAlertLogin} />
-                </aside>
-            </>
-        );
+            <div className="main">
+                <Switch>
+                    <Route path="/" exact component={Ship} />
+                    <Route path="/login" render={this.login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/complete" component={ThankyouCard} />
+                    <Route path="/trackorder" component={TrackOrder} />
+                    <Route path="/account" component={AccountPage} />
+                </Switch>
+            </div>
+        )
     }
 }
 
