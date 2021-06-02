@@ -1,9 +1,16 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AccountAndOrder from "./AccountAndOrder";
 
 
 
 function AccountAndOrderTotalPage(props) {
+
+  // axios fetch user data, render below
+  useEffect(() => {
+    return () => {
+
+    }
+  })
   return (
     <div className="container_main">
       <div id="main">

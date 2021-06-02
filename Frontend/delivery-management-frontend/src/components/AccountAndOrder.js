@@ -10,7 +10,7 @@ function callback(key) {
   console.log(key);
 }
 
-const AccountAndOrder = () => (
+const AccountAndOrder = (props) => (
   <Tabs defaultActiveKey="1" onChange={callback}>
     <TabPane tab="Account Info" key="1">
         <AccountDetails />
