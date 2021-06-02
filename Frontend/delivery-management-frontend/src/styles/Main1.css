@@ -1,0 +1,41 @@
+.container_main {
+  display: flex;
+  justify-content:left;
+  /* grid-template-columns:1000px;
+  grid-template-rows:2000px; */
+  height:1220px;
+  background-color:rgb(223, 217, 223);
+  /* padding-left: 100px;
+  padding-right: 100px; */
+  
+  padding-top: 10px;
+  position: relative;
+  justify-content: center;
+}
+
+#main {
+  width:800px;
+  height:1200px;
+  background-color:white;
+  padding: 30px;
+  /* text-align: center; */
+  /* justify-content: center; */
+}
+
+.main_user {
+  display: grid;
+  grid-template-columns: 33.33% 33.33% 33.33%;
+  height: 100px;
+  align-content: center;
+}
+#main_name {
+  font-size: 20px; 
+}
+
+#remaining_credits {
+  font-size: 20px; 
+}
+
+#total_orders {
+  font-size: 20px;
+}
