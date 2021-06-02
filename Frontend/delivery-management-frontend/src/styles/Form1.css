@@ -1,0 +1,25 @@
+.SaveButton1 {
+    background-color: green;
+    border-color: green;
+}
+
+.SaveButton2 {
+    background-color: green;
+    border-color: green;
+}
+
+.EditButton1 {
+    background-color: green;
+    border-color: green;
+    margin-left: 120px;
+}
+
+.EditButton2 {
+    background-color: green;
+    border-color: green;
+    margin-left: 120px;
+}
+
+.Form_Password {
+    margin-top: 20px;
+}
