@@ -1,5 +1,4 @@
 import React from "react";
-import ReactDOM from 'react-dom'
 import { Tabs } from 'antd';
 import AccountDetails from "./AccountDetails";
 import OrderDetails from "./OrderDetails";
@@ -11,7 +10,7 @@ function callback(key) {
   console.log(key);
 }
 
-const TopInfo = () => (
+const AccountAndOrder = () => (
   <Tabs defaultActiveKey="1" onChange={callback}>
     <TabPane tab="Account Info" key="1">
         <AccountDetails />
@@ -22,6 +21,5 @@ const TopInfo = () => (
   </Tabs>
 );
 
-// ReactDOM.render(<TopInfo />, mountNode);
 
-export default TopInfo;
+export default AccountAndOrder;

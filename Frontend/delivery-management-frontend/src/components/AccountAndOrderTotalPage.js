@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import TopInfo from "./TopInfo";
-// import AccountDetails from "./AccountDetails";
-// import { Pagination } from 'antd'
+import AccountAndOrder from "./AccountAndOrder";
 
-function Main(props) {
+
+
+function AccountAndOrderTotalPage(props) {
   return (
     <div className="container_main">
       <div id="main">
@@ -21,11 +21,11 @@ function Main(props) {
               <div>Total orders</div>
             </div>
           </div>
-          <TopInfo/>
+          <AccountAndOrder/>
           
       </div>
     </div>
   );
 }
 
-export default Main;
+export default AccountAndOrderTotalPage;
