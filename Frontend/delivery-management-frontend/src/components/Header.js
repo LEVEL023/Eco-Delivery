@@ -8,10 +8,6 @@ import { Link } from 'react-router-dom';
 class Header extends React.Component {
     constructor() {
         super();
-        this.state = {
-            isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
-            firstname: '',
-        }
     }
 
     render = () => {
@@ -25,9 +21,10 @@ class Header extends React.Component {
                     </div>
                 </Link>
                 {
-                    this.state.isLoggedIn ?
+                    this.props.isLoggedIn ?
                         <div>
-                            <UserMenu userFirstname={this.state.firstname} />
+                            <UserMenu userFirstname={this.props.firstname} 
+                                        onSignout={this.props.onSignout} />
                         </div>
                         :
                         <div className="login-register">

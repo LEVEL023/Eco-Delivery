@@ -8,6 +8,11 @@ class Register extends React.Component {
 
     onRegisterFormSubmit = (formData) => {
         console.log(formData)
+        const fakeToken = {
+            token: '123',
+            firstname: 'Jane'
+        }
+        this.props.onRegistered(fakeToken)
         // const opt = {
         //     method: 'post',
         //     url: `${BASE_URL}/signin`,
@@ -56,7 +61,7 @@ class Register extends React.Component {
                         <Form.Item name="email" rules={[{ required: true, type: 'email', message: 'required' }]}>
                             <Input placeholder="" />
                         </Form.Item>
-                        <p>Username</p>
+                        {/* <p>Username</p> */}
                         {/* <Form.Item name="username" rules={[{ required: true, message: 'required' }]}>
                             <Input placeholder="" />
                         </Form.Item> */}

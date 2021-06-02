@@ -7,12 +7,14 @@ import {TOKEN_KEY} from '../constants';
 
 class Login extends React.Component {
 
+
     onLoginFormSubmit = (formData) => { 
         const { username, password } = formData;
         const fakeToken = {
-            
+            token: '123',
+            firstname: 'Jane'
         }
-        this.props.handleLoggedin()
+        this.props.onLoggedIn(fakeToken)
         // const opt = {
         //     method: 'post',
         //     url: `${BASE_URL}/signin`,

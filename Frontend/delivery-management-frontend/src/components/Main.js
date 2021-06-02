@@ -18,15 +18,20 @@ class Main extends React.Component {
     }
 
     login = () => {
-        return <Login onLoggedInSuccess={this.props.handleLoggedIn}/>
+        return <Login onLoggedIn={this.props.onLoggedIn}/>
     }
+    register = () => {
+        return <Register onRegistered={this.props.onRegistered}/>
+    }
+
+
     render = () => {
         return (
             <div className="main">
                 <Switch>
                     <Route path="/" exact component={Ship} />
                     <Route path="/login" render={this.login} />
-                    <Route path="/register" component={Register} />
+                    <Route path="/register" render={this.register} />
                     <Route path="/complete" component={ThankyouCard} />
                     <Route path="/trackorder" component={TrackOrder} />
                     <Route path="/account" component={AccountPage} />

@@ -3,21 +3,33 @@ import {Link} from 'react-router-dom';
 import {TOKEN_KEY} from '../constants';
 
 class UserMenu extends React.Component {
-    onclickSignout = () => {
-        console.log('removeItem')
-        console.log('token is removed?' + localStorage.getItem(TOKEN_KEY))
-        localStorage.removeItem(TOKEN_KEY)
+    state = {
+        open: false,
     }
 
+    userBtnOnClickStyle= {
+        opacity: '1',
+        pointerEvents: 'all',
+        transform: 'translateY(0)',
+    }
+    userBtnOnClick = () => {
+        this.setState(prev => {return {
+            open: !prev.open
+        }})
+        // alert(this.state.open)
+    }
     render = () => {
         return (
-            <div className="user-dropdown-container" style={{marginRight: "80px"}}>
-                <button className="user-btn" id="user-btn">{this.props.userFirstname}</button>
-                <ul className="user-dropdown-ul">
-                    <li><Link to="/account">Account</Link></li>
-                    <li><Link to="/account">Order history</Link></li>
-                    <li><button onClick={() => {alert('click')}}>Sign out</button></li>
-                </ul>
+            <div className="user-dropdown-container" >
+                <button className="user-btn" id="user-btn" onClick={this.userBtnOnClick}>{this.props.userFirstname}</button>
+                {
+                    this.state.open &&
+                    <div className="user-dropdown" styles={this.userBtnOnClickStyle}>
+                        <Link className="dropdown-link" to="/account">Account</Link>
+                        <Link className="dropdown-link" to="/account">Order history</Link>
+                        <button className="dropdown-link" onClick={this.props.onSignout}>Sign out</button>
+                    </div>
+                }
             </div>
         );
     }
