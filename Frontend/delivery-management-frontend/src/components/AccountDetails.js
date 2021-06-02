@@ -20,13 +20,6 @@ class AccountDetails extends React.Component {
     return (
       <>
         <Space style={{ marginBottom: 24 }}>
-          {/* Tab position:
-          <Radio.Group value={tabPosition} onChange={this.changeTabPosition}>
-            <Radio.Button value="top">top</Radio.Button>
-            <Radio.Button value="bottom">bottom</Radio.Button>
-            <Radio.Button value="left">left</Radio.Button>
-            <Radio.Button value="right">right</Radio.Button>
-          </Radio.Group> */}
         </Space>
         <Tabs tabPosition={tabPosition}>
           <TabPane tab="Email and Username" key="1">
@@ -44,6 +37,5 @@ class AccountDetails extends React.Component {
   }
 }
 
-// ReactDOM.render(<Demo />, mountNode);
 
 export default AccountDetails;

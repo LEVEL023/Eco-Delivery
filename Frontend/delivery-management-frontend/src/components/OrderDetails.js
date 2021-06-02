@@ -1,42 +1,52 @@
 import React from "react";
 import { Tabs, Radio, Space } from 'antd';
-import Card1 from "./Card1";
-import Card2 from "./Card2";
-import Card3 from "./Card3";
+import OrderCard from "./OrderCard";
+import {orderHistoryData} from '../mockOrderHistoryData.js';
 
 const { TabPane } = Tabs;
 
 class OrderDetails extends React.Component {
   state = {
     tabPosition: 'left',
+    Placed : [],
+    PickedUp :[],
+    completed : [],
+    Canceled : []
   };
+
+  componentDidMount() {
+    const data = orderHistoryData.data;
+    this.setState({
+      Placed : data.Placed,
+      PickedUp : data.PickedUp,
+      completed : data.completed,
+      Canceled : data.Canceled
+    })
+  }
 
   changeTabPosition = e => {
     this.setState({ tabPosition: e.target.value });
   };
+  renderOrderCard = (obj) => {
+    return <OrderCard key = {obj.order_id} orderData = {obj} />
+  }
 
   render() {
     const { tabPosition } = this.state;
     return (
       <>
         <Space style={{ marginBottom: 24 }}>
-          {/* Tab position:
-          <Radio.Group value={tabPosition} onChange={this.changeTabPosition}>
-            <Radio.Button value="top">top</Radio.Button>
-            <Radio.Button value="bottom">bottom</Radio.Button>
-            <Radio.Button value="left">left</Radio.Button>
-            <Radio.Button value="right">right</Radio.Button>
-          </Radio.Group> */}
         </Space>
         <Tabs tabPosition={tabPosition}>
           <TabPane tab="In progress" key="1">
-            <Card1 />
+            {this.state.Placed.map(obj => this.renderOrderCard(obj))}
+            {this.state.PickedUp.map(obj => this.renderOrderCard(obj))}
           </TabPane>
           <TabPane tab="Completed" key="2">
-            <Card2 />
+          {this.state.completed.map(obj => this.renderOrderCard(obj))}
           </TabPane>
           <TabPane tab="Cancelled" key="3">
-            <Card3 />
+          {this.state.Canceled.map(obj => this.renderOrderCard(obj))}
           </TabPane>
         </Tabs>
       </>
@@ -44,6 +54,5 @@ class OrderDetails extends React.Component {
   }
 }
 
-// ReactDOM.render(<Demo />, mountNode);
 
 export default OrderDetails;

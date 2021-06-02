@@ -13,7 +13,13 @@
 @import './styles/Autocomplete.css';
 @import './styles/FillAddress.css';
 @import './styles/AccountAndOrder.css';
-@import './styles/AccountAndOrderTotalPage.css'
+@import './styles/AccountAndOrderTotalPage.css';
+@import './styles/AccountDetails.css';
+@import './styles/OrderDetails.css';
+@import './styles/OrderCard.css';
+@import './styles/Form1.css';
+@import './styles/Form2.css';
+@import './styles/Form3.css';
 
 
 * {
