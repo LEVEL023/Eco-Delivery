@@ -1,3 +1,4 @@
+import { MarkerClusterer } from '@react-google-maps/api';
 import React, { createRef } from 'react'
 import { mapLoader } from '../utils';
 
@@ -5,6 +6,12 @@ class GoogleMap extends React.Component {
   googleMapRef = createRef();
 
   map;
+  directionsService;
+  directionsRenderer;
+  pickupMarker;
+  sendtoMarker;
+  polyline;
+
   opt = {
     zoom: 14,
       center: {
@@ -19,50 +26,63 @@ class GoogleMap extends React.Component {
 
   componentDidMount() {
     mapLoader().then(() => {
-      this.map = this.createGoogleMap(this.googleMapRef.current, this.opt)
-      this.props.locations.forEach(this.createMarker)
-      this.createLine(this.props.locations)
+      this.map = new window.google.maps.Map(this.googleMapRef.current, this.opt)
+      this.directionsService = new window.google.maps.DirectionsService()
+      this.directionsRenderer = new window.google.maps.DirectionsRenderer()
+      this.directionsRenderer.setMap(this.map)
+      this.pickupMarker = new window.google.maps.Marker()
+      this.sendtoMarker = new window.google.maps.Marker()
+      this.polyline 
+      = new window.google.maps.Polyline({
+        geodesic: true,
+        strokeColor: "#FF0000",
+        strokeOpacity: 0.4,
+        strokeWeight: 8,
+      })
     })
   }
 
+  
   componentDidUpdate() {
-    this.props.locations.forEach(this.createMarker)
-    this.createLine(this.props.locations)
+    this.pickupMarker.setMap(null)
+    this.sendtoMarker.setMap(null)
+    this.polyline.setMap(null)
+    this.setMarker(this.pickupMarker, this.props.pickup)
+    this.setMarker(this.sendtoMarker, this.props.sendto)
+    const locations = [this.props.pickup, this.props.sendto]
+    if (this.props.showDraw) {
+      this.drawLine(this.polyline, locations)
+      this.drawDirection(this.directionsService, this.directionsRenderer, locations)
+    }
   }
 
-  createGoogleMap = (ref, opt) => {
-    return (
-      new window.google.maps.Map(ref, opt)
-    )
-  }
 
-  // latlng
-  // {
-  //   lat: ...,
-  //   lng: ...
-  // }
-  createMarker = (latlng) => {
+  setMarker = (marker, latlng) => {
     console.log(latlng)
-    new window.google.maps.Marker({
-      position: latlng,
-      map: this.map,
-    })
+    marker.setPosition(latlng)
+    marker.setMap(this.map)
   }
 
-  createLine = (locations) => {
-    console.log('create line')
-    new window.google.maps.Polyline({
-      map: this.map,
-      path: locations,
-      geodesic: true,
-      strokeColor: "#FF0000",
-      strokeOpacity: 0.8,
-      strokeWeight: 8,
-    })
+  drawLine = (polyline, locations) => {
+    polyline.setPath(locations)
+    polyline.setMap(this.map)
   }
 
-  createDirection = () => {
-
+  drawDirection = (directionsService, directionsRenderer, locations) => {
+    directionsService.route(
+      {
+        origin: locations[0],
+        destination: locations[1],
+        travelMode: window.google.maps.TravelMode.BICYCLING,
+      }, 
+      (response, status) => {
+        if (status === 'OK') {
+          directionsRenderer.setDirections(response)
+        } else {
+          window.alert("Directions request failed due to " + status)
+        }
+      }
+    )
   }
 
 

@@ -11,8 +11,15 @@ class Autocomplete extends Component {
 
 
     componentDidMount = () => {
-        const opt = {
+        let opt = {
+            // bounds: {
+            //     east: -123,
+            //     north: 36,
+            //     south: 38,
+            //     west: -121,
+            // },
             componentRestrictions: { country: "us" },
+            strictBounds: false,
         }
         mapLoader().then(() => {
             this.autocomplete = new window.google.maps.places.Autocomplete(this.autocompleteRef.current, opt);
@@ -32,7 +39,7 @@ class Autocomplete extends Component {
             query: query,
             latlng: latlng
         })
-        this.props.onPlaceSelected(this.props.name, query, latlng)
+        this.props.onPlaceSelected(query, latlng)
         console.log(addressObject)
     }
 

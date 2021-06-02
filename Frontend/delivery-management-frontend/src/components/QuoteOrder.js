@@ -38,14 +38,20 @@ class QuoteOrder extends React.Component {
         })
     }
 
-    // handle google autocomplete change
-    handlePlaceSelected = (name, query, latlng) => {
+    handleOriginSelected = (query, latlng) => {
         this.setState({
-            [name]: query,
-            [name + 'latlng']: latlng,
+            pickup: query,
+            pickuplatlag: latlng,
         })
-        // change should be reflected on map, so send data to Main
-        this.props.onPlaceSelected(name, query, latlng)
+        this.props.onOriginSelected(query, latlng)
+    }
+    
+    handleDestinationSelected = (query, latlng) => {
+        this.setState({
+            sendto: query,
+            sendtolatlng: latlng,
+        })
+        this.props.onDestinationSelected(query, latlng)
     }
 
     quoteOrLogin = () => {
@@ -68,8 +74,8 @@ class QuoteOrder extends React.Component {
                 <h1 className="quote-order-title">Quote a shipment</h1>
                 <form className="quote-order-form" onSubmit={this.handleSubmit.bind(this)}>
                     <div className="quote-order-addr">
-                        <Autocomplete className="pick-up-addr" placeholder="pick up address" name="pickup" onPlaceSelected={this.handlePlaceSelected} />
-                        <Autocomplete className="send-to-addr" placeholder="send to address" name="sendto" onPlaceSelected={this.handlePlaceSelected} />
+                        <Autocomplete className="pick-up-addr" placeholder="pick up address" name="pickup" onPlaceSelected={this.handleOriginSelected} />
+                        <Autocomplete className="send-to-addr" placeholder="send to address" name="sendto" onPlaceSelected={this.handleDestinationSelected} />
                         {/* when both addresses are filled, show drawing on map */}
                     </div>
 

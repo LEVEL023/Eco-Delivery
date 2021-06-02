@@ -15,13 +15,14 @@ class Recommendation extends React.Component {
     }
 
     handleSelect = (e) => {
-        // console.log(e.target)
-        // alert(e.target.value)
         this.setState({
             method: e.target.value
         })
     }
 
+    onContinue = () => {
+        this.props.onContinue(this.state.method)
+    }
 
     render = () => {
         return (
@@ -32,7 +33,7 @@ class Recommendation extends React.Component {
                     <MethodCard type="drone" selected={this.state.method === 'drone'} details={this.props.drone} onSelect={this.handleSelect}/>
                 </div>
                 <div>
-                    <button className="recommendation-continue-btn" onClick = {this.props.onContinue}>Continue</button>
+                    <button className="recommendation-continue-btn" onClick={this.onContinue}>Continue</button>
                     <button className="recommendation-back-btn" onClick={this.handleBackClicked}>Back</button>
                 </div>
             </div>

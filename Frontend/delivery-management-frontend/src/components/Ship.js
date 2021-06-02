@@ -12,57 +12,48 @@ class Ship extends React.Component {
         sendto: '',
         pickuplatlng: undefined,
         sendtolatlng: undefined,
-        // showMarker: false,
-        // showLine: false,
-        // showRoute: false,
-        locationSet: []
+        showDraw: false
     }
 
-
-    handlePlaceSelected = (name, query, latlng) => {
-        this.setState(prev => { return {
-            [name]: query,
-            [name + 'latlng']: latlng,
-            locationSet: [...prev.locationSet, latlng]
-        }})
+    handleOriginSelected = (query, latlng) => {
+        console.log('originSelected')
+        console.log(latlng)
+        this.setState({
+            pickup: query,
+            pickuplatlng: latlng,
+        })
+    }
+    handleDestinationSelected = (query, latlng) => {
+        console.log('destinationSelected')
+        console.log(latlng)
+        this.setState({
+            sendto: query,
+            sendtolatlng: latlng,
+        })
     }
 
-    handleAlertLogin = () => {
-        console.log('Main: handlealertlogin')
-        this.props.alertLogin();
+    handleQuoteFormComplete = () => {
+        this.setState(prev => {
+            return {
+                showDraw: true
+            }
+        })
     }
 
-
-
-
-    locations = [
-        {
-            lat: 37.77493,
-            lng: -122.419415,
-        },
-        {
-            lat: 37.7706281,
-            lng: -122.3911664
-        },
-    ]
     render = () => {
         return (
             <div id="ship">
                 <section className="map" id="map">
-                    {/* <MapContainer
-                        // showMarker={this.state.showMarker}
-                        // showLine={this.state.showLine}
-                        // showRoute={this.state.showRoute}
-                        pickupGeo={this.state.pickuplatlng}
-                        destinationGeo={this.state.destinationGeo}
-                        pickupAddress={this.state.pickup}
-                        destinationAddress={this.state.sendto} /> */}
-                    <GoogleMap locations={this.state.locationSet}/>
+                    <GoogleMap 
+                        pickup={this.state.pickuplatlng}
+                        sendto={this.state.sendtolatlng}
+                        showDraw={this.state.showDraw} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav
-                        onPlaceSelected={this.handlePlaceSelected}
-                        alertLogin={this.handleAlertLogin} />
+                        onOriginSelected={this.handleOriginSelected}
+                        onDestinationSelected={this.handleDestinationSelected}
+                        onQuoteFormComplete={this.handleQuoteFormComplete} />
                 </aside>
             </div>
         );

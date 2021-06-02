@@ -2,6 +2,7 @@ import React from 'react';
 import QuoteOrder from './QuoteOrder';
 import Recommendation from './Recommendation';
 import FillAddress from './FillAddress';
+import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
 
@@ -14,8 +15,8 @@ class Nav extends React.Component {
         isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
         pickup: '',
         sendto: '',
-        pickuplatlng: undefined,
-        sendtolatlng: undefined,
+        pickupzip: '',
+        sendtozip: '',
         byRobotData: undefined,
         byDroneData: undefined,
         method: '',
@@ -34,21 +35,6 @@ class Nav extends React.Component {
         })
     }
 
-    handlePlaceSelected = (name, query, latlng) => {
-        this.setState({
-            [name]: query,
-            [name + 'latlng']: latlng,
-        })
-        this.props.onPlaceSelected(name, query, latlng)
-    }
-
-    handleRecommendationBack = () => {
-        this.setState({
-            recommendation: false,
-            nextPage: 'quoteOrder',
-            method: '',
-        })
-    }
 
     handleMethodSelectionComplete = (method) => {
         this.setState({
@@ -61,12 +47,10 @@ class Nav extends React.Component {
 
 
     handleQuoteFormComplete = (formData) => {
-        if (!localStorage.getItem(TOKEN_KEY)) {
-            console.log('Nav: not loggedin')
-            //link -> Login
-
-        } else {
-            console.log('Nav: handleQuoteFormComplete: loggedin')
+            console.log({
+                pickupzip: this.state.pickupzip,
+                sendtozip: this.state.sendtozip
+            })
             // passing rest of byRobotData and byDroneData down -> Recommendation 
             this.setState({
                 recommendation: true,
@@ -86,6 +70,7 @@ class Nav extends React.Component {
                     pickupTime: "8:30 AM",
                 }
             })
+            this.props.onQuoteFormComplete()
             //passing centerGeo up -> Main
             const centerData = {
                 robotCenter: {
@@ -97,7 +82,6 @@ class Nav extends React.Component {
                     lng: -122.419415,
                 }
             }
-
         // fetch recommendation data from backend
         // const { username, password } = formData;
         // const opt = {
@@ -131,7 +115,7 @@ class Nav extends React.Component {
         //         console.log("recommendation failed: ", err.message);
         //         // message.error("Recommendation failed! ");
         //     });
-        }
+        
     }
 
     transitionOnEnter = () => {
@@ -152,6 +136,41 @@ class Nav extends React.Component {
         }
     }
 
+    onOriginSelected = (query, latlng) => {
+        const addressSplit = query.split(", ")
+        const zip = addressSplit[addressSplit.length - 2].split(" ")[1]
+        this.setState({
+            pickup: query,
+            pickupzip: zip,
+        })
+        this.props.onOriginSelected(query, latlng)
+    }
+    onDestinationSelected = (query, latlng) => {
+        const addressSplit = query.split(", ")
+        const zip = addressSplit[addressSplit.length - 2].split(" ")[1]
+        this.setState({
+            sendto: query,
+            sendtozip: zip,
+        })
+        this.props.onDestinationSelected(query, latlng)
+    }
+
+    getDeliveredBy = () => {
+        if (this.state.method === 'robot') {
+            return (this.state.byRobotData.estDate + ', ' + this.state.byRobotData.estTime)
+        }
+        if (this.state.method === 'drone') {
+            return (this.state.byDroneData.estDate + ', ' + this.state.byDroneData.estTime)
+        }
+    }
+    getPaymentAmount = () => {
+        if (this.state.method === 'robot') {
+            return this.state.byRobotData.fee
+        }
+        if (this.state.method === 'drone') {
+            return this.state.byDroneData.fee
+        }
+    }
     render = () => {
         return (
             <div>
@@ -166,7 +185,9 @@ class Nav extends React.Component {
                     onEnter={this.transitionOnEnter}
                     onExited={this.transitionOnExited}
                     >
-                    <QuoteOrder onPlaceSelected={this.handlePlaceSelected} onSubmit={this.handleQuoteFormComplete} />
+                    <QuoteOrder onOriginSelected={this.onOriginSelected} 
+                                onDestinationSelected={this.onDestinationSelected} 
+                                onSubmit={this.handleQuoteFormComplete} />
                 </CSSTransition>
                 <CSSTransition 
                     in={this.state.recommendation}
@@ -196,13 +217,17 @@ class Nav extends React.Component {
                     onEnter={this.transitionOnEnter}
                     onExited={this.transitionOnExited}
                     >
-                    <FillAddress pickup={this.state.pickup} sendto={this.state.sendto} />
+                    <AddressForm 
+                        pickup={this.state.pickup} 
+                        sendto={this.state.sendto}
+                        pickupzip={this.state.pickupzip}
+                        sendtozip={this.state.sendtozip} 
+                        method={this.state.method}
+                        deliveredby={this.getDeliveredBy()}
+                        paytotal={this.getPaymentAmount()} />
                 </CSSTransition>
             </div>
 
-            // <div>
-            //     { this.pageSwitch(this.state.pageDisplay) }
-            // </div>
         )
     }
 }
