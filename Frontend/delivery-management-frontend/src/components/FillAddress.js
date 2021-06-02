@@ -48,8 +48,8 @@ const FillAddress = (props) => {
 
   return (
     <div style = {{margin : "auto", marginTop : "80px", width: "90%"}}>
-        <div style = {{display:"flex"}}>
-            <Steps current={current} direction="vertical" style = {{flex : "1 1 0"}}>
+        <div >
+            <Steps current={current}>
                 {steps.map(item => (
                 <Step key={item.title} title={item.title} />
                 ))}
