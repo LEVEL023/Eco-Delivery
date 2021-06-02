@@ -5,6 +5,7 @@ import FillAddress from './FillAddress';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
 
+
 class Nav extends React.Component {
 
     // state stores all order information 
@@ -25,26 +26,6 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    pageSwitch = (pagenumber) => {
-        switch (pagenumber) {
-            case 1:
-                return (
-                    <QuoteOrder onPlaceSelected={this.handlePlaceSelected} onSubmit={this.handleQuoteFormComplete} />
-                )
-            case 2:
-                return (
-                    <Recommendation
-                        robot={this.state.byRobotData}
-                        drone={this.state.byDroneData}
-                        onContinue={this.handleMethodSelectionComplete}
-                        onBack={this.handleRecommendationBack} />
-                )
-            case 3:
-                return (
-                    <FillAddress pickup={this.state.pickup} sendto={this.state.sendto} />
-                )
-        }
-    }
     handleRecommendationBack = () => {
         this.setState({
             recommendation: false,
@@ -61,6 +42,14 @@ class Nav extends React.Component {
         this.props.onPlaceSelected(name, query, latlng)
     }
 
+    handleRecommendationBack = () => {
+        this.setState({
+            recommendation: false,
+            nextPage: 'quoteOrder',
+            method: '',
+        })
+    }
+
     handleMethodSelectionComplete = (method) => {
         this.setState({
             addressForm : true,
@@ -72,11 +61,13 @@ class Nav extends React.Component {
 
 
     handleQuoteFormComplete = (formData) => {
-        if (!this.state.isLoggedIn) {
+        if (!localStorage.getItem(TOKEN_KEY)) {
             console.log('Nav: not loggedin')
-            this.props.alertLogin();
+            //link -> Login
+
         } else {
             console.log('Nav: handleQuoteFormComplete: loggedin')
+            // passing rest of byRobotData and byDroneData down -> Recommendation 
             this.setState({
                 recommendation: true,
                 lastPage: 'quoteOrder',
@@ -95,6 +86,18 @@ class Nav extends React.Component {
                     pickupTime: "8:30 AM",
                 }
             })
+            //passing centerGeo up -> Main
+            const centerData = {
+                robotCenter: {
+                    lat: 37.77493,
+                    lng: -122.419415,
+                },
+                droneCenter: {
+                    lat: 37.77493,
+                    lng: -122.419415,
+                }
+            }
+
         // fetch recommendation data from backend
         // const { username, password } = formData;
         // const opt = {
@@ -112,11 +115,15 @@ class Nav extends React.Component {
         //     .then((res) => {
         //         if (res.status === 200) {
         //             const { responseData } = res;
-        //             // GET recommendation data and setState 
+        //             // passing centerGeo up -> Main
+        //             const droneCenterGeo = responseData['drone'].centerGeo;
+        //             const robotCenterGeo = responseData['robot'].centerGeo;
+        //             // GET recommendation data and setState -> Recommendation
         //             this.setState({
-        //                 pageDisplay: 2,
-        //                 byDroneData: responseData['Drone'],
-        //                 byRobotData: responseData['Robot']
+        //                 recommendation: true,
+        //                 lastPage: 'quoteOrder',
+        //                 byDroneData: responseData['drone'],
+        //                 byRobotData: responseData['robot']
         //             })
         //         }
         //     })
@@ -144,6 +151,7 @@ class Nav extends React.Component {
             })
         }
     }
+
     render = () => {
         return (
             <div>

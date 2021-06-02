@@ -21,7 +21,7 @@ class App extends React.Component {
   }
   render() {
     return (
-      <div className="main">
+      <div className="app">
         <Header showLoginModal={this.state.showLoginModal} 
                 closeAlert={this.closeAlert} />
         <Main alertLogin={this.handleAlertLogin} />

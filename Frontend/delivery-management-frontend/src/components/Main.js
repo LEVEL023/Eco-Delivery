@@ -1,53 +1,38 @@
 import React from 'react';
-import GoogleMap from './GoogleMap';
-import Nav from './Nav';
-import {TOKEN_KEY} from '../constants';
+import Ship from './Ship';
+import ThankyouCard from './ThankyouCard';
+import TrackOrder from './TrackOrder';
+import AccountPage from './AccountPage';
+import Login from './Login';
+import Register from './Register';
+
+import {
+    Route, Switch
+} from 'react-router';
+
+import { TOKEN_KEY } from '../constants';
 
 class Main extends React.Component {
-    
-    // state stores location information
-    // data exchange between between autocomplete and map
     state = {
-        isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
-        pickup: '',
-        sendto: '',
-        pickuplatlng: undefined,
-        sendtolatlng: undefined,
+        isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false
     }
 
-    handlePlaceSelected = (name, query, latlng) => {
-        this.setState({
-            [name]: query,
-            [name + 'latlng']: latlng,
-        })
+    login = () => {
+        return <Login onLoggedInSuccess={this.props.handleLoggedIn}/>
     }
-    
-    handleQuoteSubmit = (formData) => {
-        if (!this.state.isLoggedIn) {
-            // 
-        }
-    }
-
-    handleAlertLogin = () => {
-        console.log('Main: handlealertlogin')
-        this.props.alertLogin();
-    }
-
-    
-
     render = () => {
         return (
-            <>
-                <section className="map" id="map">
-                    <GoogleMap/>
-                </section>
-                <aside className="nav" id="nav">
-                    <Nav onPlaceSelected={this.handlePlaceSelected}
-                         onQuoteSumbit={this.handleQuoteSubmit}
-                         alertLogin={this.handleAlertLogin}/>
-                </aside>
-            </>
-        );
+            <div className="main">
+                <Switch>
+                    <Route path="/" exact component={Ship} />
+                    <Route path="/login" render={this.login} />
+                    <Route path="/register" component={Register} />
+                    <Route path="/complete" component={ThankyouCard} />
+                    <Route path="/trackorder" component={TrackOrder} />
+                    <Route path="/account" component={AccountPage} />
+                </Switch>
+            </div>
+        )
     }
 }
 

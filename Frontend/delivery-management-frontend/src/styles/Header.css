@@ -35,6 +35,38 @@
     text-align: center;
 }
 .login-register {
-    display: inline-block;
+    width: 200px;
+    display: flex;
+    justify-content: space-between;
     margin-right: 75px;
+}
+
+#login-btn {
+    display: inline-block;
+    color: #4f4f4f;
+    width: 70px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+    text-align: center;
+    padding: 5px;
+}
+
+#login-btn:hover {
+    background-color: #F3F5F3;
+}
+
+#register-btn {
+    display: inline-block;
+    color: #4f4f4f;
+    width: 90px;
+    height: 34px;
+    border-radius: 17px;
+    transition: all 0.3s;
+    text-align: center;
+    padding: 5px;
+}
+
+#register-btn:hover{
+    background-color: #F3F5F3;
 }

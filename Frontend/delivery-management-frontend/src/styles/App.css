@@ -1,3 +1,13 @@
 .button {
   color: fff;
 }
+
+.app {
+  display: grid;
+  height: 100vh;
+  /* grid-template-columns: auto 520px; */
+  grid-template-rows: 56px auto;
+  grid-template-areas: 
+      "header"
+      "main"
+}

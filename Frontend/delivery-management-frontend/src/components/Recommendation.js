@@ -22,6 +22,7 @@ class Recommendation extends React.Component {
         })
     }
 
+
     render = () => {
         return (
             <div>

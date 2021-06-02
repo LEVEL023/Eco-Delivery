@@ -6,7 +6,8 @@
 }
 .recommendation-card{
     display: flex;
-    justify-content: space-between;
+
+    justify-content: flex-start;
 }
 
 .recommendation-continue-btn {

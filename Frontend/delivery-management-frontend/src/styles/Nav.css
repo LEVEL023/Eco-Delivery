@@ -59,6 +59,9 @@
     transform: translateX(-110%);
     transition: all 300ms;
 }
+
+
+
 .show-address-form-enter {
     opacity: 0;
     transform: translateX(15%);

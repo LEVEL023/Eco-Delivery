@@ -1,10 +1,8 @@
-.main {
+#ship {
     display: grid;
-    height: 100vh;
-    grid-template-columns: auto 900px;
-    grid-template-rows: 56px auto;
+    height: 100%;
+    grid-template-columns: auto 520px;
     grid-template-areas: 
-        "header header"
         "map nav";
 }
 .header {
