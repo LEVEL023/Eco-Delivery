@@ -12,6 +12,8 @@
 @import './styles/Recommend.css';
 @import './styles/Autocomplete.css';
 @import './styles/FillAddress.css';
+@import './styles/AccountAndOrder.css';
+@import './styles/AccountAndOrderTotalPage.css'
 
 
 * {
