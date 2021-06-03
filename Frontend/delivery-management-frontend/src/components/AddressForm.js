@@ -3,9 +3,7 @@ import React from 'react';
 
 const { Panel } = Collapse;
 
-
 class AddressForm extends React.Component {
-    
     state = {
         activeKey: 1,
         checked: false,
@@ -41,7 +39,7 @@ class AddressForm extends React.Component {
 
     }
     handleSubmit = () => {
-        
+
     }
     componentDidMount = () => {
 
