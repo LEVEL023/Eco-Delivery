@@ -1,6 +1,5 @@
 import React from 'react';
 import GoogleMap from './GoogleMap';
-import MapContainer from './MapContainer';
 import Nav from './Nav';
 
 class Ship extends React.Component {

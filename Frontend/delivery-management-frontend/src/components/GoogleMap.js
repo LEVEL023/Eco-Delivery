@@ -73,7 +73,7 @@ class GoogleMap extends React.Component {
       {
         origin: locations[0],
         destination: locations[1],
-        travelMode: window.google.maps.TravelMode.BICYCLING,
+        travelMode: window.google.maps.TravelMode.WALKING,
       }, 
       (response, status) => {
         if (status === 'OK') {
