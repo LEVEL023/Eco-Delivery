@@ -38,12 +38,14 @@
 }
 
 .button1{
+    font-size: 18px;
     margin-top: 90px;
     height: 45px;
     width: 250px;
     border: 1px solid black;
 }
 .button2{
+    font-size: 18px;
     height: 45px;
     width: 250px;
     border: 1px solid black;

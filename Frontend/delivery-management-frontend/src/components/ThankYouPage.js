@@ -1,6 +1,8 @@
 import React from 'react';
 import checkmark from "../assets/CheckMark.svg";
 import { Link } from 'react-router-dom';
+import {Button} from "antd";
+
 
 function ThankYouPage(props) {
     
@@ -19,12 +21,18 @@ function ThankYouPage(props) {
                 </text>
                 <br/>
                 <br/>
-                <Link to='/'>Create new shipment</Link>
-                <br></br>
-                <Link to={{
-                    pathname: '/trackorder',
-                    state: state,
-                }}>Track this order</Link>
+
+                <Button size = "medium" className = "button1">
+                    <Link to='/'>Create new shipment</Link>
+                </Button>
+                <br/>
+                <br/>
+                <Button size = "medium" className="button2">
+                    <Link to={{
+                        pathname: '/trackorder',
+                        state: state,
+                    }}>Track this order</Link>
+                </Button>
              </div>
         </div>
     );
