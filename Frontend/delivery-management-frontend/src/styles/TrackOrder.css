@@ -1,0 +1,19 @@
+#track {
+    display: grid;
+    height: 100%;
+    grid-template-columns: auto 520px;
+    grid-template-areas: 
+        "map nav";
+}
+.track-map {
+    grid-area: map;
+    background-color: rgb(204, 204, 204);
+    box-shadow: inset 0 20px 15px -15px rgba(0, 0, 0, 0.12);
+}
+.track-nav {
+    padding: 0px 45px 0px 45px;
+    grid-area: nav;
+    background-color: #fff;
+    border-left: solid 1px rgb(235, 235, 235);
+
+}

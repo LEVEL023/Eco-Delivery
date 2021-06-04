@@ -53,6 +53,10 @@ export const getOrderDetails = (orderid) => {
 
 }
 
+export const cancelOrder = () => {
+  
+}
+
 // provide order details 
 // returns order id
 export const submitOrder = (formData) => {

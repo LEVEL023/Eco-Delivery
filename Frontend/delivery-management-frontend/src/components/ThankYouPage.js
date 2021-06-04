@@ -1,12 +1,10 @@
 import React from 'react';
 import checkmark from "../assets/CheckMark.svg";
-import { useHistory, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 function ThankYouPage(props) {
     
     const { state } = props.location
-
-    let history = useHistory()
 
     return (
         <div className="main">
@@ -22,7 +20,7 @@ function ThankYouPage(props) {
                 <br/>
                 <br/>
                 <Link to='/'>Create new shipment</Link>
-                <br/>
+                <br></br>
                 <Link to={{
                     pathname: '/trackorder',
                     state: state,

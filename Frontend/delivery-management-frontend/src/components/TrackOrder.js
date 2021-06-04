@@ -1,26 +1,45 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import GoogleMap from './GoogleMap';
-import { getOrderDetails } from '../utils';
-
+import TrackOrderDetail from './TrackOrderDetail';
 
 function TrackOrder(props) {
-    
-    // TrackOrder only knows order id, all other information is fetched from backend 
+
     const { state } = props.location
     const orderid = state.orderid
 
-    const [senderInfo, setSenderInfo] = useState(null)
-    const [receiverInfo, setReceiverInfo] = useState(null)
-    const [orderStatus, setOrderStatus] = useState(null)
+    const [method, setMethod] = useState('')
+    const [pickuplatlng, setPickuplatlng] = useState(null)
+    const [sendtolatlng, setSendtolatlng] = useState(null)
+    const [showDrone, setShowDrone] = useState(false)
+    const [showRobot, setShowRobot] = useState(false)
 
-    useEffect(() => {
-        getOrderDetails(orderid)
-
-        
-    })
+    const handleInfoReceived = (latlngs, method) => {
+        setPickuplatlng(latlngs.pickup)
+        setSendtolatlng(latlngs.sendto)
+        if (method === 'drone') {
+            setShowDrone(true)
+        }
+        if (method === 'robot') {
+            setShowRobot(true)
+        }
+    }
 
     return (
-        <div>Track order</div>
+        <div id="track">
+            <section className="track-map">
+                <GoogleMap 
+                    style={{zIndex: '99'}}
+                    pickup={pickuplatlng}
+                    sendto={sendtolatlng}
+                    showDrone={showDrone}
+                    showRobot={showRobot} />
+            </section>
+            <aside className="track-nav">
+                <TrackOrderDetail 
+                    orderid={orderid}
+                    onInfoReceived={handleInfoReceived}/>
+            </aside>
+        </div>
     )
 }
 

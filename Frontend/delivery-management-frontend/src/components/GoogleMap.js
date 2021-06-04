@@ -50,8 +50,10 @@ class GoogleMap extends React.Component {
     this.setMarker(this.pickupMarker, this.props.pickup)
     this.setMarker(this.sendtoMarker, this.props.sendto)
     const locations = [this.props.pickup, this.props.sendto]
-    if (this.props.showDraw) {
+    if (this.props.showDrone) {
       this.drawLine(this.polyline, locations)
+    }
+    if (this.props.showRobot) {
       this.drawDirection(this.directionsService, this.directionsRenderer, locations)
     }
   }

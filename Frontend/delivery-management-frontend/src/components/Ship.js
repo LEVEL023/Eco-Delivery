@@ -11,7 +11,8 @@ class Ship extends React.Component {
         sendto: '',
         pickuplatlng: undefined,
         sendtolatlng: undefined,
-        showDraw: false
+        showDrone: false,
+        showRobot: false,
     }
 
     handleOriginSelected = (query, latlng) => {
@@ -34,7 +35,8 @@ class Ship extends React.Component {
     handleQuoteFormComplete = () => {
         this.setState(prev => {
             return {
-                showDraw: true
+                showDrone: true,
+                showRobot: true,
             }
         })
     }
@@ -46,7 +48,8 @@ class Ship extends React.Component {
                     <GoogleMap 
                         pickup={this.state.pickuplatlng}
                         sendto={this.state.sendtolatlng}
-                        showDraw={this.state.showDraw} />
+                        showDrone={this.state.showDrone}
+                        showRobot={this.state.showRobot} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav
