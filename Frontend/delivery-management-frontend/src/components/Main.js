@@ -1,10 +1,11 @@
 import React from 'react';
 import Ship from './Ship';
-import ThankYouCard from './ThankYouCard';
+import ThankYouPage from './ThankYouPage';
 import TrackOrder from './TrackOrder';
 import Login from './Login';
 import Register from './Register';
 import AccountAndOrderTotalPage from './AccountAndOrderTotalPage';
+
 
 import {
     Route, Switch
@@ -32,7 +33,7 @@ class Main extends React.Component {
                     <Route path="/" exact component={Ship} />
                     <Route path="/login" render={this.login} />
                     <Route path="/register" render={this.register} />
-                    <Route path="/complete" component={ThankYouCard} />
+                    <Route path="/complete" component={ThankYouPage} />
                     <Route path="/trackorder" component={TrackOrder} />
                     <Route path="/account" component={AccountAndOrderTotalPage} />
                 </Switch>

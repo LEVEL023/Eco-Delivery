@@ -1,11 +1,14 @@
 import { Collapse } from 'antd';
 import React from 'react';
+import { axios } from 'axios';
+import { TOKEN_KEY } from '../constants';
+import { submitOrder } from '../utils';
+import { withRouter } from 'react-router-dom';
 
 const { Panel } = Collapse;
 
-
 class AddressForm extends React.Component {
-    
+
     state = {
         activeKey: 1,
         checked: false,
@@ -13,12 +16,15 @@ class AddressForm extends React.Component {
         senderLastname: '',
         senderPhone: '',
         senderEmail: '',
+        senderAddr1: this.props.pickup,
         senderAddr2: '',
         receiverFirstname: '',
         receiverLastname: '',
         receiverPhone: '',
         receiverEmail: '',
+        receiverAddr1: this.props.sendto,
         receiverAddr2: '',
+        orderid: '',
     }
 
     handleContinue = (e) => {
@@ -40,9 +46,23 @@ class AddressForm extends React.Component {
         // get user phone and email info from backend 
 
     }
-    handleSubmit = () => {
-        
+    handleSubmit = (e) => {
+        const formData = {
+            ...this.state
+        }
+        e.preventDefault()
+        // this.setState({
+        //     orderid: '123'
+        // })
+        // submitOrder.call(this, formData)
+        this.props.history.push({
+            pathname: `/complete`,
+            state: {
+                orderid: '123'
+            }
+        })
     }
+
     componentDidMount = () => {
 
     }
@@ -202,4 +222,4 @@ class AddressForm extends React.Component {
     }
 }
 
-export default AddressForm;
+export default withRouter(AddressForm);

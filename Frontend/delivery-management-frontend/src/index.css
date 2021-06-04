@@ -22,7 +22,9 @@
 @import './styles/Form3.css';
 @import './styles/ThankYouPageMain.css';
 @import './styles/ThankYouPage.css';
-@import './styles/Footer.css';
+@import './styles/TrackOrder.css';
+
+
 * {
     /* color: #525252; */
     margin:0;

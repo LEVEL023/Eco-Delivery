@@ -7,6 +7,7 @@
 } */
 
 .user-dropdown {
+    z-index: 999;
     color: #4f4f4f;
     right: 0px;
     background-color: white;

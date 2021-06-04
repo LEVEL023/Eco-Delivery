@@ -23,8 +23,8 @@ class QuoteOrder extends React.Component {
             ...this.state
         }
         e.preventDefault()
-        console.log('QuoteOrder: formData->')
-        console.log(formData)
+        // console.log('QuoteOrder: formData->')
+        // console.log(formData)
         this.props.onSubmit(formData)
     }
 
