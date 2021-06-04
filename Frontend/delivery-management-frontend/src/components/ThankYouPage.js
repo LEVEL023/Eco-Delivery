@@ -3,6 +3,7 @@ import checkmark from "../assets/CheckMark.svg";
 import { Link } from 'react-router-dom';
 import {Button} from "antd";
 
+
 function ThankYouPage(props) {
     
     const { state } = props.location
@@ -20,6 +21,7 @@ function ThankYouPage(props) {
                 </text>
                 <br/>
                 <br/>
+
                 <Button size = "medium" className = "button1">
                     <Link to='/'>Create new shipment</Link>
                 </Button>
@@ -31,7 +33,6 @@ function ThankYouPage(props) {
                         state: state,
                     }}>Track this order</Link>
                 </Button>
-
              </div>
         </div>
     );
