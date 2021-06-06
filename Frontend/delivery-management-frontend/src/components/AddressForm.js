@@ -181,7 +181,7 @@ class AddressForm extends React.Component {
                 <Panel header="3. Review Order" key="3">
                     <div>
                         <div>
-                            <div>From:</div>
+                            <div style ={{fontSize: "20px"}}>From:</div>
                             <div>
                                 <p>{this.state.senderFirstname + ' ' + this.state.senderLastname}</p>
                                 <p>{this.props.pickup}</p>
@@ -191,7 +191,7 @@ class AddressForm extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <div>To:</div>
+                            <div style ={{fontSize: "20px"}}>To:</div>
                             <div>
                                 <p>{this.state.receiverFirstname + ' ' + this.state.receiverLastname}</p>
                                 <p>{this.props.sendto}</p>
@@ -201,15 +201,15 @@ class AddressForm extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <label>Delivery method: </label>
+                            <label style = {{fontSize:"18px"}}>Delivery method: </label>
                             <input type="text" value={this.props.method} disabled={true}/>
                         </div>
                         <div>
-                            <label>Delivered by: </label>
+                            <label style = {{fontSize:"18px"}}>Delivered by: </label>
                             <input type="text" value={this.props.deliveredby} disabled={true} />
                         </div>
                         <div>
-                            <label>Payment total: </label>
+                            <label style = {{fontSize:"18px"}}>Payment total: </label>
                             <input type="text" value={this.props.paytotal} disabled={true} />
                         </div>
                         <input type="submit" value="Continue" onClick={this.handleSubmit}/>

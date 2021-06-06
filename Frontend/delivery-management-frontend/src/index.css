@@ -23,6 +23,8 @@
 @import './styles/ThankYouPageMain.css';
 @import './styles/ThankYouPage.css';
 @import './styles/TrackOrder.css';
+@import './styles/AddressForm.css';
+@import './styles/TrackOrderDetail.css';
 
 
 * {

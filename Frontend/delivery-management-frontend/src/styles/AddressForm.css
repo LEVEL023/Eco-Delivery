@@ -1,0 +1,44 @@
+.ant-collapse > .ant-collapse-item > .ant-collapse-header {
+    color: white;
+    background-color: green;
+}
+
+
+.ant-collapse-item > .ant-collapse-content label {
+    font-size: 20px;
+}
+
+.ant-collapse-item > .ant-collapse-content p {
+    font-size: 15px;
+}
+
+.ant-collapse-item > .ant-collapse-content button  {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+.ant-collapse-item > .ant-collapse-content input[type=text] {
+    float: right;
+    width: 60%;
+}
+
+.ant-collapse-item > .ant-collapse-content input[type=submit] {
+    background-color: green;
+    border: none;
+    color: white;
+    padding: 10px 7px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 18px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
