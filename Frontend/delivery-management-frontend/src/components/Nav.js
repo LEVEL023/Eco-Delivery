@@ -5,13 +5,10 @@ import FillAddress from './FillAddress';
 import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
-import { axios } from 'axios';
+import { getRecommendations } from '../utils';
 
 
 class Nav extends React.Component {
-
-    // state stores all order information 
-    // exchange data with backend
     state = {
         isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
         pickup: '',
@@ -35,8 +32,12 @@ class Nav extends React.Component {
             method: '',
         })
     }
-
-
+    handleQuoteFormComplete = () => {
+        this.setState({
+            addressForm: false,
+            nextPage: 'recommendation',
+        })
+    }
     handleMethodSelectionComplete = (method) => {
         this.setState({
             addressForm : true,
@@ -45,7 +46,6 @@ class Nav extends React.Component {
             method: method,
         })
     }
-
 
     handleQuoteFormComplete = (formData) => {
             console.log({
@@ -73,30 +73,17 @@ class Nav extends React.Component {
             })
             this.props.onQuoteFormComplete()
             //passing centerGeo up -> Main
-            const centerData = {
-                robotCenter: {
-                    lat: 37.77493,
-                    lng: -122.419415,
-                },
-                droneCenter: {
-                    lat: 37.77493,
-                    lng: -122.419415,
-                }
-            }
-        // fetch recommendation data from backend
-        // const { username, password } = formData;
-        // const opt = {
-        //     method: 'get',
-        //     url: `${BASE_URL}/recommend`,
-        //     data: {
-        //         ...formData // ??? what location data do you need: address? latlng?
-        //     },
-        //     headers: { 
-        //         "Content-Type": "application/json",
-        //         "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
-        //     }
-        // };
-        // axios(opt)
+            // const centerData = {
+            //     robotCenter: {
+            //         lat: 37.77493,
+            //         lng: -122.419415,
+            //     },
+            //     droneCenter: {
+            //         lat: 37.77493,
+            //         lng: -122.419415,
+            //     }
+            // }
+        // getRecommendations(formData)
         //     .then((res) => {
         //         if (res.status === 200) {
         //             const { responseData } = res;
@@ -127,7 +114,6 @@ class Nav extends React.Component {
             })
         }
     }
-
     transitionOnExited = () => {
         if (this.state.nextPage !== '') {
             this.setState({
@@ -136,7 +122,6 @@ class Nav extends React.Component {
             })
         }
     }
-
     onOriginSelected = (query, latlng) => {
         const addressSplit = query.split(", ")
         const zip = addressSplit[addressSplit.length - 2].split(" ")[1]
@@ -155,7 +140,6 @@ class Nav extends React.Component {
         })
         this.props.onDestinationSelected(query, latlng)
     }
-
     getDeliveredBy = () => {
         if (this.state.method === 'robot') {
             return (this.state.byRobotData.estDate + ', ' + this.state.byRobotData.estTime)
@@ -172,6 +156,7 @@ class Nav extends React.Component {
             return this.state.byDroneData.fee
         }
     }
+
     render = () => {
         return (
             <div>
@@ -225,7 +210,8 @@ class Nav extends React.Component {
                         sendtozip={this.state.sendtozip} 
                         method={this.state.method}
                         deliveredby={this.getDeliveredBy()}
-                        paytotal={this.getPaymentAmount()} />
+                        paytotal={this.getPaymentAmount()} 
+                        onBack={this.handleFormBack}/>
                 </CSSTransition>
             </div>
 

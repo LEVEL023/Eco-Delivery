@@ -93,12 +93,13 @@ function TrackOrderDetail(props) {
             const newOrderInfo = {...orderInfo}
             newOrderInfo.orderstatus = 'cancelled'
             setOrderInfo(newOrderInfo)
+            setCanCancel(false)
         }
     }
 
     const renderOrderStatus = () => {
         if (orderInfo.orderstatus === 'cancelled') {
-            return <p>"Order is cancelled"</p>
+            return <p>{`Order ${orderid} is cancelled`}</p>
         } else {
             return <p>{`Scheduled to arrive on ${orderInfo.estDelivDate}, ${orderInfo.estDelivTime}`}</p>
         }

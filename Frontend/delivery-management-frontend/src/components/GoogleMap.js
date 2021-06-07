@@ -3,26 +3,27 @@ import React, { createRef } from 'react'
 import { mapLoader } from '../utils';
 
 class GoogleMap extends React.Component {
-  googleMapRef = createRef();
-
-  map;
-  directionsService;
-  directionsRenderer;
-  pickupMarker;
-  sendtoMarker;
-  polyline;
-
-  opt = {
-    zoom: 14,
-      center: {
-        lat: 37.77493,
-        lng: -122.419415,
-      },
-      zoomControl: true,
-      scaleControl: true,
-      disableDefaultUI: true,
+  constructor() {
+    super();
+    this.googleMapRef = createRef();
+    this.map = undefined;
+    this.directionsService = undefined;
+    this.directionsRenderer = undefined;
+    this.pickupMarker = undefined;
+    this.sendtoMarker = undefined;
+    this.polyline = undefined;
+  
+    this.opt = {
+      zoom: 14,
+        center: {
+          lat: 37.77493,
+          lng: -122.419415,
+        },
+        zoomControl: true,
+        scaleControl: true,
+        disableDefaultUI: true,
+    };
   }
-
 
   componentDidMount() {
     mapLoader().then(() => {

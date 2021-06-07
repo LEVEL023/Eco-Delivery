@@ -122,7 +122,7 @@ class AddressForm extends React.Component {
                             <input type="checkbox" name="use-default" onChange={this.handleCheckbox}/>
                         </div>
                         <input type="submit" value="Continue" onClick={this.handleContinue}/>
-                        <button>Back</button>
+                        <button onClick={this.props.onBack}>Back</button>
                     </form>
                 </Panel>
                 <Panel header="2. Recipient address" key="2">

@@ -1,11 +1,10 @@
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Nav from './Nav';
+import { getCenters } from '../utils';
 
 class Ship extends React.Component {
 
-    // state stores location information
-    // data exchange between between autocomplete and map
     state = {
         pickup: '',
         sendto: '',
@@ -14,6 +13,18 @@ class Ship extends React.Component {
         showDrone: false,
         showRobot: false,
     }
+
+    // componentDidMount = () => {
+    //     getCenters().then((res) => {
+    //         const centerslatlng = [...res]
+    //         this.setState({
+    //             centers: centerslatlng
+    //         })
+    //     })
+    //     .catch((err) => {
+    //         console.log("submit order failed: ", err.message)
+    //     })
+    // }
 
     handleOriginSelected = (query, latlng) => {
         console.log('originSelected')
@@ -49,7 +60,8 @@ class Ship extends React.Component {
                         pickup={this.state.pickuplatlng}
                         sendto={this.state.sendtolatlng}
                         showDrone={this.state.showDrone}
-                        showRobot={this.state.showRobot} />
+                        showRobot={this.state.showRobot}
+                        markerLocations={this.state.centers} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav
