@@ -9,11 +9,13 @@ class GoogleMap extends React.Component {
     this.map = undefined;
     this.directionsService_1 = undefined;
     this.directionsService_2 = undefined;
+    this.directionsService = undefined;
     this.directionsRenderer = undefined;
     this.pickupMarker = undefined;
     this.sendtoMarker = undefined;
     this.polyline = undefined;
-    this.opt =  {
+  
+    this.opt = {
       zoom: 14,
         center: {
           lat: 37.77493,
@@ -24,7 +26,6 @@ class GoogleMap extends React.Component {
         disableDefaultUI: true,
     };
   }
-
 
   componentDidMount() {
     mapLoader().then(() => {
