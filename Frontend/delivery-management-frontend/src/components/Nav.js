@@ -5,6 +5,8 @@ import FillAddress from './FillAddress';
 import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
+import {getRecommendation, calculateDistanceForRecommendation, calculateDistanceForRecommendation_copy} from '../utils';
+import  axios  from 'axios';
 import { getRecommendations } from '../utils';
 
 
@@ -52,6 +54,11 @@ class Nav extends React.Component {
                 pickupzip: this.state.pickupzip,
                 sendtozip: this.state.sendtozip
             })
+            console.log(formData);
+            const departure = formData.pickuplatlag;
+            const destination = formData.sendtolatlng;
+            const recommendedData = calculateDistanceForRecommendation_copy(formData.weight,departure,destination, formData.fragile);
+            console.log(recommendedData);
             // passing rest of byRobotData and byDroneData down -> Recommendation 
             this.setState({
                 recommendation: true,
