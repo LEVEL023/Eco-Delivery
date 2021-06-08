@@ -28,6 +28,7 @@ class GoogleMap extends React.Component {
   }
 
   componentDidMount() {
+    // alert('didMount')
     mapLoader().then(() => {
       console.log(this.googleMapRef.current);
       this.map = new window.google.maps.Map(this.googleMapRef.current, this.opt);
@@ -35,7 +36,7 @@ class GoogleMap extends React.Component {
       this.directionsService = new window.google.maps.DirectionsService();
       this.directionsRenderer_1 = new window.google.maps.DirectionsRenderer();
       this.directionsRenderer_2 = new window.google.maps.DirectionsRenderer()
-      this.directionsRenderer_1.setMap(this.map);
+      this.directionsRenderer_1.setMap(this.map)
       this.directionsRenderer_2.setMap(this.map)
       this.pickupMarker = new window.google.maps.Marker()
       this.sendtoMarker = new window.google.maps.Marker()
@@ -51,6 +52,7 @@ class GoogleMap extends React.Component {
 
   
   componentDidUpdate() {
+    // alert('didUpdate')
     this.pickupMarker.setMap(null)
     this.sendtoMarker.setMap(null)
     this.polyline.setMap(null)
@@ -97,7 +99,8 @@ class GoogleMap extends React.Component {
 
 
   render = () => {
-    console.log(this.googleMapRef.current);
+    // alert('render')
+    // alert(this.googleMapRef.current);
     return (
       <div
         id="google-map"

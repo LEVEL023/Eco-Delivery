@@ -27,62 +27,69 @@ function TrackOrderDetail(props) {
         // setReceiverInfo(orderDetails.receiverInfo)
         // setObjectInfo(orderDetails.objectInfo)
         // setOrderInfo(orderDetails.orderInfo)
-        const fakeSender = {
-            firstname: 'Jane',
-            lastname: 'Joe',
-            phone: '123-321-4321',
-            email: '123@123.com',
-            addr1: '654 Main St, San Franciso, CA',
-            addr2: 'Apt 666',
-            latlng: {
-                lat: 37.776174,
-                lng: -122.445785,
-            },
-            zip: '98888',
-        }
-        const fakeReceiver = {
-            firstname: 'Bob',
-            lastname: 'Foo',
-            phone: '987-654-3210',
-            email: '789@789.com',
-            addr1: '99 Broadway, San Francisco, CA',
-            addr2: 'Apt 999',
-            latlng: {
-                lat: 37.6213129,
-                lng: -122.3789554,
-            },
-            zip: '96666',
-        }
-        const fakeObject = {
-            type: 'foods',
-            weight: '6',
-            fragile: true,
-        }
-        const fakeOrder = {
-            orderstatus: 'not picked up',
-            creationDate: 'Sat 10 Aug 2099',
-            creationTime: '2:00 PM',
-            method: 'drone',
-            fee: '9.99',
-            pickupDate: 'Mon 12 Aug 2099',
-            pickupTime: '12:00 PM',
-            estDelivDate: 'Tue 13 Aug 2099',
-            estDelivTime: '7:00 PM',
-        }
-        if (fakeOrder.orderstatus === 'not picked up') {
-            setCanCancel(true)
-        }
-        setSenderInfo(fakeSender)
-        setReceiverInfo(fakeReceiver)
-        setObjectInfo(fakeObject)
-        setOrderInfo(fakeOrder)
-        setInfoRetrived(true)
-        const latlngs = {
-            pickup: fakeSender.latlng,
-            sendto: fakeReceiver.latlng,
-        }
-        //setstate is async, remember to change this to a promise
-        onInfoReceived(latlngs, fakeOrder.method)
+        getOrderDetails(orderid)
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+        // const fakeSender = {
+        //     firstname: 'Jane',
+        //     lastname: 'Joe',
+        //     phone: '123-321-4321',
+        //     email: '123@123.com',
+        //     addr1: '654 Main St, San Franciso, CA',
+        //     addr2: 'Apt 666',
+        //     latlng: {
+        //         lat: 37.776174,
+        //         lng: -122.445785,
+        //     },
+        //     zip: '98888',
+        // }
+        // const fakeReceiver = {
+        //     firstname: 'Bob',
+        //     lastname: 'Foo',
+        //     phone: '987-654-3210',
+        //     email: '789@789.com',
+        //     addr1: '99 Broadway, San Francisco, CA',
+        //     addr2: 'Apt 999',
+        //     latlng: {
+        //         lat: 37.6213129,
+        //         lng: -122.3789554,
+        //     },
+        //     zip: '96666',
+        // }
+        // const fakeObject = {
+        //     type: 'foods',
+        //     weight: '6',
+        //     fragile: true,
+        // }
+        // const fakeOrder = {
+        //     orderstatus: 'not picked up',
+        //     creationDate: 'Sat 10 Aug 2099',
+        //     creationTime: '2:00 PM',
+        //     method: 'drone',
+        //     fee: '9.99',
+        //     pickupDate: 'Mon 12 Aug 2099',
+        //     pickupTime: '12:00 PM',
+        //     estDelivDate: 'Tue 13 Aug 2099',
+        //     estDelivTime: '7:00 PM',
+        // }
+        // if (fakeOrder.orderstatus === 'not picked up') {
+        //     setCanCancel(true)
+        // }
+        // setSenderInfo(fakeSender)
+        // setReceiverInfo(fakeReceiver)
+        // setObjectInfo(fakeObject)
+        // setOrderInfo(fakeOrder)
+        // setInfoRetrived(true)
+        // const latlngs = {
+        //     pickup: fakeSender.latlng,
+        //     sendto: fakeReceiver.latlng,
+        // }
+        // //setstate is async, remember to change this to a promise
+        // onInfoReceived(latlngs, fakeOrder.method)
     }, [])
 
     const handleCancel = () => {
@@ -112,11 +119,14 @@ function TrackOrderDetail(props) {
     }
 
     return (
-        <div className="track-grid">
-            <LeftOutlined onClick={handleBack}/>
+        <div>
+            <LeftOutlined 
+                className="track-back-icon"
+                onClick={handleBack}/>
             {
             infoRetrived &&
             <>
+            <div className="track-grid">
             <div className="track-icon">
                 <img />
             </div>
@@ -125,7 +135,7 @@ function TrackOrderDetail(props) {
                 {renderOrderStatus()}
             </div>
             <div className="track-empty-grid"></div>
-            <div>
+            <div className="track-order-info"> 
                 <p>{`Created on: ${orderInfo.creationDate}, ${orderInfo.creationTime}`}</p>
                 <p>{`Weight of object: ${objectInfo.weight} lbs`}</p>
                 <p>{`Amount paid: ${orderInfo.fee}`}</p>
@@ -133,7 +143,7 @@ function TrackOrderDetail(props) {
             <div className="track-sender-title">
                 <p>Sender</p>
             </div>
-            <div>
+            <div className="track-sender-info">
                 <p>{`${senderInfo.firstname} ${senderInfo.lastname}`}</p>
                 <p>{`${senderInfo.addr1}  ${senderInfo.zip}`}</p>
                 <p>{`${senderInfo.addr2}`}</p>
@@ -143,15 +153,16 @@ function TrackOrderDetail(props) {
             <div className="track-receiver-title">
                 <p>Receiver</p>
             </div>
-            <div>
+            <div className="track-receiver-info">
             <p>{`${receiverInfo.firstname} ${receiverInfo.lastname}`}</p>
                 <p>{`${receiverInfo.addr1}  ${receiverInfo.zip}`}</p>
                 <p>{`${receiverInfo.addr2}`}</p>
                 <p>{`${receiverInfo.email}`}</p>
                 <p>{`${receiverInfo.phone}`}</p>
             </div>
+            </div>
             <div>
-                {canCancel && <button onClick={handleCancel}>Cancel order</button>}
+                {canCancel && <button className="cancel-btn" onClick={handleCancel}>Cancel order</button>}
             </div>
             </>}
         </div>

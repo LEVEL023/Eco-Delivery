@@ -69,11 +69,11 @@ class AddressForm extends React.Component {
     render = () => {
         return (
             <div>
-            <h1>Shipping by {this.props.method}</h1>
+            <h1 className="address-form-title">Shipping by {this.props.method}</h1>
             <Collapse accordion
                 activeKey={this.state.activeKey} >
                 <Panel header="1. Sender address" key="1">
-                    <form>
+                    <form className="address-form">
                         <div>
                             <div>
                                 <label>First name</label>
@@ -117,16 +117,16 @@ class AddressForm extends React.Component {
                             <label>Zip code</label>
                             <input type="text" name="zip" value={this.props.pickupzip} disabled={true} required />
                         </div>
-                        <div>
+                        <div style={{display: 'flex', alignItems: 'center'}}>
                             <label>use default</label>
                             <input type="checkbox" name="use-default" onChange={this.handleCheckbox}/>
                         </div>
-                        <input type="submit" value="Continue" onClick={this.handleContinue}/>
-                        <button onClick={this.props.onBack}>Back</button>
+                        <input className="addr-continue-btn" type="submit" value="Continue" onClick={this.handleContinue}/>
+                        <button className="addr-back-btn" onClick={this.props.onBack}>Back</button>
                     </form>
                 </Panel>
                 <Panel header="2. Recipient address" key="2">
-                <form>
+                <form className="address-form">
                         <div>
                             <div>
                                 <label>First name</label>
@@ -174,14 +174,14 @@ class AddressForm extends React.Component {
                             <label>Zip code</label>
                             <input type="text" name="zip" value={this.props.sendtozip} disabled={true} required />
                         </div>
-                        <input type="submit" value="Continue" onClick={this.handleContinue}/>
-                        <button onClick={this.handleBack}>Back</button>
+                        <input className="addr-continue-btn" type="submit" value="Continue" onClick={this.handleContinue}/>
+                        <button className="addr-back-btn" onClick={this.handleBack}>Back</button>
                     </form>
                 </Panel>
                 <Panel header="3. Review Order" key="3">
-                    <div>
+                    <div className="review-order">
                         <div>
-                            <div style ={{fontSize: "20px"}}>From:</div>
+                            <div>From:</div>
                             <div>
                                 <p>{this.state.senderFirstname + ' ' + this.state.senderLastname}</p>
                                 <p>{this.props.pickup}</p>
@@ -191,7 +191,7 @@ class AddressForm extends React.Component {
                             </div>
                         </div>
                         <div>
-                            <div style ={{fontSize: "20px"}}>To:</div>
+                            <div >To:</div>
                             <div>
                                 <p>{this.state.receiverFirstname + ' ' + this.state.receiverLastname}</p>
                                 <p>{this.props.sendto}</p>
@@ -200,20 +200,22 @@ class AddressForm extends React.Component {
                                 <p>{this.state.receiverEmail}</p>
                             </div>
                         </div>
-                        <div>
-                            <label style = {{fontSize:"18px"}}>Delivery method: </label>
+                        <div className="fixed-input">
+                            <label >Delivery method: </label>
                             <input type="text" value={this.props.method} disabled={true}/>
                         </div>
-                        <div>
-                            <label style = {{fontSize:"18px"}}>Delivered by: </label>
+                        <div className="fixed-input">
+                            <label>Delivered by: </label>
                             <input type="text" value={this.props.deliveredby} disabled={true} />
                         </div>
-                        <div>
-                            <label style = {{fontSize:"18px"}}>Payment total: </label>
+                        <div className="fixed-input">
+                            <label>Payment total: </label>
                             <input type="text" value={this.props.paytotal} disabled={true} />
                         </div>
-                        <input type="submit" value="Continue" onClick={this.handleSubmit}/>
-                        <button onClick={this.handleBack}>Back</button>
+                        <div>
+                        <input className="addr-continue-btn" type="submit" value="Continue" onClick={this.handleSubmit}/>
+                        <button className="addr-back-btn" onClick={this.handleBack}>Back</button>
+                        </div>
                     </div>
                 </Panel>
           </Collapse>

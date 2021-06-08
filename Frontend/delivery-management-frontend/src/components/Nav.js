@@ -27,7 +27,8 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    handleRecommendationBack = () => {
+    handleRecommendationBack = (e) => {
+        e.preventDefault()
         this.setState({
             recommendation: false,
             nextPage: 'quoteOrder',

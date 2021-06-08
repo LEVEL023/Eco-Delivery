@@ -63,8 +63,9 @@ input[type=number]::-webkit-outer-spin-button
     border: solid 1px #007844;
     margin-top: 10px;
     transition: all 0.3s;
+    -webkit-appearance: none;
+    -moz-appearance: none;
 }
 .get-started-btn-link:hover{
-    color: white;
     filter: brightness(1.2);
 }

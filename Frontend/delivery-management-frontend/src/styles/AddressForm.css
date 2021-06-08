@@ -1,19 +1,20 @@
 .ant-collapse > .ant-collapse-item > .ant-collapse-header {
     color: white;
-    background-color: green;
+    background-color: #38966D;
+    font-weight: 200;
 }
 
 
 .ant-collapse-item > .ant-collapse-content label {
-    font-size: 20px;
+    font-size: 14px;
 }
 
 .ant-collapse-item > .ant-collapse-content p {
-    font-size: 15px;
+    font-size: 14px;
 }
-
+/* 
 .ant-collapse-item > .ant-collapse-content button  {
-    background-color: green;
+    background-color: #38966D;
     border: none;
     color: white;
     padding: 10px 25px;
@@ -23,6 +24,13 @@
     font-size: 18px;
     margin: 4px 2px;
     cursor: pointer;
+} */
+
+.address-form-title {
+    font-size: 24px;
+    font-weight: 400;
+    margin-top: 80px;
+    margin-bottom: 36px;
 }
 
 .ant-collapse-item > .ant-collapse-content input[type=text] {
@@ -31,14 +39,72 @@
 }
 
 .ant-collapse-item > .ant-collapse-content input[type=submit] {
-    background-color: green;
+    background-color: #38966D;
     border: none;
     color: white;
-    padding: 10px 7px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 18px;
-    margin: 4px 2px;
+    font-size: 14px;
     cursor: pointer;
+    width: 100px;
+    height: 32px;
+    font: 14px;
+    font-weight: 200;
+    margin-right: 32px;
+}
+
+.address-form div{
+    margin-bottom: 10px;
+}
+
+.address-form input{
+    box-sizing: border-box;
+    border: solid #4f4f4f 1px;
+    border-radius: 0%;
+    height: 26px;
+}
+
+.addr-back-btn {
+    width: 100px;
+    height: 32px;
+    text-align: center;
+    background-color: white;
+    font-weight: 200;
+    color: #38966D;
+    box-sizing: border-box;
+    border: solid 1px #38966D;
+    border-radius: 0;
+    margin-top: 24px;
+}
+.addr-back-btn:hover {
+    cursor: pointer;
+    filter: brightness(1.2);
+}
+
+.review-order {
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.review-order p {
+    line-height: 1;
+    
+}
+
+.fixed-input {
+    width: 90%;
+    margin-bottom: 10px;
+}
+
+.fixed-input input {
+    box-sizing: border-box;
+    border: solid #4f4f4f 1px;
+    border-radius: 0%;
+    height: 26px;
+    float: right;
+    width: 60%;
 }

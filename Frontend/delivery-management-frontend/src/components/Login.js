@@ -12,7 +12,8 @@ class Login extends React.Component {
         const { username, password } = formData;
         const fakeToken = {
             token: '123',
-            firstname: 'Jane'
+            firstname: 'Jane',
+            userid: '1',
         }
         this.props.onLoggedIn(fakeToken)
         // const opt = {

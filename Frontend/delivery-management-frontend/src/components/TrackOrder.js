@@ -4,8 +4,9 @@ import TrackOrderDetail from './TrackOrderDetail';
 
 function TrackOrder(props) {
 
-    const { state } = props.location
-    const orderid = state.orderid
+    // const { state } = props.location
+    // const orderid = state.orderid
+    const orderid = '6fd64a88-9351-412a-8a25-a63cb187dd3e'
 
     const [method, setMethod] = useState('')
     const [pickuplatlng, setPickuplatlng] = useState(null)

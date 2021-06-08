@@ -97,10 +97,10 @@ export const getCenters = () => {
 export const getOrderDetails = (orderid) => {
   const opt = {
     method: 'get',
-    url: `${BASE_URL}/get_order_detail/${orderid}`,
+    url: `${BASE_URL}/order/`,
     headers: {
       "Content-Type": "application/json",
-      "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
+      // "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
     }
   };
   return axios(opt)
@@ -258,25 +258,15 @@ export const getRecommendation = (weight, departure, destination, isFragile) => 
   return recommendedData;
 }
 
-export const getAllOrder = (userId) => {
+export const getAllOrder = (userid) => {
   const opt = {
     method: 'get',
-    url: `${BASE_URL}/order/get_orders/${userId}`,
+    url: `${BASE_URL}/order/get_orders/${userid}`,
     headers: {
       "Content-Type": "application/json"
     }
   }
-  axios(opt)
-    .then((res) => {
-      if (res.status === 200) {
-        const { responseData } = res;
-        // return all orders
-      }
-    })
-    .catch((err) => {
-      console.log("get All order by userId failed: ", err.message)
-    })
-
+  return axios(opt)
 }
 
 export const testing = (a,b,c,d) => {
