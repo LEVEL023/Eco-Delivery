@@ -15,81 +15,78 @@ function TrackOrderDetail(props) {
     const [senderInfo, setSenderInfo] = useState(null)
     const [receiverInfo, setReceiverInfo] = useState(null)
     const [objectInfo, setObjectInfo] = useState(null)
-    const [orderInfo, setOrderInfo] = useState(null)
+    const [orderInfo, setOrderInfo] = useState(null)   //0: place, 1: picked, 2: completed, 3: cancaled
     const [canCancel, setCanCancel] = useState(false)
 
     const history = useHistory()
 
     useEffect(() => {
-        // // don't forget to go to utils, make getOrderDetails method return a single js object containing fetch response
-        // const orderDetails = getOrderDetails(orderid)
-        // setSenderInfo(orderDetails.senderInfo)
-        // setReceiverInfo(orderDetails.receiverInfo)
-        // setObjectInfo(orderDetails.objectInfo)
-        // setOrderInfo(orderDetails.orderInfo)
         getOrderDetails(orderid)
             .then((res) => {
                 console.log(res)
-            })
-            .catch((err) => {
+                const { data } = res
+                const senderInfo = {
+                    firstname: data.sender.firstName,
+                    lastname: data.sender.lastname,
+                    phone: data.sender.phoneNumber,
+                    email: data.sender.email,
+                    addr1: data.sender.address,
+                    addr2: '',
+                    latlng: {
+                        lat: data.depLat,
+                        lng: data.depLng,
+                    },
+                    zip: '',
+                }
+                const ReceiverInfo = {
+                    firstname: data.recipient.firstname,
+                    lastname: data.recipient.lastname,
+                    phone: data.recipient.phone,
+                    email: data.recipient.email,
+                    addr1: data.recipient.address,
+                    addr2: '',
+                    latlng: {
+                        lat: data.desLat,
+                        lng: data.desLng,
+                    },
+                    zip: '',
+                }
+                const objectInfo = {
+                    type: data.item.type,
+                    weight: data.item.weight,
+                    fragile: data.item.isFragile,
+                }
+                const orderInfo = {
+                    orderstatus: data.status,
+                    creationDate: data.orderedTime,
+                    creationTime: '',
+                    method: data.agentType,
+                    fee: data.item.amount,
+                    pickupDate: data.pickupTime,
+                    pickupTime: '',
+                    estDelivDate: data.deliveredTime,
+                    estDelivTime: '',
+                }
+                if (orderInfo.orderstatus == '0') {
+                    setCanCancel(true)
+                }
+                setSenderInfo(senderInfo)
+                setReceiverInfo(receiverInfo)
+                setObjectInfo(objectInfo)
+                setOrderInfo(orderInfo)
+                setInfoRetrived(true)
+            },
+            (err) => {
                 console.log(err)
             })
-        // const fakeSender = {
-        //     firstname: 'Jane',
-        //     lastname: 'Joe',
-        //     phone: '123-321-4321',
-        //     email: '123@123.com',
-        //     addr1: '654 Main St, San Franciso, CA',
-        //     addr2: 'Apt 666',
-        //     latlng: {
-        //         lat: 37.776174,
-        //         lng: -122.445785,
-        //     },
-        //     zip: '98888',
-        // }
-        // const fakeReceiver = {
-        //     firstname: 'Bob',
-        //     lastname: 'Foo',
-        //     phone: '987-654-3210',
-        //     email: '789@789.com',
-        //     addr1: '99 Broadway, San Francisco, CA',
-        //     addr2: 'Apt 999',
-        //     latlng: {
-        //         lat: 37.6213129,
-        //         lng: -122.3789554,
-        //     },
-        //     zip: '96666',
-        // }
-        // const fakeObject = {
-        //     type: 'foods',
-        //     weight: '6',
-        //     fragile: true,
-        // }
-        // const fakeOrder = {
-        //     orderstatus: 'not picked up',
-        //     creationDate: 'Sat 10 Aug 2099',
-        //     creationTime: '2:00 PM',
-        //     method: 'drone',
-        //     fee: '9.99',
-        //     pickupDate: 'Mon 12 Aug 2099',
-        //     pickupTime: '12:00 PM',
-        //     estDelivDate: 'Tue 13 Aug 2099',
-        //     estDelivTime: '7:00 PM',
-        // }
-        // if (fakeOrder.orderstatus === 'not picked up') {
-        //     setCanCancel(true)
-        // }
-        // setSenderInfo(fakeSender)
-        // setReceiverInfo(fakeReceiver)
-        // setObjectInfo(fakeObject)
-        // setOrderInfo(fakeOrder)
-        // setInfoRetrived(true)
-        // const latlngs = {
-        //     pickup: fakeSender.latlng,
-        //     sendto: fakeReceiver.latlng,
-        // }
-        // //setstate is async, remember to change this to a promise
-        // onInfoReceived(latlngs, fakeOrder.method)
+            .then(() => {
+                const latlngs = {
+                    pickup: this.state.senderInfo.latlng,
+                    sendto: this.state.receiverInfo.latlng,
+                }
+                //setstate is async, remember to change this to a promise
+                onInfoReceived(latlngs, this.state.orderInfo.method)
+            })
     }, [])
 
     const handleCancel = () => {

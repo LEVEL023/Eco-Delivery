@@ -1,5 +1,4 @@
 .card{
-
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -7,7 +6,6 @@
     margin: 20px auto 100px auto;
     width: 400px;
     box-shadow: 0 10px 15px 0 rgba(46, 49, 49, 0.26);
-
 }
 .main{
     background: #EAEBEA;
