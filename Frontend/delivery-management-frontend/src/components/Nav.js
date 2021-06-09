@@ -5,9 +5,9 @@ import FillAddress from './FillAddress';
 import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
 import { TOKEN_KEY } from '../constants';
+import { message } from 'antd';
 import {getRecommendation, calculateDistanceForRecommendation, calculateDistanceForRecommendation_copy} from '../utils';
 import  axios  from 'axios';
-import { getRecommendations } from '../utils';
 
 
 class Nav extends React.Component {
@@ -17,6 +17,9 @@ class Nav extends React.Component {
         sendto: '',
         pickupzip: '',
         sendtozip: '',
+        selectedCenterId : '',
+        selectedCenter : '',
+        selectedCenterZip : '',
         byRobotData: undefined,
         byDroneData: undefined,
         method: '',
@@ -27,8 +30,7 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    handleRecommendationBack = (e) => {
-        e.preventDefault()
+    handleRecommendationBack = () => {
         this.setState({
             recommendation: false,
             nextPage: 'quoteOrder',
@@ -58,28 +60,42 @@ class Nav extends React.Component {
             console.log(formData);
             const departure = formData.pickuplatlag;
             const destination = formData.sendtolatlng;
-            const recommendedData = calculateDistanceForRecommendation_copy(formData.weight,departure,destination, formData.fragile);
-            console.log(recommendedData);
-            // passing rest of byRobotData and byDroneData down -> Recommendation 
-            this.setState({
-                recommendation: true,
-                lastPage: 'quoteOrder',
-                byRobotData: {
-                    fee: '15.99',
-                    estDate: "May 16 2021",
-                    estTime: "12:21 PM",
-                    pickupDate: "May 14 2021",
-                    pickupTime: "8:30 AM",
-                },
-                byDroneData: {
-                    fee: '25.99',
-                    estDate: "May 14 2021",
-                    estTime: "12:21 PM",
-                    pickupDate: "May 14 2021",
-                    pickupTime: "8:30 AM",
+            const recommendedDataPromise = calculateDistanceForRecommendation_copy(formData.weight,departure,destination, formData.fragile);
+            recommendedDataPromise.then((response) => {
+                if (response.status === 200) {
+                    const recommendationData = response.data;
+                    console.log(recommendationData);
+                    const droneData = recommendationData[0];
+                    const robotData = recommendationData[1];
+                    // passing rest of byRobotData and byDroneData down -> Recommendation 
+                    this.setState({
+                        recommendation: true,
+                        lastPage: 'quoteOrder',
+                        byRobotData: {
+                            fee: Number.parseFloat(robotData.cost).toPrecision(4),
+                            estDate: robotData.delivery_time,
+                            estTime: robotData.delivery_time,
+                            pickupDate: robotData.pickip_time,
+                            pickupTime: robotData.pickip_time,
+                            centerLocation: robotData.dispatch_location,
+                            centerId : robotData.dispatch_center_id,
+                        },
+                        byDroneData: {
+                            fee: Number.parseFloat(droneData.cost).toPrecision(4),
+                            estDate: droneData.delivery_time,
+                            estTime: droneData.delivery_time,
+                            pickupDate: droneData.pickip_time,
+                            pickupTime: droneData.pickip_time,
+                            centerLocation: droneData.dispatch_location,
+                            centerId : droneData.dispatch_center_id,
+                        }
+                    })
+                    this.props.onQuoteFormComplete()
                 }
-            })
-            this.props.onQuoteFormComplete()
+            }).catch((err) => {
+                console.log("recommendation failed: ", err.message);
+                message.error("Recommendation failed! ");
+            });
             //passing centerGeo up -> Main
             // const centerData = {
             //     robotCenter: {
@@ -148,6 +164,16 @@ class Nav extends React.Component {
         })
         this.props.onDestinationSelected(query, latlng)
     }
+    // onCenterSelected = (query, centerId, deliveryType) => {
+    //     const addressSplit = query.split(", ")
+    //     const zip = addressSplit[addressSplit.length - 2].split(" ")[1]
+    //     // this.setState({
+    //     //     selectedCenter : query,
+    //     //     selectedCenterZip : zip,
+    //     //     selectedCenterId : centerId,
+    //     // })
+    //     this.props.onCenterSelected(query, centerId, deliveryType);
+    // }
     getDeliveredBy = () => {
         if (this.state.method === 'robot') {
             return (this.state.byRobotData.estDate + ', ' + this.state.byRobotData.estTime)
@@ -198,7 +224,8 @@ class Nav extends React.Component {
                         robot={this.state.byRobotData}
                         drone={this.state.byDroneData}
                         onContinue={this.handleMethodSelectionComplete}
-                        onBack={this.handleRecommendationBack} />
+                        onBack={this.handleRecommendationBack} 
+                        onCenterSelected = {this.props.onCenterSelected}/>
                 </CSSTransition>
                 <CSSTransition 
                     in={this.state.addressForm}

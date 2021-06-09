@@ -1,6 +1,8 @@
 import { MarkerClusterer } from '@react-google-maps/api';
 import React, { createRef } from 'react'
-import { mapLoader } from '../utils';
+import { mapLoader, getCenters } from '../utils';
+import { message } from 'antd';
+
 
 class GoogleMap extends React.Component {
   constructor() {
@@ -14,6 +16,9 @@ class GoogleMap extends React.Component {
     this.pickupMarker = undefined;
     this.sendtoMarker = undefined;
     this.polyline = undefined;
+    this.center_0_Marker = undefined;
+    this.center_1_Marker = undefined;
+    this.center_2_Marker = undefined;
   
     this.opt = {
       zoom: 14,
@@ -40,6 +45,9 @@ class GoogleMap extends React.Component {
       this.directionsRenderer_2.setMap(this.map)
       this.pickupMarker = new window.google.maps.Marker()
       this.sendtoMarker = new window.google.maps.Marker()
+      this.center_0_Marker = new window.google.maps.Marker()
+      this.center_1_Marker = new window.google.maps.Marker()
+      this.center_2_Marker = new window.google.maps.Marker()
       this.polyline 
       = new window.google.maps.Polyline({
         geodesic: true,
@@ -47,6 +55,32 @@ class GoogleMap extends React.Component {
         strokeOpacity: 0.4,
         strokeWeight: 8,
       })
+    })
+    getCenters().then((res) => {
+        if (res.status === 200) {
+            const centerslatlng = res.data
+            console.log(centerslatlng);
+            for (let index = 0; index < centerslatlng.length; index++) {
+              let centerInfo = centerslatlng[index];
+              if (centerInfo.id === 'CENTER_0') {
+                this.center_0_Marker.setMap(null);
+                this.center_0_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_0_Marker.setMap(this.map)
+              } else if (centerInfo.id === 'CENTER_1') {
+                this.center_1_Marker.setMap(null);
+                this.center_1_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_1_Marker.setMap(this.map)
+              } else if (centerInfo.id === 'CENTER_2') {
+                this.center_2_Marker.setMap(null);
+                this.center_2_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_2_Marker.setMap(this.map)
+              }
+            }
+        }
+    })
+    .catch((err) => {
+        console.log("get dispatch centers failed: ", err.message);
+        message.error('Get Dispatch centers failed');
     })
   }
 
