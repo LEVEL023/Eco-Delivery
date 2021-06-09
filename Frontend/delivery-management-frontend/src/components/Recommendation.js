@@ -18,6 +18,14 @@ class Recommendation extends React.Component {
         this.setState({
             method: e.target.value
         })
+        console.log(e.target.value);
+        if (this.state.method === 'drone') {
+            this.props.onCenterSelected(this.props.drone.centerLocation, this.props.drone.centerId, this.state.method);
+        } else if (this.state.method === 'robot') {
+            this.props.onCenterSelected(this.props.robot.centerLocation, this.props.robot.centerId, this.state.method);
+        } else {
+            this.props.onCenterSelected(this.props.robot.centerLocation, this.props.robot.centerId, 'both');
+        }
     }
 
     onContinue = () => {
