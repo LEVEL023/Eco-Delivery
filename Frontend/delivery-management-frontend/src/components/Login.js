@@ -20,7 +20,7 @@ class Login extends React.Component {
                 }
             })
             .catch((err) => {
-                console.log("login failed: ", err.message);
+                console.log("Login failed: ", err.message);
                 message.error("Login failed! ");
             });
     }

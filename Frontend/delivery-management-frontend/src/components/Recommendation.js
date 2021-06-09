@@ -18,6 +18,7 @@ class Recommendation extends React.Component {
         this.setState({
             method: e.target.value
         })
+        console.log(e.target.value);
     }
 
     onContinue = () => {

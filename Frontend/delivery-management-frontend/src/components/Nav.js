@@ -1,22 +1,30 @@
 import React from 'react';
 import QuoteOrder from './QuoteOrder';
 import Recommendation from './Recommendation';
-import FillAddress from './FillAddress';
 import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
-import { TOKEN_KEY } from '../constants';
-import {getRecommendation, calculateDistanceForRecommendation, calculateDistanceForRecommendation_copy} from '../utils';
+import { TOKEN_KEY, ID_KEY } from '../constants';
+import { message } from 'antd';
+import { getRecommendation } from '../utils';
 import  axios  from 'axios';
-import { getRecommendations } from '../utils';
 
 
 class Nav extends React.Component {
     state = {
         isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
+        isRecommendationFetched: false,
         pickup: '',
         sendto: '',
         pickupzip: '',
         sendtozip: '',
+        pickuplatlng: undefined,
+        sendtolatlng: undefined,
+        itemWeight: '',
+        isFragile: '',
+        itemType: '',
+        selectedCenterId : '',
+        selectedCenter : '',
+        selectedCenterZip : '',
         byRobotData: undefined,
         byDroneData: undefined,
         method: '',
@@ -27,20 +35,19 @@ class Nav extends React.Component {
         lastPage: '',
     }
 
-    handleRecommendationBack = (e) => {
-        e.preventDefault()
+    handleRecommendationBack = () => {
         this.setState({
             recommendation: false,
             nextPage: 'quoteOrder',
             method: '',
         })
     }
-    handleQuoteFormComplete = () => {
-        this.setState({
-            addressForm: false,
-            nextPage: 'recommendation',
-        })
-    }
+    // handleQuoteFormComplete = () => {
+    //     this.setState({
+    //         addressForm: false,
+    //         nextPage: 'recommendation',
+    //     })
+    // }
     handleMethodSelectionComplete = (method) => {
         this.setState({
             addressForm : true,
@@ -51,67 +58,52 @@ class Nav extends React.Component {
     }
 
     handleQuoteFormComplete = (formData) => {
-            console.log({
-                pickupzip: this.state.pickupzip,
-                sendtozip: this.state.sendtozip
-            })
-            console.log(formData);
-            const departure = formData.pickuplatlag;
-            const destination = formData.sendtolatlng;
-            const recommendedData = calculateDistanceForRecommendation_copy(formData.weight,departure,destination, formData.fragile);
-            console.log(recommendedData);
-            // passing rest of byRobotData and byDroneData down -> Recommendation 
-            this.setState({
-                recommendation: true,
-                lastPage: 'quoteOrder',
-                byRobotData: {
-                    fee: '15.99',
-                    estDate: "May 16 2021",
-                    estTime: "12:21 PM",
-                    pickupDate: "May 14 2021",
-                    pickupTime: "8:30 AM",
-                },
-                byDroneData: {
-                    fee: '25.99',
-                    estDate: "May 14 2021",
-                    estTime: "12:21 PM",
-                    pickupDate: "May 14 2021",
-                    pickupTime: "8:30 AM",
+        const { weight, departure, destination, fragile, description} = formData
+        this.setState({
+            itemWeight: weight,
+            isFragile: fragile,
+            itemType: description,
+            pickuplatlag: departure,
+            sendtolatlng: destination,
+        })
+        getRecommendation(weight, departure, destination, fragile)
+            .then((response) => {
+                if (response.status === 200) {
+                    const recommendationData = response.data;
+                    console.log(recommendationData);
+                    const droneData = recommendationData[0];
+                    const robotData = recommendationData[1];
+                    // passing rest of byRobotData and byDroneData down -> Recommendation 
+                    this.setState({
+                        recommendation: true,
+                        quoteOrder: false,
+                        lastPage: 'quoteOrder',
+                        isRecommendationFetched: true,
+                        byRobotData: {
+                            fee: Number.parseFloat(robotData.cost).toPrecision(4),
+                            estDate: robotData.delivery_time.split('T')[0],
+                            estTime: robotData.delivery_time.split('T')[1].split('.')[0],
+                            pickupDate: robotData.pickip_time.split('T')[0],
+                            pickupTime: robotData.pickip_time.split('T')[1].split('.')[0],
+                            centerLocation: robotData.dispatch_location,
+                            centerId : robotData.dispatch_center_id,
+                        },
+                        byDroneData: {
+                            fee: Number.parseFloat(droneData.cost).toPrecision(4),
+                            estDate: droneData.delivery_time.split('T')[0],
+                            estTime: droneData.delivery_time.split('T')[1].split('.')[0],
+                            pickupDate: droneData.pickip_time.split('T')[0],
+                            pickupTime: droneData.pickip_time.split('T')[1].split('.')[0],
+                            centerLocation: droneData.dispatch_location,
+                            centerId : droneData.dispatch_center_id,
+                        }
+                    })
+                    this.props.onQuoteFormComplete()
                 }
-            })
-            this.props.onQuoteFormComplete()
-            //passing centerGeo up -> Main
-            // const centerData = {
-            //     robotCenter: {
-            //         lat: 37.77493,
-            //         lng: -122.419415,
-            //     },
-            //     droneCenter: {
-            //         lat: 37.77493,
-            //         lng: -122.419415,
-            //     }
-            // }
-        // getRecommendations(formData)
-        //     .then((res) => {
-        //         if (res.status === 200) {
-        //             const { responseData } = res;
-        //             // passing centerGeo up -> Main
-        //             const droneCenterGeo = responseData['drone'].centerGeo;
-        //             const robotCenterGeo = responseData['robot'].centerGeo;
-        //             // GET recommendation data and setState -> Recommendation
-        //             this.setState({
-        //                 recommendation: true,
-        //                 lastPage: 'quoteOrder',
-        //                 byDroneData: responseData['drone'],
-        //                 byRobotData: responseData['robot']
-        //             })
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.log("recommendation failed: ", err.message);
-        //         // message.error("Recommendation failed! ");
-        //     });
-        
+            }).catch((err) => {
+                console.log("recommendation failed: ", err.message);
+                message.error("Recommendation failed! ");
+            });
     }
 
     transitionOnEnter = () => {
@@ -148,12 +140,30 @@ class Nav extends React.Component {
         })
         this.props.onDestinationSelected(query, latlng)
     }
+    // onCenterSelected = (query, centerId, deliveryType) => {
+    //     const addressSplit = query.split(", ")
+    //     const zip = addressSplit[addressSplit.length - 2].split(" ")[1]
+    //     // this.setState({
+    //     //     selectedCenter : query,
+    //     //     selectedCenterZip : zip,
+    //     //     selectedCenterId : centerId,
+    //     // })
+    //     this.props.onCenterSelected(query, centerId, deliveryType);
+    // }
     getDeliveredBy = () => {
         if (this.state.method === 'robot') {
             return (this.state.byRobotData.estDate + ', ' + this.state.byRobotData.estTime)
         }
         if (this.state.method === 'drone') {
             return (this.state.byDroneData.estDate + ', ' + this.state.byDroneData.estTime)
+        }
+    }
+    getPickedupBy = () => {
+        if (this.state.method === 'robot') {
+            return (this.state.byRobotData.pickupDate + ', ' + this.state.byRobotData.pickupTime)
+        }
+        if (this.state.method === 'drone') {
+            return (this.state.byDroneData.pickupDate + ', ' + this.state.byDroneData.pickupTime)
         }
     }
     getPaymentAmount = () => {
@@ -164,8 +174,42 @@ class Nav extends React.Component {
             return this.state.byDroneData.fee
         }
     }
-
+    getCenterID = () => {
+        if (this.state.method === 'robot') {
+            return this.state.byRobotData.centerId
+        }
+        if (this.state.method === 'drone') {
+            return this.state.byDroneData.centerId
+        }
+    }
     render = () => {
+        const addressformProps = {
+            order: {
+                departure: this.state.pickup,
+                depLat: this.state.isRecommendationFetched && this.state.pickuplatlng.lat,
+                depLng: this.state.isRecommendationFetched && this.state.pickuplatlng.lng,
+                destination: this.state.sendto,
+                desLat: this.state.isRecommendationFetched && this.state.sendtolatlng.lat,
+                desLng: this.state.isRecommendationFetched && this.state.sendtolatlng.lng,
+                status: null,
+                orderedTime: null,
+                pickupTime: this.getPickedupBy(),
+                deliveredTime: this.getDeliveredBy(),
+                cost: this.getPaymentAmount(),
+                rating: null,
+                centerId: this.getCenterID(),
+                agentType: this.state.method.toUpperCase(),
+                item: {
+                    weight: this.state.itemWeight,
+                    isFragile: this.state.isFragile,
+                    type: this.state.itemType,
+                    amount: 1,
+                },
+                account: {
+                    id: localStorage.getItem(ID_KEY)
+                }
+            }
+        }
         return (
             <div>
                 <CSSTransition 
@@ -198,7 +242,8 @@ class Nav extends React.Component {
                         robot={this.state.byRobotData}
                         drone={this.state.byDroneData}
                         onContinue={this.handleMethodSelectionComplete}
-                        onBack={this.handleRecommendationBack} />
+                        onBack={this.handleRecommendationBack} 
+                        onCenterSelected = {this.props.onCenterSelected}/>
                 </CSSTransition>
                 <CSSTransition 
                     in={this.state.addressForm}
@@ -212,13 +257,9 @@ class Nav extends React.Component {
                     onExited={this.transitionOnExited}
                     >
                     <AddressForm 
-                        pickup={this.state.pickup} 
-                        sendto={this.state.sendto}
                         pickupzip={this.state.pickupzip}
-                        sendtozip={this.state.sendtozip} 
-                        method={this.state.method}
-                        deliveredby={this.getDeliveredBy()}
-                        paytotal={this.getPaymentAmount()} 
+                        sendtozip={this.state.sendtozip}
+                        orderInfo={addressformProps}
                         onBack={this.handleFormBack}/>
                 </CSSTransition>
             </div>

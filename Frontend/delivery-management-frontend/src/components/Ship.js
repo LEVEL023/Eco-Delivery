@@ -2,6 +2,7 @@ import React from 'react';
 import GoogleMap from './GoogleMap';
 import Nav from './Nav';
 import { getCenters } from '../utils';
+import { message } from 'antd';
 
 class Ship extends React.Component {
 
@@ -12,19 +13,9 @@ class Ship extends React.Component {
         sendtolatlng: undefined,
         showDrone: false,
         showRobot: false,
+        isCenterSelected: false,
+        selectedCenterlatlng: undefined,
     }
-
-    // componentDidMount = () => {
-    //     getCenters().then((res) => {
-    //         const centerslatlng = [...res]
-    //         this.setState({
-    //             centers: centerslatlng
-    //         })
-    //     })
-    //     .catch((err) => {
-    //         console.log("submit order failed: ", err.message)
-    //     })
-    // }
 
     handleOriginSelected = (query, latlng) => {
         console.log('originSelected')
@@ -34,9 +25,10 @@ class Ship extends React.Component {
             pickuplatlng: latlng,
         })
     }
+    
     handleDestinationSelected = (query, latlng) => {
         console.log('destinationSelected')
-        console.log(latlng)
+        console.log(latlng);
         this.setState({
             sendto: query,
             sendtolatlng: latlng,
@@ -61,13 +53,14 @@ class Ship extends React.Component {
                         sendto={this.state.sendtolatlng}
                         showDrone={this.state.showDrone}
                         showRobot={this.state.showRobot}
-                        markerLocations={this.state.centers} />
+                        isCenterSelected={this.state.isCenterSelected} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav
                         onOriginSelected={this.handleOriginSelected}
                         onDestinationSelected={this.handleDestinationSelected}
-                        onQuoteFormComplete={this.handleQuoteFormComplete} />
+                        onQuoteFormComplete={this.handleQuoteFormComplete} 
+                        onCenterSelected = {this.handleCenterSelected}/>
                 </aside>
             </div>
         );

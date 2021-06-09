@@ -1,5 +1,6 @@
 import React, { createRef } from 'react'
 import { mapLoader } from '../utils';
+import { message } from 'antd';
 import { 
   NUM_OF_WAREHOUSES, 
   MAP_STYLE_JSON,
@@ -69,6 +70,10 @@ class GoogleMap extends React.Component {
           strokeWeight: 8,
         })
     })
+    .catch((err) => {
+        console.log("Map initiation failed", err.message);
+        message.error('Map initiation failed');
+    })
   }
 
   
@@ -79,13 +84,16 @@ class GoogleMap extends React.Component {
     this.polyline.setMap(null)
     this.setMarker(this.pickupMarker, this.props.pickup)
     this.setMarker(this.sendtoMarker, this.props.sendto)
-    const locations = [this.props.pickup, this.props.sendto, {lat: 37.77493, lng: -122.419415}]
+    const locations = [this.props.pickup, this.props.sendto]
+    if (this.props.isCenterSelected) {
+      locations.push(this.props.centerlatlng)
+      this.drawDirection(this.directionsService, this.directionsRenderer_2, [locations[1], locations[2]])
+    }
     if (this.props.showDrone) {
       this.drawLine(this.polyline, locations)
     }
     if (this.props.showRobot) {
-      this.drawDirection(this.directionsService, this.directionsRenderer_1, [locations[0], locations[1]]);
-      this.drawDirection(this.directionsService, this.directionsRenderer_2, [locations[1], locations[2]]);
+      this.drawDirection(this.directionsService, this.directionsRenderer_1, [locations[0], locations[1]])
     }
   }
 
