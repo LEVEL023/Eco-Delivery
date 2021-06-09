@@ -103,6 +103,8 @@ export const getAllOrder = (userid) => {
 }
 export const getRecommendation = async (weight, departure, destination, isFragile) => {
   const distance = {};
+  console.log('departure')
+  console.log(departure)
   const dep = new window.google.maps.LatLng(departure.lat, departure.lng);
   const des = new window.google.maps.LatLng(destination.lat, destination.lng);
   const center_0 = new window.google.maps.LatLng(CENTER_1_LAT_LNG.lat, CENTER_1_LAT_LNG.lng);

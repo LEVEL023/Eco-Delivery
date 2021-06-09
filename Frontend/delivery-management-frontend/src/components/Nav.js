@@ -58,15 +58,15 @@ class Nav extends React.Component {
     }
 
     handleQuoteFormComplete = (formData) => {
-        const { weight, departure, destination, fragile, description} = formData
+        const { description, fragile, pickuplatlng, sendtolatlng, weight} = formData
         this.setState({
             itemWeight: weight,
             isFragile: fragile,
             itemType: description,
-            pickuplatlag: departure,
-            sendtolatlng: destination,
+            pickuplatlag: pickuplatlng,
+            sendtolatlng: sendtolatlng,
         })
-        getRecommendation(weight, departure, destination, fragile)
+        getRecommendation(weight, pickuplatlng, sendtolatlng, fragile)
             .then((response) => {
                 if (response.status === 200) {
                     const recommendationData = response.data;
@@ -182,34 +182,41 @@ class Nav extends React.Component {
             return this.state.byDroneData.centerId
         }
     }
-    render = () => {
-        const addressformProps = {
-            order: {
-                departure: this.state.pickup,
-                depLat: this.state.isRecommendationFetched && this.state.pickuplatlng.lat,
-                depLng: this.state.isRecommendationFetched && this.state.pickuplatlng.lng,
-                destination: this.state.sendto,
-                desLat: this.state.isRecommendationFetched && this.state.sendtolatlng.lat,
-                desLng: this.state.isRecommendationFetched && this.state.sendtolatlng.lng,
-                status: null,
-                orderedTime: null,
-                pickupTime: this.getPickedupBy(),
-                deliveredTime: this.getDeliveredBy(),
-                cost: this.getPaymentAmount(),
-                rating: null,
-                centerId: this.getCenterID(),
-                agentType: this.state.method.toUpperCase(),
-                item: {
-                    weight: this.state.itemWeight,
-                    isFragile: this.state.isFragile,
-                    type: this.state.itemType,
-                    amount: 1,
-                },
-                account: {
-                    id: localStorage.getItem(ID_KEY)
+
+    getAddressFormProps = () => {
+        if (this.state.isRecommendationFetched) {
+            return {
+                order: {
+                    departure: this.state.pickup,
+                    // depLat: this.state.pickuplatlng.lat,
+                    // depLng: this.state.pickuplatlng.lng,
+                    destination: this.state.sendto,
+                    // desLat: this.state.sendtolatlng.lat,
+                    // desLng: this.state.sendtolatlng.lng,
+                    status: null,
+                    orderedTime: null,
+                    pickupTime: this.getPickedupBy(),
+                    deliveredTime: this.getDeliveredBy(),
+                    cost: this.getPaymentAmount(),
+                    rating: null,
+                    centerId: this.getCenterID(),
+                    agentType: this.state.method.toUpperCase(),
+                    item: {
+                        weight: this.state.itemWeight,
+                        isFragile: this.state.isFragile,
+                        type: this.state.itemType,
+                        amount: 1,
+                    },
+                    account: {
+                        id: localStorage.getItem(ID_KEY)
+                    }
                 }
             }
+        } else {
+            return null
         }
+    }
+    render = () => {
         return (
             <div>
                 <CSSTransition 
@@ -259,7 +266,7 @@ class Nav extends React.Component {
                     <AddressForm 
                         pickupzip={this.state.pickupzip}
                         sendtozip={this.state.sendtozip}
-                        orderInfo={addressformProps}
+                        orderInfo={this.getAddressFormProps()}
                         onBack={this.handleFormBack}/>
                 </CSSTransition>
             </div>
