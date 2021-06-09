@@ -1,10 +1,9 @@
 import { Loader } from "@googlemaps/js-api-loader";
-import { GOOGLE_MAP_API_KEY, dispatchCenter_1, dispatchCenter_2, dispatchCenter_3, BASE_URL, metersToMiles } from './constants';
+import { GOOGLE_MAP_API_KEY, CENTER_1_LAT_LNG, CENTER_2_LAT_LNG, CENTER_3_LAT_LNG, metersToMiles } from './constants';
 import  axios  from 'axios';
-import { TOKEN_KEY } from  './constants';
+import { BASE_URL, TOKEN_KEY, NAME_KEY, ID_KEY } from  './constants';
 import { message } from 'antd';
 
-const userid = localStorage.getItem('dispatch_userid')
 
 export const mapLoader = () => {
     const loader = new Loader({
@@ -14,6 +13,39 @@ export const mapLoader = () => {
     });
     console.log(loader)
     return loader.load()
+}
+
+export const postRegister = (formData) => {
+  const opt = {
+    method: 'post',
+    url: `${BASE_URL}/account/register`,
+    data: {
+        email: formData.email,
+        password: formData.password,
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        credits: '300',
+    },
+    headers: { 
+      "Content-Type": "application/json"
+    }
+  }
+  return axios(opt)
+}
+
+export const postLogin = (formData) => {
+  const opt = {
+    method: 'post',
+    url: `${BASE_URL}/account/login`,
+    data: {
+        email: formData.email,
+        password: formData.password,
+    },
+    headers: { 
+      "Content-Type": "application/json"
+    }
+  }
+  return axios(opt)
 }
 
 export const getRecommendations = (formData) => {
@@ -30,7 +62,8 @@ export const getRecommendations = (formData) => {
   };
   return axios(opt)
 }
-export const getCenters = () => {
+
+export const getCenters = (userid) => {
   // should return latlng of three centers
   // [
   // {
@@ -107,7 +140,6 @@ export const getOrderDetails = (orderid) => {
 }
 
 export const cancelOrder = () => {
-  
 }
 
 // provide order details 
@@ -143,9 +175,9 @@ export const calculateDistanceForRecommendation = (weight, departure, destinatio
   const distance = {};
   const dep = new window.google.maps.LatLng(departure.lat, departure.lng);
   const des = new window.google.maps.LatLng(destination.lat, destination.lng);
-  const center_0 = new window.google.maps.LatLng(dispatchCenter_1.lat, dispatchCenter_1.lng);
-  const center_1 = new window.google.maps.LatLng(dispatchCenter_2.lat, dispatchCenter_2.lng);
-  const center_2 = new window.google.maps.LatLng(dispatchCenter_3.lat, dispatchCenter_3.lng);
+  const center_0 = new window.google.maps.LatLng(CENTER_1_LAT_LNG.lat, CENTER_1_LAT_LNG.lng);
+  const center_1 = new window.google.maps.LatLng(CENTER_2_LAT_LNG.lat, CENTER_2_LAT_LNG.lng);
+  const center_2 = new window.google.maps.LatLng(CENTER_3_LAT_LNG.lat, CENTER_3_LAT_LNG.lng);
   const directionsService = new window.google.maps.DirectionsService();
   const request_0 = {
     origin : center_0,
@@ -197,11 +229,11 @@ export const calculateDistanceForRecommendation = (weight, departure, destinatio
     }
   )
   distance.drone_distance_0 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_1.lat, dispatchCenter_1.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_1_LAT_LNG.lat, CENTER_1_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_1 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_2.lat, dispatchCenter_2.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_2_LAT_LNG.lat, CENTER_2_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_2 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_3.lat, dispatchCenter_3.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_3_LAT_LNG.lat, CENTER_3_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_des = window.google.maps.geometry.spherical
   .computeDistanceBetween( new window.google.maps.LatLng(departure.lat, departure.lng),  new window.google.maps.LatLng(destination.lat, destination.lng))*metersToMiles;
   console.log(distance);
@@ -230,6 +262,7 @@ export const calculateDistanceForRecommendation = (weight, departure, destinatio
     });
   return recommendedData;
 }
+
 export const getRecommendation = (weight, departure, destination, isFragile) => {
   const distance = calculateDistanceForRecommendation(departure, destination);
   console.log("Wait a second");
@@ -282,14 +315,13 @@ export const testing = (a,b,c,d) => {
   return data;
 }
 
-
 export const calculateDistanceForRecommendation_copy = (weight, departure, destination, isFragile) => {
   const distance = {};
   const dep = new window.google.maps.LatLng(departure.lat, departure.lng);
   const des = new window.google.maps.LatLng(destination.lat, destination.lng);
-  const center_0 = new window.google.maps.LatLng(dispatchCenter_1.lat, dispatchCenter_1.lng);
-  const center_1 = new window.google.maps.LatLng(dispatchCenter_2.lat, dispatchCenter_2.lng);
-  const center_2 = new window.google.maps.LatLng(dispatchCenter_3.lat, dispatchCenter_3.lng);
+  const center_0 = new window.google.maps.LatLng(CENTER_1_LAT_LNG.lat, CENTER_1_LAT_LNG.lng);
+  const center_1 = new window.google.maps.LatLng(CENTER_2_LAT_LNG.lat, CENTER_2_LAT_LNG.lng);
+  const center_2 = new window.google.maps.LatLng(CENTER_3_LAT_LNG.lat, CENTER_3_LAT_LNG.lng);
   const directionsService = new window.google.maps.DirectionsService();
   let recommendedData;
   const request_0 = {
@@ -311,11 +343,11 @@ export const calculateDistanceForRecommendation_copy = (weight, departure, desti
     waypoints : [{location : dep}]
   }
   distance.drone_distance_0 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_1.lat, dispatchCenter_1.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_1_LAT_LNG.lat, CENTER_1_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_1 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_2.lat, dispatchCenter_2.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_2_LAT_LNG.lat, CENTER_2_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_2 = window.google.maps.geometry.spherical
-  .computeDistanceBetween( new window.google.maps.LatLng(dispatchCenter_3.lat, dispatchCenter_3.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
+  .computeDistanceBetween( new window.google.maps.LatLng(CENTER_3_LAT_LNG.lat, CENTER_3_LAT_LNG.lng),  new window.google.maps.LatLng(departure.lat, departure.lng))*metersToMiles;
   distance.drone_distance_des = window.google.maps.geometry.spherical
   .computeDistanceBetween( new window.google.maps.LatLng(departure.lat, departure.lng),  new window.google.maps.LatLng(destination.lat, destination.lng))*metersToMiles;
   axios.get("https://api.agify.io?name=bella")
