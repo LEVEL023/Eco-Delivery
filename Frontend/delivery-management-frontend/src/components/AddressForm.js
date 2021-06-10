@@ -4,46 +4,6 @@ import { placeOrder } from '../utils';
 import { withRouter } from 'react-router-dom';
 
 const { Panel } = Collapse;
-const testData = {
-    "departure": "Chicao",
-    "depLat": 1.1,
-    "depLng": -87.671252,
-    "destination": "NYC",
-    "desLat": 40.712776,
-    "desLng": -74.005974,
-    "status": 2,
-    "orderedTime": "2021-06-03T10:00:00",
-    "pickupTime": "2021-06-03T10:00:00",
-    "deliveredTime": "2021-06-03T10:00:00",
-    "cost": 100,
-    "rating": null,
-    "centerID": 1,
-    "agentType": 1,
-    "sender": {
-        "firstName": "Liang",
-        "lastName": "Gao",
-        "address": "1130 S Michigan Ave",
-        "phoneNumber": "312-540-2222",
-        "email": "lg@gmail.com"
-    },
-    "recipient": {
-        "firstName": "Anchu",
-        "lastName": "Zhu",
-        "address": "1140 S Indiana Ave",
-        "phoneNumber": "123-321-3456",
-        "email": "az@gmail.com"
-    },
-    "item": {
-        "weight": 10,
-        "isFragile": true,
-        "type": "bottle",
-        "amount": 1
-    },
-    "account": {
-        "id": 1
-    },
-    "useRecommendation": null
-}
 
 class AddressForm extends React.Component {
     state = {
@@ -90,10 +50,10 @@ class AddressForm extends React.Component {
             .then((res) => {
                 if (res.status === 200) {
                     console.log(res)
-                    // const orderid = res.data.orderNumber
-                    // this.setState({
-                    //     orderid: orderid,
-                    // })
+                    const orderid = res.data
+                    this.setState({
+                        orderid: orderid,
+                    })
                 }
             },
             (err) => {
@@ -113,7 +73,7 @@ class AddressForm extends React.Component {
     render = () => {
         return (
             <div>
-            <h1 className="address-form-title">Shipping by {this.props.orderInfo.agentType}</h1>
+            <h1 className="address-form-title">Shipping by {this.getMethodTitle()}</h1>
             <Collapse accordion
                 activeKey={this.state.activeKey} >
                 <Panel header="1. Sender address" key="1">
@@ -225,20 +185,20 @@ class AddressForm extends React.Component {
                 <Panel header="3. Review Order" key="3">
                     <div className="review-order">
                         <div>
-                            <div>From:</div>
+                            <div style={{marginBottom: '4px'}}>From:</div>
                             <div>
                                 <p>{this.state.senderFirstname + ' ' + this.state.senderLastname}</p>
-                                <p>{this.props.pickup}</p>
+                                <p>{this.props.orderInfo.departure}</p>
                                 <p>{this.state.senderAddr2}</p>
                                 <p>{this.state.senderPhone}</p>
                                 <p>{this.state.senderEmail}</p>
                             </div>
                         </div>
                         <div>
-                            <div >To:</div>
+                            <div style={{marginBottom: '4px'}}>To:</div>
                             <div>
                                 <p>{this.state.receiverFirstname + ' ' + this.state.receiverLastname}</p>
-                                <p>{this.props.sendto}</p>
+                                <p>{this.props.orderInfo.destination}</p>
                                 <p>{this.state.receiverAddr2}</p>
                                 <p>{this.state.receiverPhone}</p>
                                 <p>{this.state.receiverEmail}</p>
@@ -283,12 +243,25 @@ class AddressForm extends React.Component {
             }
         })
     }
+
+    getMethodTitle = () => {
+        let nofmethod = this.props.orderInfo.agentType
+        if (nofmethod === 0) {
+            return 'Drone'
+        } 
+        if (nofmethod === 1) {
+            return 'Robot'
+        }
+    }
     
     getCurrentTimeString = () => {
         var d = new Date()
-        var currentDate = d.getFullYear() + '-' + 
-                            d.getMonth().toString().padStart(2, '0') + '-' +  
-                            d.getDay().toString().padStart(2, '0')
+        var year = d.getFullYear()
+        var month = d.getMonth() + 1
+        var day = d.getDay() + 1
+        var currentDate = year + '-' + 
+                            month.toString().padStart(2, '0') + '-' +  
+                            day.toString().padStart(2, '0')
         var currentTime = d.toLocaleDateString('en-us', {
             hour: 'numeric',
             hour12: false,

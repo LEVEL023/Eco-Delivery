@@ -54,7 +54,7 @@ export const getCenters = () => {
     method: 'get',
     url: `${BASE_URL}/dispatch_center`,
     headers: {
-      ...noAuthHeader
+      ...authHeader
     }
   }
   return axios(opt)
@@ -201,7 +201,8 @@ export const getRecommendation = async (weight, departure, destination, isFragil
       url: `${BASE_URL}/order/get_recommend?drone_distance_0=${distance.drone_distance_0}&drone_distance_1=${distance.drone_distance_1}&drone_distance_2=${distance.drone_distance_2}&drone_distance_des=${distance.drone_distance_des}` +
         `&robot_distance_0=${distance.robot_distance_0}&robot_distance_1=${distance.robot_distance_1}&robot_distance_2=${distance.robot_distance_2}&robot_distance_des=${distance.robot_distance_des}&weight=${weight}&is_fragile=${isFragile}`,
       headers: {
-        ...authHeader
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
       }
     };
     // console.log(opt.url)

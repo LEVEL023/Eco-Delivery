@@ -9,7 +9,7 @@ function ThankYouPage(props) {
     const { state } = props.location
 
     return (
-        <div className="main">
+        <div id="thank-you">
             <div className = "card" style={{backgroundColor: 'white'}}>
                 <div className="thank-you-title-container">
                     <CheckCircleTwoTone 

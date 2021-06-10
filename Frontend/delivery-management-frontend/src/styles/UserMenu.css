@@ -52,12 +52,12 @@
 #user-btn {
     display: inline-block;
     color: #4f4f4f;
-    width: 60px;
+    width: fit-content;
     height: 34px;
     border-radius: 17px;
     transition: all 0.3s;
     text-align: center;
-    padding: 5px;
+    padding: 5px 18px;
 }
 #user-btn:hover {
     background-color: #F3F5F3;

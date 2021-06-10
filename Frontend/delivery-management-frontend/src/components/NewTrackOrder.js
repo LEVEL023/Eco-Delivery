@@ -1,8 +1,8 @@
-import {Col, Row} from "antd";
+import { Col, Row } from "antd";
 import React from 'react';
 import OrderInformation from "./OrderInformation";
 import NewGoogleMap from "./NewGoogleMap";
-import {BASE_URL, TOKEN_KEY} from "../constants";
+import { BASE_URL, TOKEN_KEY } from "../constants";
 import axios from "axios";
 
 // const orderID = "79035b9f-0bdb-4e32-be89-1779b5fcca4b"; 
@@ -19,7 +19,7 @@ class NewTrackOrder extends React.Component {
         }
     }
 
-    
+
     componentDidMount() {
         const { state } = this.props.location
         this.orderID = state.orderid
@@ -37,7 +37,7 @@ class NewTrackOrder extends React.Component {
                 if (response.status === 200) {
                     console.log("Got Response")
                 }
-                this.setState({stateResponse: response});
+                this.setState({ stateResponse: response });
                 console.log("The response is: ", response);
             })
             .catch(err => {
@@ -46,29 +46,27 @@ class NewTrackOrder extends React.Component {
     }
     render() {
         return (
-            <div>
-            {
-                this.state.stateResponse ?
-                    <Row className="main">
-                        <Col span={16} className="map">
-                            <NewGoogleMap
-                                style={{zIndex: '99'}}
-                                pickup={{lat: this.state.stateResponse.data.depLat, lng: this.state.stateResponse.data.depLng}}
-                                sendto={{lat: this.state.stateResponse.data.desLat, lng: this.state.stateResponse.data.desLng}}
-                                showDrone={this.state.stateResponse.data.agentType === "DRONE"} />
-                        </Col>
-                        <Col span={8} className="order">
-                            <div className="container">
-                                <OrderInformation response={this.state.stateResponse} orderID={this.props.location.state.orderid}/>
+            <div id="track">
+                {
+                    this.state.stateResponse ?
+                        <>
+                            <div className='track-map'>
+                                <NewGoogleMap
+                                    style={{ zIndex: '99' }}
+                                    pickup={{ lat: this.state.stateResponse.data.depLat, lng: this.state.stateResponse.data.depLng }}
+                                    sendto={{ lat: this.state.stateResponse.data.desLat, lng: this.state.stateResponse.data.desLng }}
+                                    showDrone={this.state.stateResponse.data.agentType === "DRONE"} />
                             </div>
-                        </Col>
-                    </Row>
-                    :
-                    null
-            }
+                            <div className='track-nav'>
+                                <OrderInformation response={this.state.stateResponse} orderID={this.props.location.state.orderid} />
+                            </div>
+                        </>
+                        :
+                        null
+                }
             </div>
         );
     }
 }
 
-export default NewTrackOrder; 
+export default NewTrackOrder;
