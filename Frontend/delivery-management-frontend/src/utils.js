@@ -5,10 +5,11 @@ import { BASE_URL, TOKEN_KEY, NAME_KEY, ID_KEY } from  './constants';
 import { message } from 'antd';
 
 
-const authHeader = {
+let authHeader = {
   "Content-Type": "application/json",
   "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
 }
+
 const noAuthHeader = {
   "Content-Type": "application/json",
 }

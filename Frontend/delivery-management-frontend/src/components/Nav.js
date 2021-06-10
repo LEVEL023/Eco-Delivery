@@ -227,7 +227,7 @@ class Nav extends React.Component {
                 deliveredTime: this.getDeliveredBy(),
                 cost: parseFloat(this.getPaymentAmount()),
                 rating: null,
-                centerId: this.getCenterID(),
+                centerID: this.getCenterID(),
                 agentType: this.getAgentType(),
                 item: {
                     weight: parseInt(this.state.itemWeight),
