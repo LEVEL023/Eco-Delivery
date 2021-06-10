@@ -13,12 +13,12 @@ const OrderCard = (props) => {
             <Card   onClick = {directToTrackOrderPage} className="Card3-1" >
                 <Card.Meta avatar={<Avatar style={{ width: '64px', height: '64px', borderRadius: '32px' }}
                         src="https://gw.alipayobjects.com/zos/rmsportal/WdGqmHpayyMjiEhcKoVE.png"/>}
-                        title= {"Order ID: " + props.orderData.order_id}
+                        title= {"Order ID: " + props.orderData.orderNumber}
                         description= {"From " + props.orderData.sender.address + "To " + props.orderData.recipient.address}>
                 </Card.Meta>
                 <Link to={{
                     pathname: '/trackorder',
-                    state: { orderid : props.orderData.order_id },
+                    state: { orderid : props.orderData.orderNumber },
                 }}><EllipsisOutlined key="ellipsis" /></Link>
             </Card>
           </div>

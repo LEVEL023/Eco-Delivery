@@ -11,7 +11,7 @@ function callback(key) {
 }
 
 const AccountAndOrder = (props) => (
-  <Tabs defaultActiveKey="1" onChange={callback}>
+  <Tabs defaultActiveKey={props.tabKey} onChange={callback}>
     <TabPane tab="Account Info" key="1">
         <AccountDetails />
     </TabPane>

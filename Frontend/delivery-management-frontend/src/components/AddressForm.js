@@ -89,10 +89,11 @@ class AddressForm extends React.Component {
         placeOrder(formData)
             .then((res) => {
                 if (res.status === 200) {
-                    const orderid = res.data.orderNumber
-                    this.setState({
-                        orderid: orderid,
-                    })
+                    console.log(res)
+                    // const orderid = res.data.orderNumber
+                    // this.setState({
+                    //     orderid: orderid,
+                    // })
                 }
             },
             (err) => {

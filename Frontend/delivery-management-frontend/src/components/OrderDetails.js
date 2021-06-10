@@ -25,7 +25,7 @@ class OrderDetails extends React.Component {
           const { data } = res;
           this.setState({
             placed: data.PLACED,
-            pickedUp: data.PICKUP,
+            pickedUp: data.PICKED,
             completed: data.COMPLETED,
             canceled: data.CANCELED,
             hasData: true,

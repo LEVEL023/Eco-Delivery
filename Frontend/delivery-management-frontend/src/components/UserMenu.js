@@ -25,8 +25,22 @@ class UserMenu extends React.Component {
                 {
                     this.state.open &&
                     <div className="user-dropdown" styles={this.userBtnOnClickStyle}>
-                        <Link className="dropdown-link" to="/account">Account</Link>
-                        <Link className="dropdown-link" to="/account">Order history</Link>
+                        <Link 
+                            className="dropdown-link" 
+                            to={{
+                                pathname: '/account',
+                                state: {
+                                    tabKey: '1',
+                                },
+                            }}>Account</Link>
+                        <Link 
+                            className="dropdown-link" 
+                            to={{
+                                pathname: '/account',
+                                state: {
+                                    tabKey: '2',
+                                },
+                            }}>Order history</Link>
                         <button className="dropdown-link" onClick={this.props.onSignout}>Sign out</button>
                     </div>
                 }
