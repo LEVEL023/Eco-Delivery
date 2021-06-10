@@ -1,5 +1,5 @@
 import React, { createRef } from 'react'
-import { mapLoader } from '../utils';
+import { mapLoader, getCenters } from '../utils';
 import { message } from 'antd';
 import { 
   NUM_OF_WAREHOUSES, 
@@ -73,6 +73,32 @@ class GoogleMap extends React.Component {
     .catch((err) => {
         console.log("Map initiation failed", err.message);
         message.error('Map initiation failed');
+    })
+    getCenters().then((res) => {
+        if (res.status === 200) {
+            const centerslatlng = res.data
+            console.log(centerslatlng);
+            for (let index = 0; index < centerslatlng.length; index++) {
+              let centerInfo = centerslatlng[index];
+              if (centerInfo.id === 'CENTER_0') {
+                this.center_0_Marker.setMap(null);
+                this.center_0_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_0_Marker.setMap(this.map)
+              } else if (centerInfo.id === 'CENTER_1') {
+                this.center_1_Marker.setMap(null);
+                this.center_1_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_1_Marker.setMap(this.map)
+              } else if (centerInfo.id === 'CENTER_2') {
+                this.center_2_Marker.setMap(null);
+                this.center_2_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+                this.center_2_Marker.setMap(this.map)
+              }
+            }
+        }
+    })
+    .catch((err) => {
+        console.log("get dispatch centers failed: ", err.message);
+        message.error('Get Dispatch centers failed');
     })
   }
 

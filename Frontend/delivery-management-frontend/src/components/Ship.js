@@ -34,6 +34,38 @@ class Ship extends React.Component {
             sendtolatlng: latlng,
         })
     }
+    handleCenterSelected = (query, centerId, deliveryType) => {
+        console.log('centerSelected : ');
+        console.log(query, centerId, deliveryType);
+        if (deliveryType === 'drone') {
+            this.setState(prev => {
+                return {
+                    selectedCenter : query,
+                    selectedCenterID : centerId,
+                    showDrone : true,
+                    showRobot : false,
+                }
+            })
+        } else if (deliveryType === 'robot') {
+            this.setState(prev => {
+                return {
+                    selectedCenter : query,
+                    selectedCenterID : centerId,
+                    showDrone : false,
+                    showRobot :true,
+                }
+            })
+        } else {
+            this.setState(prev => {
+                return {
+                    selectedCenter : '',
+                    selectedCenterID : '',
+                    showDrone : true,
+                    showRobot : true,
+                }
+            })
+        }
+    }
 
     handleQuoteFormComplete = () => {
         this.setState(prev => {
