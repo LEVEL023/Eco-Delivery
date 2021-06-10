@@ -66,6 +66,7 @@ class Nav extends React.Component {
             pickuplatlng: pickuplatlng,
             sendtolatlng: sendtolatlng,
         })
+        console.log('token -> ', localStorage.getItem(TOKEN_KEY))
         getRecommendation(weight, pickuplatlng, sendtolatlng, fragile)
             .then((response) => {
                 if (response.status === 200) {
