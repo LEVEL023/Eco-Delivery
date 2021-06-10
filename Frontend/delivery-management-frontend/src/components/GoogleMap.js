@@ -74,32 +74,32 @@ class GoogleMap extends React.Component {
         console.log("Map initiation failed", err.message);
         message.error('Map initiation failed');
     })
-    getCenters().then((res) => {
-        if (res.status === 200) {
-            const centerslatlng = res.data
-            console.log(centerslatlng);
-            for (let index = 0; index < centerslatlng.length; index++) {
-              let centerInfo = centerslatlng[index];
-              if (centerInfo.id === 'CENTER_0') {
-                this.center_0_Marker.setMap(null);
-                this.center_0_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
-                this.center_0_Marker.setMap(this.map)
-              } else if (centerInfo.id === 'CENTER_1') {
-                this.center_1_Marker.setMap(null);
-                this.center_1_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
-                this.center_1_Marker.setMap(this.map)
-              } else if (centerInfo.id === 'CENTER_2') {
-                this.center_2_Marker.setMap(null);
-                this.center_2_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
-                this.center_2_Marker.setMap(this.map)
-              }
-            }
-        }
-    })
-    .catch((err) => {
-        console.log("get dispatch centers failed: ", err.message);
-        message.error('Get Dispatch centers failed');
-    })
+  //   getCenters().then((res) => {
+  //       if (res.status === 200) {
+  //           const centerslatlng = res.data
+  //           console.log(centerslatlng);
+  //           for (let index = 0; index < centerslatlng.length; index++) {
+  //             let centerInfo = centerslatlng[index];
+  //             if (centerInfo.id === 'CENTER_0') {
+  //               this.center_0_Marker.setMap(null);
+  //               this.center_0_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+  //               this.center_0_Marker.setMap(this.map)
+  //             } else if (centerInfo.id === 'CENTER_1') {
+  //               this.center_1_Marker.setMap(null);
+  //               this.center_1_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+  //               this.center_1_Marker.setMap(this.map)
+  //             } else if (centerInfo.id === 'CENTER_2') {
+  //               this.center_2_Marker.setMap(null);
+  //               this.center_2_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+  //               this.center_2_Marker.setMap(this.map)
+  //             }
+  //           }
+  //       }
+  //   })
+  //   .catch((err) => {
+  //       console.log("get dispatch centers failed: ", err.message);
+  //       message.error('Get Dispatch centers failed');
+  //   })
   }
 
   
@@ -108,18 +108,26 @@ class GoogleMap extends React.Component {
     this.pickupMarker.setMap(null)
     this.sendtoMarker.setMap(null)
     this.polyline.setMap(null)
+    this.directionsRenderer_1.setMap(null)
+    this.directionsRenderer_2.setMap(null)
     this.setMarker(this.pickupMarker, this.props.pickup)
     this.setMarker(this.sendtoMarker, this.props.sendto)
-    const locations = [this.props.pickup, this.props.sendto]
-    if (this.props.isCenterSelected) {
-      locations.push(this.props.centerlatlng)
-      this.drawDirection(this.directionsService, this.directionsRenderer_2, [locations[1], locations[2]])
-    }
+    const locations = [this.props.pickup, this.props.sendto];
+    const LatLngArray = this.analyzeDroneAndRobotId();
+    // if (this.props.isCenterSelected) {
+    //   locations.push(this.props.centerlatlng)
+    //   this.drawDirection(this.directionsService, this.directionsRenderer_2, [locations[1], locations[2]])
+    // }
     if (this.props.showDrone) {
-      this.drawLine(this.polyline, locations)
+      const newLocations = [LatLngArray[0], ...locations];
+      this.drawLine(this.polyline, newLocations);
     }
     if (this.props.showRobot) {
-      this.drawDirection(this.directionsService, this.directionsRenderer_1, [locations[0], locations[1]])
+      this.directionsRenderer_1.setMap(this.map)
+      this.directionsRenderer_2.setMap(this.map)
+      const newLocations = [LatLngArray[1], ...locations];
+      this.drawDirection(this.directionsService, this.directionsRenderer_1, [newLocations[0], newLocations[1]]);
+      this.drawDirection(this.directionsService, this.directionsRenderer_2, [newLocations[1], newLocations[2]]);
     }
   }
 
@@ -150,6 +158,29 @@ class GoogleMap extends React.Component {
         }
       }
     )
+  }
+
+  analyzeDroneAndRobotId = () => {
+    const droneId = this.props.selectedDroneId;
+    const robotId = this.props.selectedRobotId;
+    const LatLngArray = ['',''];
+    if (droneId === 'CENTER_0') {
+      LatLngArray[0] = CENTER_1_LAT_LNG; 
+    } else if (droneId === 'CENTER_1') {
+      LatLngArray[0] = CENTER_2_LAT_LNG; 
+    } else if (droneId === 'CENTER_2') {
+      LatLngArray[0] = CENTER_3_LAT_LNG;
+    }
+    if (robotId === 'CENTER_0') {
+      LatLngArray[1] = CENTER_1_LAT_LNG; 
+    } else if (robotId === 'CENTER_1') {
+      LatLngArray[1] = CENTER_2_LAT_LNG; 
+    } else if (robotId === 'CENTER_2') {
+      LatLngArray[1] = CENTER_3_LAT_LNG;
+    }
+
+    return LatLngArray;
+
   }
 
 

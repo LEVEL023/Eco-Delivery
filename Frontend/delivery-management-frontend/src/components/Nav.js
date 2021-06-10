@@ -81,24 +81,24 @@ class Nav extends React.Component {
                         isRecommendationFetched: true,
                         byRobotData: {
                             fee: Number.parseFloat(robotData.cost).toPrecision(4),
-                            estDate: robotData.delivery_time.split('T')[0],
-                            estTime: robotData.delivery_time.split('T')[1].split('.')[0],
-                            pickupDate: robotData.pickip_time.split('T')[0],
-                            pickupTime: robotData.pickip_time.split('T')[1].split('.')[0],
+                            estDate: robotData.delivery_time,
+                            estTime: robotData.delivery_time,
+                            pickupDate: robotData.pickip_time,
+                            pickupTime: robotData.pickip_time,
                             centerLocation: robotData.dispatch_location,
                             centerId : robotData.dispatch_center_id,
                         },
                         byDroneData: {
                             fee: Number.parseFloat(droneData.cost).toPrecision(4),
-                            estDate: droneData.delivery_time.split('T')[0],
-                            estTime: droneData.delivery_time.split('T')[1].split('.')[0],
-                            pickupDate: droneData.pickip_time.split('T')[0],
-                            pickupTime: droneData.pickip_time.split('T')[1].split('.')[0],
+                            estDate: droneData.delivery_time,
+                            estTime: droneData.delivery_time,
+                            pickupDate: droneData.pickip_time,
+                            pickupTime: droneData.pickip_time,
                             centerLocation: droneData.dispatch_location,
                             centerId : droneData.dispatch_center_id,
                         }
                     })
-                    this.props.onQuoteFormComplete()
+                    this.props.onQuoteFormComplete(droneData.dispatch_center_id, robotData.dispatch_center_id)
                 }
             }).catch((err) => {
                 console.log("recommendation failed: ", err.message);

@@ -1,7 +1,6 @@
 import React from 'react';
 import GoogleMap from './GoogleMap';
 import Nav from './Nav';
-import { getCenters } from '../utils';
 import { message } from 'antd';
 
 class Ship extends React.Component {
@@ -15,6 +14,8 @@ class Ship extends React.Component {
         showRobot: false,
         isCenterSelected: false,
         selectedCenterlatlng: undefined,
+        selectedDroneId: '',
+        selectedRobotId: '',
     }
 
     handleOriginSelected = (query, latlng) => {
@@ -41,18 +42,20 @@ class Ship extends React.Component {
             this.setState(prev => {
                 return {
                     selectedCenter : query,
-                    selectedCenterID : centerId,
                     showDrone : true,
                     showRobot : false,
+                    selectedDroneId : prev.selectedDroneId,
+                    selectedRobotId : prev.selectedRobotId,
                 }
             })
         } else if (deliveryType === 'robot') {
             this.setState(prev => {
                 return {
                     selectedCenter : query,
-                    selectedCenterID : centerId,
                     showDrone : false,
                     showRobot :true,
+                    selectedDroneId : prev.selectedDroneId,
+                    selectedRobotId : prev.selectedRobotId,
                 }
             })
         } else {
@@ -62,14 +65,18 @@ class Ship extends React.Component {
                     selectedCenterID : '',
                     showDrone : true,
                     showRobot : true,
+                    selectedDroneId : prev.selectedDroneId,
+                    selectedRobotId : prev.selectedRobotId,
                 }
             })
         }
     }
 
-    handleQuoteFormComplete = () => {
+    handleQuoteFormComplete = (droneId, robotId) => {
         this.setState(prev => {
             return {
+                selectedDroneId: droneId,
+                selectedRobotId: robotId,
                 showDrone: true,
                 showRobot: true,
             }
@@ -85,7 +92,9 @@ class Ship extends React.Component {
                         sendto={this.state.sendtolatlng}
                         showDrone={this.state.showDrone}
                         showRobot={this.state.showRobot}
-                        isCenterSelected={this.state.isCenterSelected} />
+                        isCenterSelected={this.state.isCenterSelected}
+                        selectedDroneId = {this.state.selectedDroneId}
+                        selectedRobotId = {this.state.selectedRobotId} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav
