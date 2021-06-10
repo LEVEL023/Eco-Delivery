@@ -74,7 +74,30 @@ class GoogleMap extends React.Component {
         console.log("Map initiation failed", err.message);
         message.error('Map initiation failed');
     })
-    getCenters().then((res) => {
+    // getCenters().then((res) => {
+    //     if (res.status === 200) {
+    //         const centerslatlng = res.data
+    //         console.log(centerslatlng);
+    //         for (let index = 0; index < centerslatlng.length; index++) {
+    //           let centerInfo = centerslatlng[index];
+    //           if (centerInfo.id === 'CENTER_0') {
+    //             this.center_0_Marker.setMap(null);
+    //             this.center_0_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+    //             this.center_0_Marker.setMap(this.map)
+    //           } else if (centerInfo.id === 'CENTER_1') {
+    //             this.center_1_Marker.setMap(null);
+    //             this.center_1_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+    //             this.center_1_Marker.setMap(this.map)
+    //           } else if (centerInfo.id === 'CENTER_2') {
+    //             this.center_2_Marker.setMap(null);
+    //             this.center_2_Marker.setPosition({lat: centerInfo.centerLat, lng: centerInfo.centerLng})
+    //             this.center_2_Marker.setMap(this.map)
+    //           }
+    //         }
+    //     }
+    // })
+    getCenters()
+      .then((res) => {
         if (res.status === 200) {
             const centerslatlng = res.data
             console.log(centerslatlng);

@@ -24,6 +24,7 @@
 @import './styles/TrackOrder.css';
 @import './styles/AddressForm.css';
 @import './styles/TrackOrderDetail.css';
+@import './styles/NewTrackOrder.css';
 
 
 * {
