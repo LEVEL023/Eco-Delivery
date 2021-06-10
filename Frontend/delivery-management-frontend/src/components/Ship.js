@@ -13,26 +13,9 @@ class Ship extends React.Component {
         sendtolatlng: undefined,
         showDrone: false,
         showRobot: false,
-        selectedCenter: '',
+        isCenterSelected: false,
         selectedCenterlatlng: undefined,
-        selectedCenterID : '',
     }
-
-    // componentDidMount = () => {
-    //     getCenters().then((res) => {
-    //         if (res.status === 200) {
-    //             const centerslatlng = res.data
-    //             console.log(centerslatlng)
-    //             this.setState({
-    //                 centers: centerslatlng
-    //             })
-    //         }
-    //     })
-    //     .catch((err) => {
-    //         console.log("get dispatch centers failed: ", err.message);
-    //         message.error('Get Dispatch centers failed');
-    //     })
-    // }
 
     handleOriginSelected = (query, latlng) => {
         console.log('originSelected')
@@ -42,6 +25,7 @@ class Ship extends React.Component {
             pickuplatlng: latlng,
         })
     }
+    
     handleDestinationSelected = (query, latlng) => {
         console.log('destinationSelected')
         console.log(latlng);
@@ -101,9 +85,7 @@ class Ship extends React.Component {
                         sendto={this.state.sendtolatlng}
                         showDrone={this.state.showDrone}
                         showRobot={this.state.showRobot}
-                        markerLocations={this.state.centers}
-                        selectedCenter={this.state.selectedCenter}
-                        selectedCenterID = {this.state.selectedCenterID} />
+                        isCenterSelected={this.state.isCenterSelected} />
                 </section>
                 <aside className="nav" id="nav">
                     <Nav

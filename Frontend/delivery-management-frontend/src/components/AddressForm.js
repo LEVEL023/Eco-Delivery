@@ -1,14 +1,11 @@
-import { Collapse } from 'antd';
+import { Collapse, message } from 'antd';
 import React from 'react';
-import { axios } from 'axios';
-import { TOKEN_KEY } from '../constants';
-import { submitOrder } from '../utils';
+import { placeOrder } from '../utils';
 import { withRouter } from 'react-router-dom';
 
 const { Panel } = Collapse;
 
 class AddressForm extends React.Component {
-
     state = {
         activeKey: 1,
         checked: false,
@@ -27,49 +24,54 @@ class AddressForm extends React.Component {
         orderid: '',
     }
 
-    handleContinue = (e) => {
-        e.preventDefault()
-        this.setState(prev => {
-            return {
-                activeKey: prev.activeKey + 1
-            }
-        })
-    }
-    handleBack = () => {
-        this.setState(prev => {
-            return {
-                activeKey: prev.activeKey - 1
-            }
-        })
-    }
-    handleCheckbox = () => {
-        // get user phone and email info from backend 
-
-    }
     handleSubmit = (e) => {
-        const formData = {
-            ...this.state
-        }
         e.preventDefault()
-        // this.setState({
-        //     orderid: '123'
-        // })
-        // submitOrder.call(this, formData)
-        this.props.history.push({
-            pathname: `/complete`,
-            state: {
-                orderid: '123'
-            }
-        })
+        const formData = {
+            ...this.props.orderInfo,
+            status: '', // what is this
+            orderedTime: this.getCurrentTimeString(),
+            sender: {
+                firstName: this.state.senderFirstname,
+                lastName: this.state.senderLastname,
+                address: this.state.senderAddr1,
+                phoneNumber: this.state.senderPhone,
+                email: this.state.senderEmail,
+            },
+            recipient: {
+                firstName: this.state.receiverFirstname,
+                lastName: this.state.receiverLastname,
+                address: this.state.receiverAddr1,
+                phoneNumber: this.state.receiverPhone,
+                email: this.state.receiverPhone,
+            },
+        }
+        placeOrder(formData)
+            .then((res) => {
+                if (res.status === 200) {
+                    const orderid = res.data.orderNumber
+                    this.setState({
+                        orderid: orderid,
+                    })
+                }
+            },
+            (err) => {
+                console.log("Place order failed: ", err.message)
+                message.error("Place order failed! ")
+            })
+            .then(() => {
+                this.props.history.push({
+                    pathname: `/complete`,
+                    state: {
+                        orderid: this.state.orderid,
+                    }
+                })
+            })
     }
 
-    componentDidMount = () => {
-
-    }
     render = () => {
         return (
             <div>
-            <h1 className="address-form-title">Shipping by {this.props.method}</h1>
+            <h1 className="address-form-title">Shipping by {this.props.orderInfo.agentType}</h1>
             <Collapse accordion
                 activeKey={this.state.activeKey} >
                 <Panel header="1. Sender address" key="1">
@@ -106,7 +108,7 @@ class AddressForm extends React.Component {
                         </div>
                         <div>
                             <label>Address line 1</label>
-                            <input type="text" name="addr-line-1" value={this.props.pickup} disabled={true} required />
+                            <input type="text" name="addr-line-1" value={this.props.orderInfo.departure} disabled={true} required />
                         </div>
                         <div>
                             <label>Address line 2</label>
@@ -161,7 +163,7 @@ class AddressForm extends React.Component {
                         </div>
                         <div>
                             <label>Address line 1</label>
-                            <input type="text" name="addr-line-1" value={this.props.sendto} disabled={true} required />
+                            <input type="text" name="addr-line-1" value={this.props.orderInfo.destination} disabled={true} required />
                         </div>
                         <div>
                             <label>Address line 2</label>
@@ -202,15 +204,15 @@ class AddressForm extends React.Component {
                         </div>
                         <div className="fixed-input">
                             <label >Delivery method: </label>
-                            <input type="text" value={this.props.method} disabled={true}/>
+                            <input type="text" value={this.props.orderInfo.agentType} disabled={true}/>
                         </div>
                         <div className="fixed-input">
                             <label>Delivered by: </label>
-                            <input type="text" value={this.props.deliveredby} disabled={true} />
+                            <input type="text" value={this.props.orderInfo.deliveredTime} disabled={true} />
                         </div>
                         <div className="fixed-input">
                             <label>Payment total: </label>
-                            <input type="text" value={this.props.paytotal} disabled={true} />
+                            <input type="text" value={this.props.orderInfo.cost} disabled={true} />
                         </div>
                         <div>
                         <input className="addr-continue-btn" type="submit" value="Continue" onClick={this.handleSubmit}/>
@@ -221,6 +223,37 @@ class AddressForm extends React.Component {
           </Collapse>
           </div>
         )
+    }
+
+    handleContinue = (e) => {
+        e.preventDefault()
+        this.setState(prev => {
+            return {
+                activeKey: prev.activeKey + 1
+            }
+        })
+    }
+
+    handleBack = () => {
+        this.setState(prev => {
+            return {
+                activeKey: prev.activeKey - 1
+            }
+        })
+    }
+    
+    getCurrentTimeString = () => {
+        var d = new Date()
+        var currentDate = d.getFullYear() + '-' + 
+                            d.getMonth().toString().padStart(2, '0') + '-' +  
+                            d.getDay().toString().padStart(2, '0')
+        var currentTime = d.toLocaleDateString('en-us', {
+            hour: 'numeric',
+            hour12: false,
+            minute: 'numeric',
+            second: 'numeric',
+        })
+        return currentDate + ', ' + currentTime
     }
 }
 

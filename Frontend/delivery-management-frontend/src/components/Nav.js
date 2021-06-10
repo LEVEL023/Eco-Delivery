@@ -1,22 +1,27 @@
 import React from 'react';
 import QuoteOrder from './QuoteOrder';
 import Recommendation from './Recommendation';
-import FillAddress from './FillAddress';
 import AddressForm from './AddressForm';
 import { CSSTransition } from 'react-transition-group';
-import { TOKEN_KEY } from '../constants';
+import { TOKEN_KEY, ID_KEY } from '../constants';
 import { message } from 'antd';
-import {getRecommendation, calculateDistanceForRecommendation, calculateDistanceForRecommendation_copy} from '../utils';
+import { getRecommendation } from '../utils';
 import  axios  from 'axios';
 
 
 class Nav extends React.Component {
     state = {
         isLoggedIn: localStorage.getItem(TOKEN_KEY) ? true : false,
+        isRecommendationFetched: false,
         pickup: '',
         sendto: '',
         pickupzip: '',
         sendtozip: '',
+        pickuplatlng: undefined,
+        sendtolatlng: undefined,
+        itemWeight: '',
+        isFragile: '',
+        itemType: '',
         selectedCenterId : '',
         selectedCenter : '',
         selectedCenterZip : '',
@@ -37,12 +42,12 @@ class Nav extends React.Component {
             method: '',
         })
     }
-    handleQuoteFormComplete = () => {
-        this.setState({
-            addressForm: false,
-            nextPage: 'recommendation',
-        })
-    }
+    // handleQuoteFormComplete = () => {
+    //     this.setState({
+    //         addressForm: false,
+    //         nextPage: 'recommendation',
+    //     })
+    // }
     handleMethodSelectionComplete = (method) => {
         this.setState({
             addressForm : true,
@@ -53,15 +58,16 @@ class Nav extends React.Component {
     }
 
     handleQuoteFormComplete = (formData) => {
-            console.log({
-                pickupzip: this.state.pickupzip,
-                sendtozip: this.state.sendtozip
-            })
-            console.log(formData);
-            const departure = formData.pickuplatlag;
-            const destination = formData.sendtolatlng;
-            const recommendedDataPromise = calculateDistanceForRecommendation_copy(formData.weight,departure,destination, formData.fragile);
-            recommendedDataPromise.then((response) => {
+        const { description, fragile, pickuplatlng, sendtolatlng, weight} = formData
+        this.setState({
+            itemWeight: weight,
+            isFragile: fragile,
+            itemType: description,
+            pickuplatlag: pickuplatlng,
+            sendtolatlng: sendtolatlng,
+        })
+        getRecommendation(weight, pickuplatlng, sendtolatlng, fragile)
+            .then((response) => {
                 if (response.status === 200) {
                     const recommendationData = response.data;
                     console.log(recommendationData);
@@ -70,22 +76,24 @@ class Nav extends React.Component {
                     // passing rest of byRobotData and byDroneData down -> Recommendation 
                     this.setState({
                         recommendation: true,
+                        quoteOrder: false,
                         lastPage: 'quoteOrder',
+                        isRecommendationFetched: true,
                         byRobotData: {
                             fee: Number.parseFloat(robotData.cost).toPrecision(4),
-                            estDate: robotData.delivery_time,
-                            estTime: robotData.delivery_time,
-                            pickupDate: robotData.pickip_time,
-                            pickupTime: robotData.pickip_time,
+                            estDate: robotData.delivery_time.split('T')[0],
+                            estTime: robotData.delivery_time.split('T')[1].split('.')[0],
+                            pickupDate: robotData.pickip_time.split('T')[0],
+                            pickupTime: robotData.pickip_time.split('T')[1].split('.')[0],
                             centerLocation: robotData.dispatch_location,
                             centerId : robotData.dispatch_center_id,
                         },
                         byDroneData: {
                             fee: Number.parseFloat(droneData.cost).toPrecision(4),
-                            estDate: droneData.delivery_time,
-                            estTime: droneData.delivery_time,
-                            pickupDate: droneData.pickip_time,
-                            pickupTime: droneData.pickip_time,
+                            estDate: droneData.delivery_time.split('T')[0],
+                            estTime: droneData.delivery_time.split('T')[1].split('.')[0],
+                            pickupDate: droneData.pickip_time.split('T')[0],
+                            pickupTime: droneData.pickip_time.split('T')[1].split('.')[0],
                             centerLocation: droneData.dispatch_location,
                             centerId : droneData.dispatch_center_id,
                         }
@@ -96,38 +104,6 @@ class Nav extends React.Component {
                 console.log("recommendation failed: ", err.message);
                 message.error("Recommendation failed! ");
             });
-            //passing centerGeo up -> Main
-            // const centerData = {
-            //     robotCenter: {
-            //         lat: 37.77493,
-            //         lng: -122.419415,
-            //     },
-            //     droneCenter: {
-            //         lat: 37.77493,
-            //         lng: -122.419415,
-            //     }
-            // }
-        // getRecommendations(formData)
-        //     .then((res) => {
-        //         if (res.status === 200) {
-        //             const { responseData } = res;
-        //             // passing centerGeo up -> Main
-        //             const droneCenterGeo = responseData['drone'].centerGeo;
-        //             const robotCenterGeo = responseData['robot'].centerGeo;
-        //             // GET recommendation data and setState -> Recommendation
-        //             this.setState({
-        //                 recommendation: true,
-        //                 lastPage: 'quoteOrder',
-        //                 byDroneData: responseData['drone'],
-        //                 byRobotData: responseData['robot']
-        //             })
-        //         }
-        //     })
-        //     .catch((err) => {
-        //         console.log("recommendation failed: ", err.message);
-        //         // message.error("Recommendation failed! ");
-        //     });
-        
     }
 
     transitionOnEnter = () => {
@@ -182,6 +158,14 @@ class Nav extends React.Component {
             return (this.state.byDroneData.estDate + ', ' + this.state.byDroneData.estTime)
         }
     }
+    getPickedupBy = () => {
+        if (this.state.method === 'robot') {
+            return (this.state.byRobotData.pickupDate + ', ' + this.state.byRobotData.pickupTime)
+        }
+        if (this.state.method === 'drone') {
+            return (this.state.byDroneData.pickupDate + ', ' + this.state.byDroneData.pickupTime)
+        }
+    }
     getPaymentAmount = () => {
         if (this.state.method === 'robot') {
             return this.state.byRobotData.fee
@@ -190,7 +174,48 @@ class Nav extends React.Component {
             return this.state.byDroneData.fee
         }
     }
+    getCenterID = () => {
+        if (this.state.method === 'robot') {
+            return this.state.byRobotData.centerId
+        }
+        if (this.state.method === 'drone') {
+            return this.state.byDroneData.centerId
+        }
+    }
 
+    getAddressFormProps = () => {
+        if (this.state.isRecommendationFetched) {
+            return {
+                order: {
+                    departure: this.state.pickup,
+                    // depLat: this.state.pickuplatlng.lat,
+                    // depLng: this.state.pickuplatlng.lng,
+                    destination: this.state.sendto,
+                    // desLat: this.state.sendtolatlng.lat,
+                    // desLng: this.state.sendtolatlng.lng,
+                    status: null,
+                    orderedTime: null,
+                    pickupTime: this.getPickedupBy(),
+                    deliveredTime: this.getDeliveredBy(),
+                    cost: this.getPaymentAmount(),
+                    rating: null,
+                    centerId: this.getCenterID(),
+                    agentType: this.state.method.toUpperCase(),
+                    item: {
+                        weight: this.state.itemWeight,
+                        isFragile: this.state.isFragile,
+                        type: this.state.itemType,
+                        amount: 1,
+                    },
+                    account: {
+                        id: localStorage.getItem(ID_KEY)
+                    }
+                }
+            }
+        } else {
+            return null
+        }
+    }
     render = () => {
         return (
             <div>
@@ -239,13 +264,9 @@ class Nav extends React.Component {
                     onExited={this.transitionOnExited}
                     >
                     <AddressForm 
-                        pickup={this.state.pickup} 
-                        sendto={this.state.sendto}
                         pickupzip={this.state.pickupzip}
-                        sendtozip={this.state.sendtozip} 
-                        method={this.state.method}
-                        deliveredby={this.getDeliveredBy()}
-                        paytotal={this.getPaymentAmount()} 
+                        sendtozip={this.state.sendtozip}
+                        orderInfo={this.getAddressFormProps()}
                         onBack={this.handleFormBack}/>
                 </CSSTransition>
             </div>

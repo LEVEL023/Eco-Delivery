@@ -41,7 +41,7 @@ class QuoteOrder extends React.Component {
     handleOriginSelected = (query, latlng) => {
         this.setState({
             pickup: query,
-            pickuplatlag: latlng,
+            pickuplatlng: latlng,
         })
         this.props.onOriginSelected(query, latlng)
     }

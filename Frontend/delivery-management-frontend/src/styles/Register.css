@@ -13,14 +13,28 @@
     margin-top: 45px;
 }
 
+.first-last-names-container {
+    display: flex;
+    justify-content: space-between; 
+}
+
+.first-name-container,
+.last-name-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
 .register-first-name {
-    width: 112px;
+    width: 200px;
     display: inline-block;
 }
 .register-last-name {
-    width: 112px;
-    float: right;
+    width: 200px;
+    display: inline-block;
 }
+
+
 
 .link-to-login {
     text-decoration: underline;

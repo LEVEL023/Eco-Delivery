@@ -1,10 +1,58 @@
-/*.card_style{*/
-/*    textAlign: 'center';*/
-/*    size: 'middle';*/
-/*    height: '500px';*/
-/*    marginRight: '700px';*/
-/*    marginLeft: '700px'*/
-/*}*/
-.backGround{
+.card{
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: 400px;
+    margin: 20px auto 100px auto;
+    width: 400px;
+    box-shadow: 0 10px 15px 0 rgba(46, 49, 49, 0.26);
+}
+.main{
     background: #EAEBEA;
+}
+.thank-you-title-container {
+    margin-top: 72px;
+    margin-bottom: 40px;
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+.checkmark {
+    display: block;
+    height: 100px;
+    width: 100px;
+    fill: #4f4f4f;
+}
+
+.thank-you-title {
+    display: block;
+}
+
+.thank-you-title h1 {
+    color: #4f4f4f;
+    font-size: 26px;
+}
+
+.thank-you-title div {
+    color: #4f4f4f;
+    font-size: 14px;
+} 
+.button1,
+.button2 {
+    text-align: center;
+    display: block;
+    padding: 6px 0;
+    font-size: 14px;
+    color: #4f4f4f;
+    margin-top: 26px;
+    height: 36px;
+    width: 180px;
+    border: 1px solid #4f4f4f;
+}
+
+.button1:hover,
+.button2:hover {
+    cursor: pointer;
+    color: #4f4f4f;
+    filter: brightness(1.2);
 }
