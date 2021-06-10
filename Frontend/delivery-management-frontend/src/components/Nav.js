@@ -117,7 +117,7 @@ class Nav extends React.Component {
                             // centerId : droneData.dispatch_center_id,
                         }
                     })
-                    this.props.onQuoteFormComplete()
+                    this.props.onQuoteFormComplete(droneData.dispatch_center_id, robotData.dispatch_center_id)
                 }
             }).catch((err) => {
                 console.log("recommendation failed: ", err.message);

@@ -54,7 +54,7 @@ export const getCenters = () => {
     method: 'get',
     url: `${BASE_URL}/dispatch_center`,
     headers: {
-      ...noAuthHeader
+      ...authHeader
     }
   }
   return axios(opt)
