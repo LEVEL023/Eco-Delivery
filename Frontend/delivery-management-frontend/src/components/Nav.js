@@ -63,9 +63,10 @@ class Nav extends React.Component {
             itemWeight: weight,
             isFragile: fragile,
             itemType: description,
-            pickuplatlag: pickuplatlng,
+            pickuplatlng: pickuplatlng,
             sendtolatlng: sendtolatlng,
         })
+        console.log('token -> ', localStorage.getItem(TOKEN_KEY))
         getRecommendation(weight, pickuplatlng, sendtolatlng, fragile)
             .then((response) => {
                 if (response.status === 200) {
@@ -73,6 +74,10 @@ class Nav extends React.Component {
                     console.log(recommendationData);
                     const droneData = recommendationData[0];
                     const robotData = recommendationData[1];
+                    const [ dp_year, dp_month, dp_day, dp_hour, dp_minute, dp_second ] = droneData['pickip_time']
+                    const [ dd_year, dd_month, dd_day, dd_hour, dd_minute, dd_second ] = droneData['delivery_time']
+                    const [ rp_year, rp_month, rp_day, rp_hour, rp_minute, rp_second ] = robotData['pickip_time']
+                    const [ rd_year, rd_month, rd_day, rd_hour, rd_minute, rd_second ] = robotData['delivery_time']
                     // passing rest of byRobotData and byDroneData down -> Recommendation 
                     this.setState({
                         recommendation: true,
@@ -81,21 +86,35 @@ class Nav extends React.Component {
                         isRecommendationFetched: true,
                         byRobotData: {
                             fee: Number.parseFloat(robotData.cost).toPrecision(4),
-                            estDate: robotData.delivery_time,
-                            estTime: robotData.delivery_time,
-                            pickupDate: robotData.pickip_time,
-                            pickupTime: robotData.pickip_time,
+                            estDate: rd_year + '-' + rd_month.toString().padStart(2, '0') + '-' + rd_day.toString().padStart(2, '0'),
+                            estTime: 'T' + rd_hour.toString().padStart(2, '0') + ':' + rd_minute.toString().padStart(2, '0') + ':' + rd_second.toString().padStart(2, '0'),
+                            pickupDate: rp_year + '-' + rp_month.toString().padStart(2, '0') + '-' + rp_day.toString().padStart(2, '0'),
+                            pickupTime: 'T' + rp_hour.toString().padStart(2, '0') + ':' + rp_minute.toString().padStart(2, '0') + ':' + rp_second.toString().padStart(2, '0'),
                             centerLocation: robotData.dispatch_location,
                             centerId : robotData.dispatch_center_id,
+                            // fee: Number.parseFloat(robotData.cost).toPrecision(4),
+                            // estDate: robotData.delivery_time.split('T')[0],
+                            // estTime: robotData.delivery_time.split('T')[1].split('.')[0],
+                            // pickupDate: robotData.pickip_time.split('T')[0],
+                            // pickupTime: robotData.pickip_time.split('T')[1].split('.')[0],
+                            // centerLocation: robotData.dispatch_location,
+                            // centerId : robotData.dispatch_center_id,
                         },
                         byDroneData: {
                             fee: Number.parseFloat(droneData.cost).toPrecision(4),
-                            estDate: droneData.delivery_time,
-                            estTime: droneData.delivery_time,
-                            pickupDate: droneData.pickip_time,
-                            pickupTime: droneData.pickip_time,
+                            estDate: dd_year + '-' + dd_month.toString().padStart(2, '0') + '-' + dd_day.toString().padStart(2, '0'),
+                            estTime: 'T' + dd_hour.toString().padStart(2, '0') + ':' + dd_minute.toString().padStart(2, '0') + ':' + dd_second.toString().padStart(2, '0'),
+                            pickupDate: dp_year + '-' + dp_month.toString().padStart(2, '0') + '-' + dp_day.toString().padStart(2, '0'),
+                            pickupTime: 'T' + dp_hour.toString().padStart(2, '0') + ':' + dp_minute.toString().padStart(2, '0') + ':' + dp_second.toString().padStart(2, '0'),
                             centerLocation: droneData.dispatch_location,
                             centerId : droneData.dispatch_center_id,
+                            // fee: Number.parseFloat(droneData.cost).toPrecision(4),
+                            // estDate: droneData.delivery_time.split('T')[0],
+                            // estTime: droneData.delivery_time.split('T')[1].split('.')[0],
+                            // pickupDate: droneData.pickip_time.split('T')[0],
+                            // pickupTime: droneData.pickip_time.split('T')[1].split('.')[0],
+                            // centerLocation: droneData.dispatch_location,
+                            // centerId : droneData.dispatch_center_id,
                         }
                     })
                     this.props.onQuoteFormComplete(droneData.dispatch_center_id, robotData.dispatch_center_id)
@@ -152,18 +171,18 @@ class Nav extends React.Component {
     // }
     getDeliveredBy = () => {
         if (this.state.method === 'robot') {
-            return (this.state.byRobotData.estDate + ', ' + this.state.byRobotData.estTime)
+            return (this.state.byRobotData.estDate + this.state.byRobotData.estTime)
         }
         if (this.state.method === 'drone') {
-            return (this.state.byDroneData.estDate + ', ' + this.state.byDroneData.estTime)
+            return (this.state.byDroneData.estDate + this.state.byDroneData.estTime)
         }
     }
     getPickedupBy = () => {
         if (this.state.method === 'robot') {
-            return (this.state.byRobotData.pickupDate + ', ' + this.state.byRobotData.pickupTime)
+            return (this.state.byRobotData.pickupDate + this.state.byRobotData.pickupTime)
         }
         if (this.state.method === 'drone') {
-            return (this.state.byDroneData.pickupDate + ', ' + this.state.byDroneData.pickupTime)
+            return (this.state.byDroneData.pickupDate + this.state.byDroneData.pickupTime)
         }
     }
     getPaymentAmount = () => {
@@ -176,41 +195,51 @@ class Nav extends React.Component {
     }
     getCenterID = () => {
         if (this.state.method === 'robot') {
-            return this.state.byRobotData.centerId
+            return parseInt(this.state.byRobotData.centerId.split('_')[1])
         }
         if (this.state.method === 'drone') {
-            return this.state.byDroneData.centerId
+            return parseInt(this.state.byDroneData.centerId.split('_')[1])
+        }
+    }
+
+    getAgentType = () => {
+        if (this.state.method === 'robot') {
+            return 1
+        } 
+        if (this.state.method === 'drone') {
+            return 0
         }
     }
 
     getAddressFormProps = () => {
         if (this.state.isRecommendationFetched) {
             return {
-                order: {
-                    departure: this.state.pickup,
-                    // depLat: this.state.pickuplatlng.lat,
-                    // depLng: this.state.pickuplatlng.lng,
-                    destination: this.state.sendto,
-                    // desLat: this.state.sendtolatlng.lat,
-                    // desLng: this.state.sendtolatlng.lng,
-                    status: null,
-                    orderedTime: null,
-                    pickupTime: this.getPickedupBy(),
-                    deliveredTime: this.getDeliveredBy(),
-                    cost: this.getPaymentAmount(),
-                    rating: null,
-                    centerId: this.getCenterID(),
-                    agentType: this.state.method.toUpperCase(),
-                    item: {
-                        weight: this.state.itemWeight,
-                        isFragile: this.state.isFragile,
-                        type: this.state.itemType,
-                        amount: 1,
-                    },
-                    account: {
-                        id: localStorage.getItem(ID_KEY)
-                    }
-                }
+
+                departure: this.state.pickup,
+                depLat: this.state.pickuplatlng.lat,
+                depLng: this.state.pickuplatlng.lng,
+                destination: this.state.sendto,
+                desLat: this.state.sendtolatlng.lat,
+                desLng: this.state.sendtolatlng.lng,
+                status: null,
+                orderedTime: null,
+                pickupTime: this.getPickedupBy(),
+                deliveredTime: this.getDeliveredBy(),
+                cost: parseFloat(this.getPaymentAmount()),
+                rating: null,
+                centerID: this.getCenterID(),
+                agentType: this.getAgentType(),
+                item: {
+                    weight: parseInt(this.state.itemWeight),
+                    isFragile: this.state.isFragile,
+                    type: this.state.itemType,
+                    amount: 1,
+                },
+                account: {
+                    id: parseInt(localStorage.getItem(ID_KEY))
+                },
+                useRecommendation: null,
+
             }
         } else {
             return null

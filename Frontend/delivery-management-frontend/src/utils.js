@@ -5,10 +5,11 @@ import { BASE_URL, TOKEN_KEY, NAME_KEY, ID_KEY } from  './constants';
 import { message } from 'antd';
 
 
-const authHeader = {
+let authHeader = {
   "Content-Type": "application/json",
   "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`
 }
+
 const noAuthHeader = {
   "Content-Type": "application/json",
 }
@@ -86,7 +87,8 @@ export const placeOrder = (formData) => {
       ...formData
     },
     headers: {
-      ...authHeader
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${localStorage.getItem(TOKEN_KEY)}`,
     }
   }
   return axios(opt)
@@ -195,12 +197,14 @@ export const getRecommendation = async (weight, departure, destination, isFragil
     console.log(distance);
     const opt = {
       method: 'get',
-      url: `${BASE_URL}/order/get_recommend?drone_distance_0=${distance.drone_distance_0}&drone_distance_1=${distance.drone_distance_1}&drone_distance_2=${distance.drone_distance_2}&drone_distance_des=${distance.drone_distance_des}` +
-        `&robot_distance_0=${distance.robot_distance_0}&robot_distance_1=${distance.robot_distance_1}&robot_distance_2=${distance.robot_distance_2}&robot_distance_des=${distance.robot_distance_des}&weight=${weight}&is_fragile=${isFragile}`,
+      url: 'http://eco-spring-app.us-east-2.elasticbeanstalk.com/order/get_recommend?drone_distance_0=12.56&drone_distance_1=1.34&drone_distance_2=5.89&drone_distance_des=15.12&robot_distance_0=18.02&robot_distance_1=3.65&robot_distance_2=7.51&robot_distance_des=20.27&weight=5&is_fragile=true',
+      // url: `${BASE_URL}/order/get_recommend?drone_distance_0=${distance.drone_distance_0}&drone_distance_1=${distance.drone_distance_1}&drone_distance_2=${distance.drone_distance_2}&drone_distance_des=${distance.drone_distance_des}` +
+      //   `&robot_distance_0=${distance.robot_distance_0}&robot_distance_1=${distance.robot_distance_1}&robot_distance_2=${distance.robot_distance_2}&robot_distance_des=${distance.robot_distance_des}&weight=${weight}&is_fragile=${isFragile}`,
       headers: {
         ...authHeader
       }
     };
+    // console.log(opt.url)
     return axios(opt);
   }
 }

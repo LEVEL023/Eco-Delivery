@@ -4,6 +4,46 @@ import { placeOrder } from '../utils';
 import { withRouter } from 'react-router-dom';
 
 const { Panel } = Collapse;
+const testData = {
+    "departure": "Chicao",
+    "depLat": 1.1,
+    "depLng": -87.671252,
+    "destination": "NYC",
+    "desLat": 40.712776,
+    "desLng": -74.005974,
+    "status": 2,
+    "orderedTime": "2021-06-03T10:00:00",
+    "pickupTime": "2021-06-03T10:00:00",
+    "deliveredTime": "2021-06-03T10:00:00",
+    "cost": 100,
+    "rating": null,
+    "centerID": 1,
+    "agentType": 1,
+    "sender": {
+        "firstName": "Liang",
+        "lastName": "Gao",
+        "address": "1130 S Michigan Ave",
+        "phoneNumber": "312-540-2222",
+        "email": "lg@gmail.com"
+    },
+    "recipient": {
+        "firstName": "Anchu",
+        "lastName": "Zhu",
+        "address": "1140 S Indiana Ave",
+        "phoneNumber": "123-321-3456",
+        "email": "az@gmail.com"
+    },
+    "item": {
+        "weight": 10,
+        "isFragile": true,
+        "type": "bottle",
+        "amount": 1
+    },
+    "account": {
+        "id": 1
+    },
+    "useRecommendation": null
+}
 
 class AddressForm extends React.Component {
     state = {
@@ -13,13 +53,13 @@ class AddressForm extends React.Component {
         senderLastname: '',
         senderPhone: '',
         senderEmail: '',
-        senderAddr1: this.props.pickup,
+        senderAddr1: this.props.orderInfo.departure,
         senderAddr2: '',
         receiverFirstname: '',
         receiverLastname: '',
         receiverPhone: '',
         receiverEmail: '',
-        receiverAddr1: this.props.sendto,
+        receiverAddr1: this.props.orderInfo.destination,
         receiverAddr2: '',
         orderid: '',
     }
@@ -28,7 +68,7 @@ class AddressForm extends React.Component {
         e.preventDefault()
         const formData = {
             ...this.props.orderInfo,
-            status: '', // what is this
+            status: 0,
             orderedTime: this.getCurrentTimeString(),
             sender: {
                 firstName: this.state.senderFirstname,
@@ -42,9 +82,10 @@ class AddressForm extends React.Component {
                 lastName: this.state.receiverLastname,
                 address: this.state.receiverAddr1,
                 phoneNumber: this.state.receiverPhone,
-                email: this.state.receiverPhone,
+                email: this.state.receiverEmail,
             },
         }
+        console.log(formData)
         placeOrder(formData)
             .then((res) => {
                 if (res.status === 200) {
@@ -253,7 +294,7 @@ class AddressForm extends React.Component {
             minute: 'numeric',
             second: 'numeric',
         })
-        return currentDate + ', ' + currentTime
+        return currentDate + 'T' + currentTime.split(' ')[1]
     }
 }
 

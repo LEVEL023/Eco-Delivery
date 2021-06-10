@@ -78,6 +78,7 @@ function TrackOrderDetail(props) {
             },
             (err) => {
                 console.log(err)
+                console.log(err)
             })
             .then(() => {
                 const latlngs = {
